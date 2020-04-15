@@ -1,0 +1,1 @@
+{"name":"quikgraphnpm-unitycsharp","version":"1.0.0","files":["Assets/quickgraphnpm-unitycsharp","scripts"],"scripts":{"postinstall":"node scripts/postinstall.js quikgraphnpm-unitycsharp"},"dependencies":{"ncp":"^2.0.0","mkdirp":"^0.5.1"}}
