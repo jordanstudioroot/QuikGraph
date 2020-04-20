@@ -1,0 +1,17 @@
+{
+    "name": "QuikGraph.AlgorithmTests.Exploration",
+    "references": [
+        "GUID:b0ad4c5857f45f04d8f410e178d422fb"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

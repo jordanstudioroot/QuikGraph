@@ -1,25 +1,15 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2043
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{FAAD5B1C-1217-48D6-B1EF-7CAC0440D6A4}"
-	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
-		README.md = README.md
-		RELEASE_NOTES.md = RELEASE_NOTES.md
-	EndProjectSection
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Runtime", "QuikGraph.Runtime.csproj", "{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{7A2A3C07-B652-4759-AFC4-49378D764784}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Serialization", "QuikGraph.Serialization.csproj", "{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{22937B93-4129-4F68-AB14-F7AFE020BA8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Tests", "QuikGraph.Tests.csproj", "{D3039E9D-1289-06B3-B893-8B30AF00BADF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuikGraph", "src\QuikGraph\QuikGraph.csproj", "{A9A5C115-0680-44B3-A87E-5ECF4C93814E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickGraph.Data", "QuickGraph.Data.csproj", "{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuikGraph.Serialization", "src\QuikGraph.Serialization\QuikGraph.Serialization.csproj", "{C8B5E125-4624-44D9-1234-5CAF4C25876E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuikGraph.Tests", "tests\QuikGraph.Tests\QuikGraph.Tests.csproj", "{61DF76E1-DE2B-4DF1-AD5F-89939AB06693}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuikGraph.Serialization.Tests", "tests\QuikGraph.Serialization.Tests\QuikGraph.Serialization.Tests.csproj", "{8ADDDAE1-FA2C-4637-C67F-8743BEB126CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Serialization.Tests", "QuikGraph.Serialization.Tests.csproj", "{492C3061-011D-C024-5620-F05B594B6DD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,33 +17,28 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A9A5C115-0680-44B3-A87E-5ECF4C93814E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9A5C115-0680-44B3-A87E-5ECF4C93814E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9A5C115-0680-44B3-A87E-5ECF4C93814E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9A5C115-0680-44B3-A87E-5ECF4C93814E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8B5E125-4624-44D9-1234-5CAF4C25876E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8B5E125-4624-44D9-1234-5CAF4C25876E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8B5E125-4624-44D9-1234-5CAF4C25876E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8B5E125-4624-44D9-1234-5CAF4C25876E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61DF76E1-DE2B-4DF1-AD5F-89939AB06693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61DF76E1-DE2B-4DF1-AD5F-89939AB06693}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61DF76E1-DE2B-4DF1-AD5F-89939AB06693}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61DF76E1-DE2B-4DF1-AD5F-89939AB06693}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8ADDDAE1-FA2C-4637-C67F-8743BEB126CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8ADDDAE1-FA2C-4637-C67F-8743BEB126CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8ADDDAE1-FA2C-4637-C67F-8743BEB126CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8ADDDAE1-FA2C-4637-C67F-8743BEB126CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3039E9D-1289-06B3-B893-8B30AF00BADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3039E9D-1289-06B3-B893-8B30AF00BADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3039E9D-1289-06B3-B893-8B30AF00BADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3039E9D-1289-06B3-B893-8B30AF00BADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{492C3061-011D-C024-5620-F05B594B6DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{492C3061-011D-C024-5620-F05B594B6DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{492C3061-011D-C024-5620-F05B594B6DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{492C3061-011D-C024-5620-F05B594B6DD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A9A5C115-0680-44B3-A87E-5ECF4C93814E} = {7A2A3C07-B652-4759-AFC4-49378D764784}
-		{C8B5E125-4624-44D9-1234-5CAF4C25876E} = {7A2A3C07-B652-4759-AFC4-49378D764784}
-		{61DF76E1-DE2B-4DF1-AD5F-89939AB06693} = {22937B93-4129-4F68-AB14-F7AFE020BA8F}
-		{8ADDDAE1-FA2C-4637-C67F-8743BEB126CD} = {22937B93-4129-4F68-AB14-F7AFE020BA8F}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C26EFBC1-5149-4422-AFD3-172667AA018F}
 	EndGlobalSection
 EndGlobal
