@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Serialization
 {
@@ -12,9 +12,8 @@ namespace QuikGraph.Serialization
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <typeparam name="TGraph">Graph type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [XmlRoot("graph")]
     public class XmlSerializableGraph<TVertex, TEdge, TGraph>
         where TEdge : IEdge<TVertex>
@@ -32,7 +31,7 @@ namespace QuikGraph.Serialization
         /// Initializes a new instance of the <see cref="XmlSerializableGraph{TVertex,TEdge,TGraph}"/> class.
         /// </summary>
         /// <param name="graph">Graph to serialize.</param>
-        public XmlSerializableGraph([JBNotNull] TGraph graph)
+        public XmlSerializableGraph( TGraph graph)
         {
             if (graph == null)
                 throw new ArgumentNullException(nameof(graph));
@@ -43,7 +42,7 @@ namespace QuikGraph.Serialization
         /// <summary>
         /// Gets the graph to serialize.
         /// </summary>
-        [JBNotNull]
+        
         public TGraph Graph { get; }
 
         private XmlVertexList _vertices;
@@ -51,7 +50,7 @@ namespace QuikGraph.Serialization
         /// <summary>
         /// Gets the vertices to serialize.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         [XmlArray("vertices")]
         [XmlArrayItem("vertex")]
         public XmlVertexList Vertices
@@ -65,7 +64,7 @@ namespace QuikGraph.Serialization
         /// <summary>
         /// Gets the edges to serialize.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         [XmlArray("edges")]
         [XmlArrayItem("edge")]
         public XmlEdgeList Edges
@@ -77,15 +76,14 @@ namespace QuikGraph.Serialization
         /// <summary>
         /// Represents an XML serializable list of vertices.
         /// </summary>
-#if SUPPORTS_SERIALIZATION
+
         [Serializable]
-#endif
         public class XmlVertexList : IEnumerable<TVertex>
         {
-            [JBNotNull]
+            
             private readonly TGraph _graph;
 
-            internal XmlVertexList([JBNotNull] TGraph graph)
+            internal XmlVertexList( TGraph graph)
             {
                 if (graph == null)
                     throw new ArgumentNullException(nameof(graph));
@@ -113,7 +111,7 @@ namespace QuikGraph.Serialization
             /// Adds a vertex to this serializable graph.
             /// </summary>
             /// <param name="vertex">Vertex to add.</param>
-            public void Add([JBNotNull] TVertex vertex)
+            public void Add( TVertex vertex)
             {
                 if (vertex == null)
                     throw new ArgumentNullException(nameof(vertex));
@@ -125,15 +123,14 @@ namespace QuikGraph.Serialization
         /// <summary>
         /// Represents an XML serializable list of edge.
         /// </summary>
-#if SUPPORTS_SERIALIZATION
+
         [Serializable]
-#endif
         public class XmlEdgeList : IEnumerable<TEdge>
         {
-            [JBNotNull]
+            
             private readonly TGraph _graph;
 
-            internal XmlEdgeList([JBNotNull] TGraph graph)
+            internal XmlEdgeList( TGraph graph)
             {
                 if (graph == null)
                     throw new ArgumentNullException(nameof(graph));
@@ -161,7 +158,7 @@ namespace QuikGraph.Serialization
             /// Adds an edge to this serializable graph.
             /// </summary>
             /// <param name="edge">Edge to add.</param>
-            public void Add([JBNotNull] TEdge edge)
+            public void Add( TEdge edge)
             {
                 if (edge == null)
                     throw new ArgumentNullException(nameof(edge));

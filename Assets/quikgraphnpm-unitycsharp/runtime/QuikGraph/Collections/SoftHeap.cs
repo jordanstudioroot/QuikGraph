@@ -2,10 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 
-namespace QuikGraph.Collections
-{
+
+namespace QuikGraph.Collections {
     /// <summary>
     /// Soft heap, which aims to has a constant amortized time for
     /// creation of heap, inserting an element merging two heaps,
@@ -13,25 +12,24 @@ namespace QuikGraph.Collections
     /// </summary>
     /// <typeparam name="TKey">Key type.</typeparam>
     /// <typeparam name="TValue">Value type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
-    public sealed class SoftHeap<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
-    {
-        private sealed class Cell
-        {
-            [JBNotNull]
+    public sealed class SoftHeap<TKey, TValue> :
+        IEnumerable<KeyValuePair<TKey, TValue>> {
+        private sealed class Cell {
+            
             public TKey Key { get; }
 
-            [JBCanBeNull]
+            
             public TValue Value { get; }
 
-            [JBCanBeNull]
+            
             public Cell Next { get; internal set; }
 
-            public Cell([JBNotNull] TKey key, [JBCanBeNull] TValue value)
-            {
+            public Cell(
+                 TKey key,
+                 TValue value
+            ) {
                 Debug.Assert(key != null);
 
                 Key = key;
@@ -39,29 +37,27 @@ namespace QuikGraph.Collections
             }
         }
 
-        private sealed class Node
-        {
-            [JBNotNull]
+        private sealed class Node {
+            
             public TKey CKey { get; internal set; }
 
             public int Rank { get; }
 
-            [JBCanBeNull]
+            
             public Node Next { get; internal set; }
 
-            [JBCanBeNull]
+            
             public Node Child { get; internal set; }
 
             // ReSharper disable once InconsistentNaming
-            [JBCanBeNull]
+            
             public Cell IL { get; internal set; }
             
             // ReSharper disable once InconsistentNaming
-            [JBCanBeNull]
+            
             public Cell ILTail { get; internal set; }
 
-            public Node([JBNotNull] Cell cell)
-            {
+            public Node( Cell cell) {
                 Rank = 0;
                 CKey = cell.Key;
                 IL = cell;
@@ -69,13 +65,13 @@ namespace QuikGraph.Collections
             }
 
             public Node(
-                [JBNotNull] TKey cKey, 
+                 TKey cKey, 
                 int rank, 
-                [JBNotNull] Node next,
-                [JBNotNull] Node child,
-                [JBCanBeNull] Cell il,
-                [JBCanBeNull] Cell ilTail)
-            {
+                 Node next,
+                 Node child,
+                 Cell il,
+                 Cell ilTail
+            ) {
                 CKey = cKey;
                 Rank = rank;
                 Next = next;
@@ -85,8 +81,7 @@ namespace QuikGraph.Collections
             }
         }
 
-        private sealed class Head
-        {
+        private sealed class Head {
             public Node Queue { get; internal set; }
             public Head Next { get; internal set; }
             public Head Prev { get; internal set; }
@@ -94,43 +89,74 @@ namespace QuikGraph.Collections
             public int Rank { get; internal set; }
         }
 
-        [JBNotNull]
+        
         private readonly Head _header;
 
-        [JBNotNull]
+        
         private readonly Head _tail;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SoftHeap{TKey,TValue}"/> class.
+        ///     Initializes a new instance of the
+        ///     <see cref="SoftHeap{TKey,TValue}"/> class.
         /// </summary>
-        /// <param name="maximumErrorRate">Indicates the maximum error rate to respect.</param>
-        /// <param name="keyMaxValue">Gives the maximum key value.</param>
-        public SoftHeap(double maximumErrorRate, [JBNotNull] TKey keyMaxValue)
-            : this(maximumErrorRate, keyMaxValue, Comparer<TKey>.Default.Compare)
-        {
-        }
+        /// <param name="maximumErrorRate">
+        ///     Indicates the maximum error rate to respect.
+        /// </param>
+        /// <param name="keyMaxValue">
+        ///     Gives the maximum key value.
+        /// </param>
+        public SoftHeap(
+            double maximumErrorRate,
+             TKey keyMaxValue
+        ) : this(
+                maximumErrorRate, keyMaxValue,
+                Comparer<TKey>.Default.Compare
+            ) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SoftHeap{TKey,TValue}"/> class.
+        ///     Initializes a new instance of the
+        ///     <see cref="SoftHeap{TKey,TValue}"/> class.
         /// </summary>
-        /// <param name="maximumErrorRate">Indicates the maximum error rate to respect.</param>
-        /// <param name="keyMaxValue">Gives the maximum key value.</param>
-        /// <param name="comparison">Key comparer.</param>
-        public SoftHeap(double maximumErrorRate, [JBNotNull] TKey keyMaxValue, [JBNotNull] Comparison<TKey> comparison)
-        {
+        /// <param name="maximumErrorRate">
+        ///     Indicates the maximum error rate to respect.
+        /// </param>
+        /// <param name="keyMaxValue">
+        ///     Gives the maximum key value.
+        /// </param>
+        /// <param name="comparison">
+        ///     Key comparer.
+        /// </param>
+        public SoftHeap(
+            double maximumErrorRate,
+             TKey keyMaxValue,
+             Comparison<TKey> comparison
+        ) {
             if (keyMaxValue == null)
                 throw new ArgumentNullException(nameof(keyMaxValue));
-            if (maximumErrorRate <= 0 || maximumErrorRate > 0.5)
-                throw new ArgumentOutOfRangeException(nameof(maximumErrorRate), "Must be between ]0, 0.5]");
 
-            KeyComparison = comparison ?? throw new ArgumentNullException(nameof(comparison));
+            if (maximumErrorRate <= 0 || maximumErrorRate > 0.5)
+                throw new ArgumentOutOfRangeException(
+                    nameof(maximumErrorRate),
+                    "Must be between ]0, 0.5]"
+                );
+
+            KeyComparison = comparison ??
+                throw new ArgumentNullException(
+                    nameof(
+                        comparison
+                    )
+                );
+
             KeyMaxValue = keyMaxValue;
             _header = new Head();
             _tail = new Head { Rank = int.MaxValue };
             _header.Next = _tail;
             _tail.Prev = _header;
             ErrorRate = maximumErrorRate;
-            MinRank = 2 + 2 * (int)Math.Ceiling(Math.Log(1.0 / ErrorRate, 2.0));
+            
+            MinRank =
+                2 + 2 * (int)Math.Ceiling(Math.Log(1.0 / ErrorRate, 2.0));
+            
             Count = 0;
         }
 
@@ -142,13 +168,13 @@ namespace QuikGraph.Collections
         /// <summary>
         /// Key comparer.
         /// </summary>
-        [JBNotNull]
+        
         public Comparison<TKey> KeyComparison { get; }
 
         /// <summary>
         /// Maximal authorized key.
         /// </summary>
-        [JBNotNull]
+        
         public TKey KeyMaxValue { get; }
 
         /// <summary>
@@ -162,16 +188,24 @@ namespace QuikGraph.Collections
         public int Count { get; private set; }
 
         /// <summary>
-        /// Adds the given <paramref name="value"/> with the given <paramref name="key"/> into the heap.
+        ///     Adds the given <paramref name="value"/> with the given
+        ///     <paramref name="key"/> into the heap.
         /// </summary>
-        /// <param name="key">Key.</param>
-        /// <param name="value">Value to add.</param>
-        public void Add([JBNotNull] TKey key, [JBCanBeNull] TValue value)
-        {
+        /// <param name="key">
+        ///     Key.
+        /// </param>
+        /// <param name="value">
+        ///     Value to add.
+        /// </param>
+        public void Add( TKey key,  TValue value) {
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
+
             if (KeyComparison(key, KeyMaxValue) >= 0)
-                throw new ArgumentException("Key is superior to the maximal authorized key.", nameof(key));
+                throw new ArgumentException(
+                    "Key is superior to the maximal authorized key.",
+                    nameof(key)
+                );
 
             var cell = new Cell(key, value);
             var node = new Node(cell);
@@ -180,29 +214,24 @@ namespace QuikGraph.Collections
             ++Count;
         }
 
-        private void Meld([JBNotNull] Node node)
-        {
+        private void Meld( Node node) {
             Debug.Assert(node != null);
 
             Head toHead = _header.Next;
-            while (node.Rank > toHead.Rank)
-            {
+            while (node.Rank > toHead.Rank) {
                 Debug.Assert(toHead.Next != null);
 
                 toHead = toHead.Next;
             }
 
             Head prevHead = toHead.Prev;
-            while (node.Rank == toHead.Rank)
-            {
+            while (node.Rank == toHead.Rank) {
                 Node top, bottom;
-                if (KeyComparison(toHead.Queue.CKey, node.CKey) > 0)
-                {
+                if (KeyComparison(toHead.Queue.CKey, node.CKey) > 0) {
                     top = node;
                     bottom = toHead.Queue;
                 }
-                else
-                {
+                else {
                     top = toHead.Queue;
                     bottom = node;
                 }
@@ -211,9 +240,9 @@ namespace QuikGraph.Collections
                 toHead = toHead.Next;
             }
 
-            Head head = prevHead == toHead.Prev 
-                ? new Head() 
-                : prevHead.Next;
+            Head head = prevHead == toHead.Prev ?
+                new Head() :
+                prevHead.Next;
 
             head.Queue = node;
             head.Rank = node.Rank;
@@ -225,41 +254,43 @@ namespace QuikGraph.Collections
             FixMinList(head);
         }
 
-        private void FixMinList([JBNotNull] Head head)
-        {
+        private void FixMinList( Head head) {
             Debug.Assert(head != null);
 
-            Head tmpMin = head.Next == _tail 
-                ? head 
-                : head.Next.SuffixMin;
+            Head tmpMin = head.Next == _tail ?
+                head :
+                head.Next.SuffixMin;
 
-            while (head != _header)
-            {
-                if (KeyComparison(tmpMin.Queue.CKey, head.Queue.CKey) > 0)
-                    tmpMin = head;
+            while (head != _header) {
+                if (
+                    KeyComparison(
+                        tmpMin.Queue.CKey,
+                        head.Queue.CKey
+                    )
+                    > 0
+                )
+                tmpMin = head;
 
                 head.SuffixMin = tmpMin;
                 head = head.Prev;
             }
         }
 
-        [JBNotNull]
-        private Node Shift([JBNotNull] Node v)
-        {
+        
+        private Node Shift( Node v) {
             Debug.Assert(v != null);
 
             v.IL = null;
             v.ILTail = null;
-            if (v.Next is null && v.Child is null)
-            {
+            if (v.Next is null && v.Child is null) {
                 v.CKey = KeyMaxValue;
                 return v;
             }
 
             v.Next = Shift(v.Next);
-            // Restore heap ordering that might be broken by shifting
-            if (KeyComparison(v.Next.CKey, v.Child.CKey) > 0)
-            {
+
+// Restore heap ordering that might be broken by shifting
+            if (KeyComparison(v.Next.CKey, v.Child.CKey) > 0) {
                 Node tmp = v.Child;
                 v.Child = v.Next;
                 v.Next = tmp;
@@ -277,24 +308,32 @@ namespace QuikGraph.Collections
             return v;
         }
 
-        private void SoftenHeap([JBNotNull] Node node)
-        {
-            if (node.Rank > MinRank
-                && (node.Rank % 2 == 1 || node.Child.Rank < node.Rank - 1))
-            {
+        private void SoftenHeap( Node node) {
+            if (
+                node.Rank >
+                MinRank && (
+                    node.Rank % 2 == 1 ||
+                    node.Child.Rank
+                        <
+                        node.Rank - 1
+                )
+            ) {
                 Debug.Assert(node.Next != null);
 
                 node.Next = Shift(node.Next);
                 // Restore heap ordering that might be broken by shifting
-                if (KeyComparison(node.Next.CKey, node.Child.CKey) > 0)
-                {
+                if (KeyComparison(node.Next.CKey, node.Child.CKey) > 0) {
                     Node tmp = node.Child;
                     node.Child = node.Next;
                     node.Next = tmp;
                 }
 
-                if (KeyComparison(node.Next.CKey, KeyMaxValue) != 0 && node.Next.IL != null)
-                {
+                if (
+                    KeyComparison(node.Next.CKey, KeyMaxValue) !=
+                    0 &&
+                        node.Next.IL !=
+                        null
+                ) {
                     node.Next.ILTail.Next = node.IL;
                     node.IL = node.Next.IL;
                     if (node.ILTail == null)
@@ -304,19 +343,16 @@ namespace QuikGraph.Collections
             } // End second shift
         }
 
-        private void UpdateChildAndNext([JBNotNull] Node node)
-        {
+        private void UpdateChildAndNext( Node node) {
             Debug.Assert(node.Child != null);
-            if (KeyComparison(node.Child.CKey, KeyMaxValue) == 0)
-            {
+
+            if (KeyComparison(node.Child.CKey, KeyMaxValue) == 0) {
                 Debug.Assert(node.Next != null);
-                if (KeyComparison(node.Next.CKey, KeyMaxValue) == 0)
-                {
+                if (KeyComparison(node.Next.CKey, KeyMaxValue) == 0) {
                     node.Child = null;
                     node.Next = null;
                 }
-                else
-                {
+                else {
                     node.Child = node.Next.Child;
                     node.Next = node.Next.Next;
                 }
@@ -328,39 +364,34 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <returns>The minimal pair.</returns>
         /// <exception cref="InvalidOperationException">The heap is empty.</exception>
-        public KeyValuePair<TKey, TValue> RemoveMinimum()
-        {
+        public KeyValuePair<TKey, TValue> RemoveMinimum() {
             if (Count == 0)
                 throw new InvalidOperationException("Heap is empty.");
 
             Head head = _header.Next.SuffixMin;
-            while (head.Queue.IL is null)
-            {
+            while (head.Queue.IL is null) {
+
                 Node tmp = head.Queue;
                 int childCount = 0;
-                while (tmp.Next != null)
-                {
+
+                while (tmp.Next != null) {
                     tmp = tmp.Next;
                     ++childCount;
                 }
 
-                if (childCount < head.Rank / 2)
-                {
+                if (childCount < head.Rank / 2) {
                     head.Prev.Next = head.Next;
                     head.Next.Prev = head.Prev;
                     FixMinList(head.Prev);
                     tmp = head.Queue;
-                    while (tmp.Next != null)
-                    {
+                    while (tmp.Next != null) {
                         Meld(tmp.Child);
                         tmp = tmp.Next;
                     }
                 }
-                else
-                {
+                else {
                     head.Queue = Shift(head.Queue);
-                    if (KeyComparison(head.Queue.CKey, KeyMaxValue) == 0)
-                    {
+                    if (KeyComparison(head.Queue.CKey, KeyMaxValue) == 0) {
                         head.Prev.Next = head.Next;
                         head.Next.Prev = head.Prev;
                         head = head.Prev;
@@ -385,8 +416,7 @@ namespace QuikGraph.Collections
         #region IEnumerable
 
         /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+        IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
 
@@ -395,35 +425,29 @@ namespace QuikGraph.Collections
         #region IEnumerable<KeyValuePair<TKey,TValue>>
 
         /// <inheritdoc />
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-        {
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
             return new Enumerator();
         }
 
-        private sealed class Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>
-        {
-            public Enumerator()
-            {
+        private sealed class Enumerator : IEnumerator<KeyValuePair<TKey, TValue>> {
+            public Enumerator() {
                 Current = new KeyValuePair<TKey, TValue>();
             }
 
-            public bool MoveNext()
-            {
+            public bool MoveNext() {
                 // Currently it is not possible to enumerate a soft heap
                 return false;
             }
 
             public KeyValuePair<TKey, TValue> Current { get; }
 
-            public void Dispose()
-            {
+            public void Dispose() {
                 // Currently the enumerator does nothing
             }
 
             object IEnumerator.Current => Current;
 
-            public void Reset()
-            {
+            public void Reset() {
                 throw new NotSupportedException();
             }
         }

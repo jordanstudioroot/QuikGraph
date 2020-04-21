@@ -1,34 +1,29 @@
-#if SUPPORTS_SERIALIZATION
 using System;
-#endif
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 
-namespace QuikGraph.Collections
-{
+
+namespace QuikGraph.Collections {
     /// <summary>
     /// Represents a list of <see cref="FibonacciHeapCell{TPriority,TValue}"/>.
     /// </summary>
     /// <typeparam name="TPriority">Priority type.</typeparam>
     /// <typeparam name="TValue">Value type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
-    public sealed class FibonacciHeapLinkedList<TPriority, TValue> : IEnumerable<FibonacciHeapCell<TPriority, TValue>>
-    {
-        [JBCanBeNull]
+    public sealed class FibonacciHeapLinkedList<TPriority, TValue> :
+        IEnumerable<FibonacciHeapCell<TPriority, TValue>> {
+
+        
         private FibonacciHeapCell<TPriority, TValue> _last;
 
         /// <summary>
         /// First <see cref="FibonacciHeapCell{TPriority,TValue}"/>.
         /// </summary>
-        [JBCanBeNull]
+        
         public FibonacciHeapCell<TPriority, TValue> First { get; private set; }
 
-        internal FibonacciHeapLinkedList()
-        {
+        internal FibonacciHeapLinkedList() {
             First = null;
             _last = null;
         }
@@ -37,8 +32,9 @@ namespace QuikGraph.Collections
         /// Merges the given <paramref name="cells"/> at the end of this cells list.
         /// </summary>
         /// <param name="cells">Cells to merge.</param>
-        internal void MergeLists([JBNotNull] FibonacciHeapLinkedList<TPriority, TValue> cells)
-        {
+        internal void MergeLists(
+             FibonacciHeapLinkedList<TPriority, TValue> cells
+        ) {
             Debug.Assert(cells != null);
 
             if (cells.First is null)
@@ -62,8 +58,9 @@ namespace QuikGraph.Collections
         /// Adds the given <paramref name="cell"/> at the end of this cells list.
         /// </summary>
         /// <param name="cell">Cell to add.</param>
-        internal void AddLast([JBNotNull] FibonacciHeapCell<TPriority, TValue> cell)
-        {
+        internal void AddLast(
+             FibonacciHeapCell<TPriority, TValue> cell
+        ) {
             Debug.Assert(cell != null);
 
             if (_last != null)
@@ -84,8 +81,9 @@ namespace QuikGraph.Collections
         /// Removes the given <paramref name="cell"/> from this cells list.
         /// </summary>
         /// <param name="cell">Cell to remove.</param>
-        internal void Remove([JBNotNull] FibonacciHeapCell<TPriority, TValue> cell)
-        {
+        internal void Remove(
+             FibonacciHeapCell<TPriority, TValue> cell
+        ) {
             Debug.Assert(cell != null);
 
             if (cell.Previous != null)
@@ -113,8 +111,7 @@ namespace QuikGraph.Collections
         #region IEnumerable
 
         /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+        IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
 
@@ -123,11 +120,11 @@ namespace QuikGraph.Collections
         #region IEnumerable<FibonacciHeapNode<TPriority,TValue>>
 
         /// <inheritdoc />
-        public IEnumerator<FibonacciHeapCell<TPriority, TValue>> GetEnumerator()
-        {
+        public
+            IEnumerator<FibonacciHeapCell<TPriority, TValue>> GetEnumerator() {
             FibonacciHeapCell<TPriority, TValue> current = First;
-            while (current != null)
-            {
+            
+            while (current != null) {
                 yield return current;
                 current = current.Next;
             }

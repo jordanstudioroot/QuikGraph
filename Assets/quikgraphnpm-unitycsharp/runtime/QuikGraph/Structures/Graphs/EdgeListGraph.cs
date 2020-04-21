@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph
 {
@@ -13,15 +13,13 @@ namespace QuikGraph
     /// <remarks>Only mutable by its edges, vertices are not stored but computed on demand.</remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("EdgeCount = {" + nameof(EdgeCount) + "}")]
-    public class EdgeListGraph<TVertex, TEdge> : IMutableEdgeListGraph<TVertex, TEdge>
-#if SUPPORTS_CLONEABLE
-        , ICloneable
-#endif
-        where TEdge : IEdge<TVertex>
+    public class EdgeListGraph<TVertex, TEdge> :
+    IMutableEdgeListGraph<TVertex, TEdge>,
+    ICloneable
+    where TEdge : IEdge<TVertex>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EdgeListGraph{TVertex,TEdge}"/> class.
@@ -88,7 +86,7 @@ namespace QuikGraph
 
         #region IEdgeSet<TVertex,TEdge>
 
-        [JBNotNull]
+        
         private readonly EdgeEdgeDictionary<TVertex, TEdge> _edges
             = new EdgeEdgeDictionary<TVertex, TEdge>();
 
@@ -130,7 +128,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edge">The edge to add.</param>
         /// <returns>True if the edge was added, false otherwise.</returns>
-        public bool AddVerticesAndEdge([JBNotNull] TEdge edge)
+        public bool AddVerticesAndEdge( TEdge edge)
         {
             return AddEdge(edge);
         }
@@ -140,7 +138,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edges">Edges to add.</param>
         /// <returns>The number of edges added.</returns>
-        public int AddVerticesAndEdgeRange([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges)
+        public int AddVerticesAndEdgeRange( IEnumerable<TEdge> edges)
         {
             if (edges is null)
                 throw new ArgumentNullException(nameof(edges));
@@ -204,14 +202,14 @@ namespace QuikGraph
         /// Called on each added edge.
         /// </summary>
         /// <param name="edge">Added edge.</param>
-        protected virtual void OnEdgeAdded([JBNotNull] TEdge edge)
+        protected virtual void OnEdgeAdded( TEdge edge)
         {
             Debug.Assert(edge != null);
 
             EdgeAdded?.Invoke(edge);
         }
 
-        private bool RemoveEdgeInternal([JBNotNull] TEdge edge)
+        private bool RemoveEdgeInternal( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -240,7 +238,7 @@ namespace QuikGraph
         /// Called on each removed edge.
         /// </summary>
         /// <param name="edge">Removed edge.</param>
-        protected virtual void OnEdgeRemoved([JBNotNull] TEdge edge)
+        protected virtual void OnEdgeRemoved( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -277,7 +275,7 @@ namespace QuikGraph
         private EdgeListGraph(
             bool isDirected,
             bool allowParallelEdges,
-            [JBNotNull] EdgeEdgeDictionary<TVertex, TEdge> edges)
+             EdgeEdgeDictionary<TVertex, TEdge> edges)
         {
             Debug.Assert(edges != null);
 
@@ -290,8 +288,8 @@ namespace QuikGraph
         /// Clones this graph.
         /// </summary>
         /// <returns>Cloned graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public EdgeListGraph<TVertex, TEdge> Clone()
         {
             return new EdgeListGraph<TVertex, TEdge>(
@@ -300,13 +298,11 @@ namespace QuikGraph
                 _edges.Clone());
         }
 
-#if SUPPORTS_CLONEABLE
         /// <inheritdoc />
         object ICloneable.Clone()
         {
             return Clone();
         }
-#endif
 
         #endregion
     }

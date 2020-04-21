@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Observers;
 using QuikGraph.Algorithms.Search;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Predicates;
+
 
 namespace QuikGraph.Algorithms.MaximumFlow
 {
@@ -14,13 +14,11 @@ namespace QuikGraph.Algorithms.MaximumFlow
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class EdmondsKarpMaximumFlowAlgorithm<TVertex, TEdge> : MaximumFlowAlgorithm<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly ReversedEdgeAugmentorAlgorithm<TVertex, TEdge> _reverserAlgorithm;
 
         /// <summary>
@@ -31,10 +29,10 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="edgeFactory">Edge factory method.</param>
         /// <param name="reverseEdgesAugmentorAlgorithm">Algorithm that is in of charge of augmenting the graph (creating missing reversed edges).</param>
         public EdmondsKarpMaximumFlowAlgorithm(
-            [JBNotNull] IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> capacities,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory,
-            [JBNotNull] ReversedEdgeAugmentorAlgorithm<TVertex, TEdge> reverseEdgesAugmentorAlgorithm)
+             IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> capacities,
+             EdgeFactory<TVertex, TEdge> edgeFactory,
+             ReversedEdgeAugmentorAlgorithm<TVertex, TEdge> reverseEdgesAugmentorAlgorithm)
             : this(null, visitedGraph, capacities, edgeFactory, reverseEdgesAugmentorAlgorithm)
         {
         }
@@ -48,11 +46,11 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="edgeFactory">Edge factory method.</param>
         /// <param name="reverseEdgesAugmentorAlgorithm">Algorithm that is in of charge augmenting the graph (creating missing reversed edges).</param>
         public EdmondsKarpMaximumFlowAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> capacities,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory,
-            [JBNotNull] ReversedEdgeAugmentorAlgorithm<TVertex, TEdge> reverseEdgesAugmentorAlgorithm)
+             IAlgorithmComponent host,
+             IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> capacities,
+             EdgeFactory<TVertex, TEdge> edgeFactory,
+             ReversedEdgeAugmentorAlgorithm<TVertex, TEdge> reverseEdgesAugmentorAlgorithm)
             : base(host, visitedGraph, capacities, edgeFactory)
         {
             if (reverseEdgesAugmentorAlgorithm is null)
@@ -64,14 +62,14 @@ namespace QuikGraph.Algorithms.MaximumFlow
             ReversedEdges = reverseEdgesAugmentorAlgorithm.ReversedEdges;
         }
 
-        [JBNotNull]
+        
         private IVertexListGraph<TVertex, TEdge> ResidualGraph =>
             new FilteredVertexListGraph<TVertex, TEdge, IVertexListGraph<TVertex, TEdge>>(
                 VisitedGraph,
                 vertex => true,
                 new ResidualEdgePredicate<TVertex, TEdge>(ResidualCapacities).Test);
 
-        private void Augment([JBNotNull] TVertex source, [JBNotNull] TVertex sink)
+        private void Augment( TVertex source,  TVertex sink)
         {
             Debug.Assert(source != null);
             Debug.Assert(sink != null);

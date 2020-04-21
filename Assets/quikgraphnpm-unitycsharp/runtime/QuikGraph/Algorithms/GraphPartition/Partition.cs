@@ -1,9 +1,5 @@
-#if SUPPORTS_SORTEDSET
 using System.Collections.Generic;
-#else
-using QuikGraph.Collections;
-#endif
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.GraphPartition
 {
@@ -16,13 +12,13 @@ namespace QuikGraph.Algorithms.GraphPartition
         /// <summary>
         /// First sub set of vertices.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public SortedSet<TVertex> VertexSetA { get; }
 
         /// <summary>
         /// Second sub set of vertices.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public SortedSet<TVertex> VertexSetB { get; }
 
         /// <summary>
@@ -37,8 +33,8 @@ namespace QuikGraph.Algorithms.GraphPartition
         /// <param name="vertexSetB">Second partition vertex set.</param>
         /// <param name="cutCost">Cost of the partition cut.</param>
         public Partition(
-            [JBNotNull, ItemNotNull] SortedSet<TVertex> vertexSetA,
-            [JBNotNull, ItemNotNull] SortedSet<TVertex> vertexSetB, 
+             SortedSet<TVertex> vertexSetA,
+             SortedSet<TVertex> vertexSetB, 
             double cutCost = 0)
         {
             VertexSetA = vertexSetA;

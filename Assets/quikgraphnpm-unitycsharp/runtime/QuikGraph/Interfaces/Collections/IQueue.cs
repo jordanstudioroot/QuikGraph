@@ -1,4 +1,5 @@
-using JetBrains.Annotations;
+
+
 
 namespace QuikGraph.Collections
 {
@@ -18,7 +19,7 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="value">Value to check.</param>
         /// <returns>True if the <paramref name="value"/> is contained in the queue, false otherwise.</returns>
-        [JBPure]
+        
         bool Contains(T value);
 
         /// <summary>
@@ -37,15 +38,15 @@ namespace QuikGraph.Collections
         /// Returns the element at the beginning of the queue.
         /// </summary>
         /// <returns>The top queue element.</returns>
-        [JBPure]
+        
         T Peek();
 
         /// <summary>
         /// Converts this queue to an array.
         /// </summary>
         /// <returns>Array composed of elements.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         T[] ToArray();
     }
 }

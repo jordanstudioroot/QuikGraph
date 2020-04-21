@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.Condensation
 {
@@ -9,9 +9,7 @@ namespace QuikGraph.Algorithms.Condensation
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class MergedEdge<TVertex, TEdge> : Edge<TVertex>
         where TEdge : IEdge<TVertex>
     {
@@ -20,18 +18,18 @@ namespace QuikGraph.Algorithms.Condensation
         /// </summary>
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
-        public MergedEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target)
+        public MergedEdge( TVertex source,  TVertex target)
             : base(source, target)
         {
         }
 
-        [JBNotNull, ItemNotNull]
+        
         private List<TEdge> _edges = new List<TEdge>();
 
         /// <summary>
         /// Merged edges.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IList<TEdge> Edges => _edges;
 
         /// <summary>
@@ -40,11 +38,11 @@ namespace QuikGraph.Algorithms.Condensation
         /// <param name="inEdge">First edge.</param>
         /// <param name="outEdge">Second edge.</param>
         /// <returns>The merged edge.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static MergedEdge<TVertex, TEdge> Merge(
-            [JBNotNull] MergedEdge<TVertex, TEdge> inEdge,
-            [JBNotNull] MergedEdge<TVertex, TEdge> outEdge)
+             MergedEdge<TVertex, TEdge> inEdge,
+             MergedEdge<TVertex, TEdge> outEdge)
         {
             if (inEdge is null)
                 throw new ArgumentNullException(nameof(inEdge));
@@ -68,11 +66,11 @@ namespace QuikGraph.Algorithms.Condensation
     public static class MergedEdge
     {
         /// <inheritdoc cref="MergedEdge{TVertex,TEdge}.Merge"/>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static MergedEdge<TVertex, TEdge> Merge<TVertex, TEdge>(
-            [JBNotNull] MergedEdge<TVertex, TEdge> inEdge,
-            [JBNotNull] MergedEdge<TVertex, TEdge> outEdge)
+             MergedEdge<TVertex, TEdge> inEdge,
+             MergedEdge<TVertex, TEdge> outEdge)
             where TEdge : IEdge<TVertex>
         {
             return MergedEdge<TVertex, TEdge>.Merge(inEdge, outEdge);

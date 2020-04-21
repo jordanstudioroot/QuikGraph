@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -10,7 +10,9 @@ namespace QuikGraph
     /// <param name="source">Edge source vertex.</param>
     /// <param name="target">Edge target vertex.</param>
     /// <returns>The created edge.</returns>
-    [JBNotNull]
-    public delegate TEdge EdgeFactory<in TVertex, out TEdge>([JBNotNull] TVertex source, [JBNotNull] TVertex target)
-        where TEdge : IEdge<TVertex>;
+    
+    public delegate TEdge EdgeFactory<in TVertex, out TEdge>(
+         TVertex source,
+         TVertex target
+    ) where TEdge : IEdge<TVertex>;
 }

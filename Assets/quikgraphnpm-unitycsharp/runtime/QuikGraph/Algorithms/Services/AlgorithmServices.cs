@@ -1,6 +1,6 @@
 
 using System;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.Services
 {
@@ -9,14 +9,14 @@ namespace QuikGraph.Algorithms.Services
     /// </summary>
     internal class AlgorithmServices : IAlgorithmServices
     {
-        [JBNotNull]
+        
         private readonly IAlgorithmComponent _host;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AlgorithmServices"/> class.
         /// </summary>
         /// <param name="host">Algorithm host.</param>
-        public AlgorithmServices([JBNotNull] IAlgorithmComponent host)
+        public AlgorithmServices( IAlgorithmComponent host)
         {
             _host = host ?? throw new ArgumentNullException(nameof(host));
         }

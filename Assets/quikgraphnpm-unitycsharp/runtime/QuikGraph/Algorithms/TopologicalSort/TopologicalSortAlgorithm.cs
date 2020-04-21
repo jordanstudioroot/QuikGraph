@@ -1,11 +1,9 @@
-#if SUPPORTS_SERIALIZATION
 using System;
-#endif
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Search;
+
 
 namespace QuikGraph.Algorithms.TopologicalSort
 {
@@ -14,15 +12,13 @@ namespace QuikGraph.Algorithms.TopologicalSort
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class TopologicalSortAlgorithm<TVertex, TEdge>
         : AlgorithmBase<IVertexListGraph<TVertex, TEdge>>
         , IVertexTimeStamperAlgorithm<TVertex>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull, ItemNotNull]
+        
         private readonly IList<TVertex> _sortedVertices;
 
         /// <summary>
@@ -31,7 +27,7 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="capacity">Sorted vertices capacity.</param>
         public TopologicalSortAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
             int capacity = -1)
             : base(visitedGraph)
         {
@@ -42,17 +38,17 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// Sorted vertices.
         /// </summary>
         /// <remarks>It is null if the algorithm has not been run yet.</remarks>
-        [ItemNotNull]
+        
         public TVertex[] SortedVertices { get; private set; }
 
-        private static void OnBackEdge([JBNotNull] TEdge edge)
+        private static void OnBackEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
             throw new NonAcyclicGraphException();
         }
 
-        private void OnVertexFinished([JBNotNull] TVertex vertex)
+        private void OnVertexFinished( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 

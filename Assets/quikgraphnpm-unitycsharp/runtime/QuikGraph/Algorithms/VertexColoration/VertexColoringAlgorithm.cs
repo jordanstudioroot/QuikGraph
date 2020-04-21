@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.VertexColoring
 {
@@ -17,7 +17,7 @@ namespace QuikGraph.Algorithms.VertexColoring
         /// Initializes a new instance of the <see cref="VertexColoringAlgorithm{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        public VertexColoringAlgorithm([JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph)
+        public VertexColoringAlgorithm( IUndirectedGraph<TVertex, TEdge> visitedGraph)
             : base(visitedGraph)
         {
         }
@@ -25,7 +25,7 @@ namespace QuikGraph.Algorithms.VertexColoring
         /// <summary>
         /// Vertices colors.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, int?> Colors { get; } = new Dictionary<TVertex, int?>();
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace QuikGraph.Algorithms.VertexColoring
         /// </summary>
         public event VertexAction<TVertex> VertexColored;
 
-        private void OnVertexColored([JBNotNull] TVertex vertex)
+        private void OnVertexColored( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -95,7 +95,7 @@ namespace QuikGraph.Algorithms.VertexColoring
             }
         }
 
-        private void MarkAdjacentAsUnavailable([JBNotNull] TVertex vertex, [JBNotNull] bool[] available)
+        private void MarkAdjacentAsUnavailable( TVertex vertex,  bool[] available)
         {
             foreach (TEdge adjacentEdges in VisitedGraph.AdjacentEdges(vertex))
             {
@@ -107,7 +107,7 @@ namespace QuikGraph.Algorithms.VertexColoring
             }
         }
 
-        private static int FindAvailableColor([JBNotNull] bool[] available)
+        private static int FindAvailableColor( bool[] available)
         {
             int usingColor;
             for (usingColor = 0; usingColor < available.Length; ++usingColor)
@@ -119,7 +119,7 @@ namespace QuikGraph.Algorithms.VertexColoring
             return usingColor;
         }
 
-        private void ResetAdjacentAsAvailable([JBNotNull] TVertex vertex, [JBNotNull] bool[] available)
+        private void ResetAdjacentAsAvailable( TVertex vertex,  bool[] available)
         {
             foreach (TEdge adjacentEdges in VisitedGraph.AdjacentEdges(vertex))
             {

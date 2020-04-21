@@ -1,5 +1,5 @@
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.MaximumFlow
 {
@@ -20,9 +20,9 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public AllVerticesGraphAugmentorAlgorithm(
-            [JBNotNull] IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph,
-            [JBNotNull] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+             IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
             : this(null, visitedGraph, vertexFactory, edgeFactory)
         {
         }
@@ -35,10 +35,10 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public AllVerticesGraphAugmentorAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph,
-            [JBNotNull] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+             IAlgorithmComponent host,
+             IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
             : base(host, visitedGraph, vertexFactory, edgeFactory)
         {
         }

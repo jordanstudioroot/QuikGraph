@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Constants;
+
 
 namespace QuikGraph
 {
@@ -9,9 +9,8 @@ namespace QuikGraph
     /// The default <see cref="ITermEdge{TVertex}"/> implementation.
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("{" + nameof(Source) + "}->{" + nameof(Target) + "}")]
     public class TermEdge<TVertex> : ITermEdge<TVertex>
     {
@@ -21,7 +20,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
-        public TermEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target)
+        public TermEdge( TVertex source,  TVertex target)
             : this(source, target, 0, 0)
         {
         }
@@ -34,7 +33,7 @@ namespace QuikGraph
         /// <param name="target">The target vertex.</param>
         /// <param name="sourceTerminal">The source terminal.</param>
         /// <param name="targetTerminal">The target terminal.</param>
-        public TermEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target, int sourceTerminal, int targetTerminal)
+        public TermEdge( TVertex source,  TVertex target, int sourceTerminal, int targetTerminal)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));

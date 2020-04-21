@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.Condensation
 {
@@ -20,9 +20,9 @@ namespace QuikGraph.Algorithms.Condensation
         /// <param name="condensedGraph">Graph that will contains the condensation of the <paramref name="visitedGraph"/>.</param>
         /// <param name="vertexPredicate">Vertex predicate used to filter the vertices to put in the condensed graph.</param>
         public EdgeMergeCondensationGraphAlgorithm(
-            [JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IMutableBidirectionalGraph<TVertex, MergedEdge<TVertex, TEdge>> condensedGraph,
-            [JBNotNull] VertexPredicate<TVertex> vertexPredicate)
+             IBidirectionalGraph<TVertex, TEdge> visitedGraph,
+             IMutableBidirectionalGraph<TVertex, MergedEdge<TVertex, TEdge>> condensedGraph,
+             VertexPredicate<TVertex> vertexPredicate)
             : base(visitedGraph)
         {
             CondensedGraph = condensedGraph ?? throw new ArgumentNullException(nameof(condensedGraph));
@@ -32,13 +32,13 @@ namespace QuikGraph.Algorithms.Condensation
         /// <summary>
         /// Condensed graph.
         /// </summary>
-        [JBNotNull]
+        
         public IMutableBidirectionalGraph<TVertex, MergedEdge<TVertex, TEdge>> CondensedGraph { get; }
 
         /// <summary>
         /// Vertex predicate used to filter the vertices to put in the condensed graph.
         /// </summary>
-        [JBNotNull]
+        
         public VertexPredicate<TVertex> VertexPredicate { get; }
 
         #region AlgorithmBase<TGraph>
@@ -77,7 +77,7 @@ namespace QuikGraph.Algorithms.Condensation
 
         #endregion
 
-        private void MergeVertex([JBNotNull] TVertex vertex)
+        private void MergeVertex( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 

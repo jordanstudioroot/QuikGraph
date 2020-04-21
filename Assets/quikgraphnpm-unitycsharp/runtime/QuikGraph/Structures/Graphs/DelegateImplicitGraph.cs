@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -10,9 +10,8 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public class DelegateImplicitGraph<TVertex, TEdge> : IImplicitGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
@@ -26,7 +25,7 @@ namespace QuikGraph
         /// to parallel edges due to the delegated implementation.
         /// </param>
         public DelegateImplicitGraph(
-            [JBNotNull] TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges,
+             TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges,
             bool allowParallelEdges = true)
         {
             _tryGetOutEdgesFunc = tryGetOutEdges ?? throw new ArgumentNullException(nameof(tryGetOutEdges));
@@ -36,7 +35,7 @@ namespace QuikGraph
         /// <summary>
         /// Getter of out-edges.
         /// </summary>
-        [JBNotNull]
+        
         private readonly TryFunc<TVertex, IEnumerable<TEdge>> _tryGetOutEdgesFunc;
 
         #region IGraph<TVertex,TEdge>
@@ -63,9 +62,9 @@ namespace QuikGraph
             return OutEdges(vertex).Count();
         }
 
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        internal virtual IEnumerable<TEdge> OutEdgesInternal([JBNotNull] TVertex vertex)
+        
+        
+        internal virtual IEnumerable<TEdge> OutEdgesInternal( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -81,8 +80,8 @@ namespace QuikGraph
             return OutEdgesInternal(vertex);
         }
 
-        [JBPure]
-        internal virtual bool TryGetOutEdgesInternal([JBNotNull] TVertex vertex, out IEnumerable<TEdge> edges)
+        
+        internal virtual bool TryGetOutEdgesInternal( TVertex vertex, out IEnumerable<TEdge> edges)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -102,8 +101,8 @@ namespace QuikGraph
             return OutEdges(vertex).ElementAt(index);
         }
 
-        [JBPure]
-        internal virtual bool ContainsVertexInternal([JBNotNull] TVertex vertex)
+        
+        internal virtual bool ContainsVertexInternal( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.RandomWalks
 {
@@ -11,9 +11,7 @@ namespace QuikGraph.Algorithms.RandomWalks
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public abstract class WeightedMarkovEdgeChainBase<TVertex, TEdge> : MarkovEdgeChainBase<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
@@ -21,7 +19,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// Initializes a new instance of the <see cref="WeightedMarkovEdgeChainBase{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="edgeWeights">Map that contains edge weights.</param>
-        protected WeightedMarkovEdgeChainBase([JBNotNull] IDictionary<TEdge, double> edgeWeights)
+        protected WeightedMarkovEdgeChainBase( IDictionary<TEdge, double> edgeWeights)
         {
             Weights = edgeWeights ?? throw new ArgumentNullException(nameof(edgeWeights));
         }
@@ -29,7 +27,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// <summary>
         /// Map of edge weights.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TEdge, double> Weights { get; }
 
         /// <summary>
@@ -38,7 +36,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// <param name="graph">Graph to consider.</param>
         /// <param name="vertex">Vertex to get out weight.</param>
         /// <returns>Out weight.</returns>
-        protected double GetOutWeight([JBNotNull] IImplicitGraph<TVertex, TEdge> graph, [JBNotNull] TVertex vertex)
+        protected double GetOutWeight( IImplicitGraph<TVertex, TEdge> graph,  TVertex vertex)
         {
             IEnumerable<TEdge> edges = graph.OutEdges(vertex);
             return GetWeights(edges);
@@ -49,7 +47,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// </summary>
         /// <param name="edges">Edges to get total weight.</param>
         /// <returns>Edges weight.</returns>
-        protected double GetWeights([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges)
+        protected double GetWeights( IEnumerable<TEdge> edges)
         {
             return edges.Sum(edge => Weights[edge]);
         }
@@ -62,7 +60,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// <param name="position">The position.</param>
         /// <param name="successor">Found successor, otherwise null.</param>
         /// <returns>True if a successor was found, false otherwise.</returns>
-        protected bool TryGetSuccessor([JBNotNull] IImplicitGraph<TVertex, TEdge> graph, [JBNotNull] TVertex vertex, double position, out TEdge successor)
+        protected bool TryGetSuccessor( IImplicitGraph<TVertex, TEdge> graph,  TVertex vertex, double position, out TEdge successor)
         {
             Debug.Assert(graph != null);
             Debug.Assert(vertex != null);
@@ -78,7 +76,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// <param name="position">The position.</param>
         /// <param name="successor">Found successor, otherwise null.</param>
         /// <returns>True if a successor was found, false otherwise.</returns>
-        protected bool TryGetSuccessor([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges, double position, out TEdge successor)
+        protected bool TryGetSuccessor( IEnumerable<TEdge> edges, double position, out TEdge successor)
         {
             Debug.Assert(edges != null);
 

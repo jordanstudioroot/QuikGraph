@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
 
 namespace QuikGraph.Algorithms.ShortestPath
@@ -36,8 +36,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         public BellmanFordShortestPathAlgorithm(
-            [JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : this(visitedGraph, edgeWeights, DistanceRelaxers.ShortestDistance)
         {
         }
@@ -49,9 +49,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public BellmanFordShortestPathAlgorithm(
-            [JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : this(null, visitedGraph, edgeWeights, distanceRelaxer)
         {
         }
@@ -64,10 +64,10 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public BellmanFordShortestPathAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph, edgeWeights, distanceRelaxer)
         {
         }
@@ -84,7 +84,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         public event VertexAction<TVertex> InitializeVertex;
 
-        private void OnInitializeVertex([JBNotNull] TVertex vertex)
+        private void OnInitializeVertex( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -96,7 +96,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         public event EdgeAction<TVertex, TEdge> ExamineEdge;
 
-        private void OnExamineEdge([JBNotNull] TEdge edge)
+        private void OnExamineEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -108,7 +108,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         public event EdgeAction<TVertex, TEdge> EdgeNotRelaxed;
 
-        private void OnEdgeNotRelaxed([JBNotNull] TEdge edge)
+        private void OnEdgeNotRelaxed( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -122,7 +122,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         public event EdgeAction<TVertex, TEdge> EdgeMinimized;
 
-        private void OnEdgeMinimized([JBNotNull] TEdge edge)
+        private void OnEdgeMinimized( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -137,7 +137,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         public event EdgeAction<TVertex, TEdge> EdgeNotMinimized;
 
-        private void OnEdgeNotMinimized([JBNotNull] TEdge edge)
+        private void OnEdgeNotMinimized( TEdge edge)
         {
             Debug.Assert(edge != null);
 

@@ -3,7 +3,7 @@
  * Taken from https://github.com/yoadsn/ArrowDiagramGenerator because PR was not opened.
  **/
 
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms
 {
@@ -21,7 +21,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
         public TransitiveReductionAlgorithm(
-            [JBNotNull] BidirectionalGraph<TVertex, TEdge> visitedGraph)
+             BidirectionalGraph<TVertex, TEdge> visitedGraph)
             : base(visitedGraph)
         {
             TransitiveReduction = new BidirectionalGraph<TVertex, TEdge>();
@@ -30,7 +30,7 @@ namespace QuikGraph.Algorithms
         /// <summary>
         /// Transitive reduction graph.
         /// </summary>
-        [JBNotNull]
+        
         public BidirectionalGraph<TVertex, TEdge> TransitiveReduction { get; }
 
         #region AlgorithmBase<TGraph>

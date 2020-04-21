@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
 
 namespace QuikGraph.Algorithms
@@ -17,7 +16,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="host">Host to use if set, otherwise use this reference.</param>
         /// <param name="visitedGraph">Graph to visit.</param>
-        protected AlgorithmBase([JBCanBeNull] IAlgorithmComponent host, [JBNotNull] TGraph visitedGraph)
+        protected AlgorithmBase( IAlgorithmComponent host,  TGraph visitedGraph)
         {
             if (visitedGraph == null)
                 throw new ArgumentNullException(nameof(visitedGraph));
@@ -32,7 +31,7 @@ namespace QuikGraph.Algorithms
         /// Initializes a new instance of the <see cref="AlgorithmBase{TGraph}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        protected AlgorithmBase([JBNotNull] TGraph visitedGraph)
+        protected AlgorithmBase( TGraph visitedGraph)
         {
             if (visitedGraph == null)
                 throw new ArgumentNullException(nameof(visitedGraph));
@@ -104,7 +103,7 @@ namespace QuikGraph.Algorithms
         /// Called on algorithm state changed.
         /// </summary>
         /// <param name="args"><see cref="EventArgs.Empty"/>.</param>
-        protected virtual void OnStateChanged([JBNotNull] EventArgs args)
+        protected virtual void OnStateChanged( EventArgs args)
         {
             Debug.Assert(args != null);
 
@@ -118,7 +117,7 @@ namespace QuikGraph.Algorithms
         /// Called on algorithm start.
         /// </summary>
         /// <param name="args"><see cref="EventArgs.Empty"/>.</param>
-        protected virtual void OnStarted([JBNotNull] EventArgs args)
+        protected virtual void OnStarted( EventArgs args)
         {
             Debug.Assert(args != null);
 
@@ -132,7 +131,7 @@ namespace QuikGraph.Algorithms
         /// Called on algorithm finished.
         /// </summary>
         /// <param name="args"><see cref="EventArgs.Empty"/>.</param>
-        protected virtual void OnFinished([JBNotNull] EventArgs args)
+        protected virtual void OnFinished( EventArgs args)
         {
             Debug.Assert(args != null);
 
@@ -146,7 +145,7 @@ namespace QuikGraph.Algorithms
         /// Called on algorithm abort.
         /// </summary>
         /// <param name="args"><see cref="EventArgs.Empty"/>.</param>
-        protected virtual void OnAborted([JBNotNull] EventArgs args)
+        protected virtual void OnAborted( EventArgs args)
         {
             Debug.Assert(args != null);
 
@@ -164,7 +163,7 @@ namespace QuikGraph.Algorithms
 
         #region IAlgorithmComponent
 
-        [JBNotNull]
+        
         private readonly AlgorithmServices _algorithmServices;
 
         /// <inheritdoc />
@@ -191,7 +190,7 @@ namespace QuikGraph.Algorithms
             return false;
         }
 
-        [JBCanBeNull]
+        
         private Dictionary<Type, object> _services;
 
         /// <summary>
@@ -200,8 +199,8 @@ namespace QuikGraph.Algorithms
         /// <param name="serviceType">Service type.</param>
         /// <param name="service">Found service.</param>
         /// <returns>True if the service was found, false otherwise.</returns>
-        [JBPure]
-        protected virtual bool TryGetService([JBNotNull] Type serviceType, out object service)
+        
+        protected virtual bool TryGetService( Type serviceType, out object service)
         {
             if (serviceType is null)
                 throw new ArgumentNullException(nameof(serviceType));

@@ -1,5 +1,5 @@
 using System.Collections;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -11,7 +11,7 @@ namespace QuikGraph
         /// <summary>
         /// Graph clusters.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         IEnumerable Clusters { get; }
 
         /// <summary>
@@ -28,13 +28,13 @@ namespace QuikGraph
         /// Adds a new cluster.
         /// </summary>
         /// <returns>The added cluster.</returns>
-        [JBNotNull]
+        
         IClusteredGraph AddCluster();
 
         /// <summary>
         /// Removes the given graph from this cluster.
         /// </summary>
         /// <param name="graph">The graph.</param>
-        void RemoveCluster([JBNotNull] IClusteredGraph graph);
+        void RemoveCluster( IClusteredGraph graph);
     }
 }

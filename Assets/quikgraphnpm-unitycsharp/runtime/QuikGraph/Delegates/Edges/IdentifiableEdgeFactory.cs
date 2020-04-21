@@ -1,7 +1,6 @@
-using JetBrains.Annotations;
 
-namespace QuikGraph
-{
+
+namespace QuikGraph {
     /// <summary>
     /// Delegate to create an identifiable edge.
     /// </summary>
@@ -11,7 +10,10 @@ namespace QuikGraph
     /// <param name="target">Edge target vertex.</param>
     /// <param name="id">Edge id.</param>
     /// <returns>The created vertex.</returns>
-    [JBNotNull]
-    public delegate TEdge IdentifiableEdgeFactory<in TVertex, out TEdge>([JBNotNull] TVertex source, [JBNotNull] TVertex target, [JBNotNull] string id)
-        where TEdge : IEdge<TVertex>;
+    
+    public delegate TEdge IdentifiableEdgeFactory<in TVertex, out TEdge>(
+         TVertex source,
+         TVertex target,
+         string id
+    ) where TEdge : IEdge<TVertex>;
 }

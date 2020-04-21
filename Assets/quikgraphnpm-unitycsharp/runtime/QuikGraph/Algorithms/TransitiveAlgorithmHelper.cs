@@ -1,10 +1,8 @@
-#if !NET35
 using System;
-#endif
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms
 {
@@ -16,31 +14,22 @@ namespace QuikGraph.Algorithms
     internal class TransitiveAlgorithmHelper<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly BidirectionalGraph<TVertex, TEdge> _graph;
 
-        internal TransitiveAlgorithmHelper([JBNotNull] BidirectionalGraph<TVertex, TEdge> initialGraph)
+        internal TransitiveAlgorithmHelper( BidirectionalGraph<TVertex, TEdge> initialGraph)
         {
             Debug.Assert(initialGraph != null);
 
             _graph = initialGraph;
         }
 
-#if NET35
-        internal delegate void Action<in T1, in T2, in T3, in T4, in T5>(
-            T1 param1,
-            T2 param2,
-            T3 param3,
-            T4 param4,
-            T5 param5);
-#endif
-
         /// <summary>
         /// Runs through the graph and calls <paramref name="action"/>
         /// for each couple of indirect ancestor vertex of a given vertex.
         /// </summary>
         public void InternalCompute(
-            [JBNotNull, JBInstantHandle]
+            
             Action
             <
                 BidirectionalGraph<TVertex, TEdge>,

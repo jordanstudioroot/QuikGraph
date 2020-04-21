@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using static QuikGraph.Utils.DisposableHelpers;
+
 
 namespace QuikGraph.Algorithms.Observers
 {
@@ -12,9 +12,7 @@ namespace QuikGraph.Algorithms.Observers
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class VertexPredecessorPathRecorderObserver<TVertex, TEdge> :
         IObserver<IVertexPredecessorRecorderAlgorithm<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
@@ -32,7 +30,7 @@ namespace QuikGraph.Algorithms.Observers
         /// </summary>
         /// <param name="verticesPredecessors">Vertices predecessors.</param>
         public VertexPredecessorPathRecorderObserver(
-            [JBNotNull] IDictionary<TVertex, TEdge> verticesPredecessors)
+             IDictionary<TVertex, TEdge> verticesPredecessors)
         {
             VerticesPredecessors = verticesPredecessors ?? throw new ArgumentNullException(nameof(verticesPredecessors));
         }
@@ -40,21 +38,21 @@ namespace QuikGraph.Algorithms.Observers
         /// <summary>
         /// Vertices predecessors.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, TEdge> VerticesPredecessors { get; }
 
         /// <summary>
         /// Path ending vertices.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public ICollection<TVertex> EndPathVertices { get; } = new List<TVertex>();
 
         /// <summary>
         /// Gets all paths.
         /// </summary>
         /// <returns>Enumerable of paths.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public IEnumerable<IEnumerable<TEdge>> AllPaths()
         {
             return EndPathVertices
@@ -86,14 +84,14 @@ namespace QuikGraph.Algorithms.Observers
 
         #endregion
 
-        private void OnEdgeDiscovered([JBNotNull] TEdge edge)
+        private void OnEdgeDiscovered( TEdge edge)
         {
             Debug.Assert(edge != null);
 
             VerticesPredecessors[edge.Target] = edge;
         }
 
-        private void OnVertexFinished([JBNotNull] TVertex vertex)
+        private void OnVertexFinished( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 

@@ -13,15 +13,13 @@
 // 
 namespace QuikGraph.Serialization.DirectedGraphML
 {
-#if SUPPORTS_SERIALIZATION
+
     using System;
-#endif
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -336,9 +334,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -2636,9 +2633,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -2664,9 +2660,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum HorizontalAlignmentEnum
     {
@@ -2683,9 +2678,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum VerticalAlignmentEnum
     {
@@ -2702,9 +2696,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum GroupEnum
     {
@@ -2718,9 +2711,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum ClrBoolean
     {
@@ -2740,9 +2732,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum VisibilityEnum
     {
@@ -2759,9 +2750,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum FontStyleEnum
     {
@@ -2778,9 +2768,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum FontWeightEnum
     {
@@ -2836,9 +2825,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum FrameKindEnum
     {
@@ -2858,9 +2846,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -3206,9 +3193,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -3234,9 +3220,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -3870,9 +3855,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -4010,9 +3994,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -4086,9 +4069,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -4146,9 +4128,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -4285,9 +4266,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -4313,9 +4293,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -4373,9 +4352,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum PropertyType
     {
@@ -4437,9 +4415,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum TargetTypeEnum
     {
@@ -4453,9 +4430,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
@@ -4497,9 +4473,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum GraphDirectionEnum
     {
@@ -4519,9 +4494,8 @@ namespace QuikGraph.Serialization.DirectedGraphML
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.21006.1")]
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
     public enum LayoutEnum
     {

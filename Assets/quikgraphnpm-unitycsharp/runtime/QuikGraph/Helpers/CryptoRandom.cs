@@ -1,7 +1,6 @@
-#if SUPPORTS_CRYPTO_RANDOM
 using System;
 using System.Security.Cryptography;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Utils
 {
@@ -14,10 +13,11 @@ namespace QuikGraph.Utils
     /// </remarks>
     public class CryptoRandom : Random
     {
-        [NotNull]
-        private readonly RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
+        
+        private readonly RNGCryptoServiceProvider _rng =
+            new RNGCryptoServiceProvider();
 
-        [NotNull]
+        
         private readonly byte[] _uint32Buffer = new byte[4];
 
         /// <summary>
@@ -90,4 +90,3 @@ namespace QuikGraph.Utils
         }
     }
 }
-#endif

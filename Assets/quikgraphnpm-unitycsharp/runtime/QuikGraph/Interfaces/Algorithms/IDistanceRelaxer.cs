@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms
 {
@@ -19,7 +19,7 @@ namespace QuikGraph.Algorithms
         /// <param name="distance">Distance value.</param>
         /// <param name="weight">Weight value.</param>
         /// <returns>The combined value.</returns>
-        [JBPure]
+        
         double Combine(double distance, double weight);
     }
 }

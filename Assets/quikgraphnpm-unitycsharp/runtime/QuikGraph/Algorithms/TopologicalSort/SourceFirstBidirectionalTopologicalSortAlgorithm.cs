@@ -1,12 +1,10 @@
-#if SUPPORTS_SERIALIZATION
 using System;
-#endif
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph.Algorithms.TopologicalSort
 {
@@ -15,19 +13,17 @@ namespace QuikGraph.Algorithms.TopologicalSort
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class SourceFirstBidirectionalTopologicalSortAlgorithm<TVertex, TEdge> :
         AlgorithmBase<IBidirectionalGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly BinaryQueue<TVertex, int> _heap;
 
         private readonly TopologicalSortDirection _direction;
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly IList<TVertex> _sortedVertices;
 
         /// <summary>
@@ -36,7 +32,7 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="capacity">Sorted vertices capacity.</param>
         public SourceFirstBidirectionalTopologicalSortAlgorithm(
-            [JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph,
+             IBidirectionalGraph<TVertex, TEdge> visitedGraph,
             int capacity = -1)
             : this(visitedGraph, TopologicalSortDirection.Forward, capacity)
         {
@@ -49,7 +45,7 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// <param name="direction">Sort direction.</param>
         /// <param name="capacity">Sorted vertices capacity.</param>
         public SourceFirstBidirectionalTopologicalSortAlgorithm(
-            [JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph,
+             IBidirectionalGraph<TVertex, TEdge> visitedGraph,
             TopologicalSortDirection direction,
             int capacity = -1)
             : base(visitedGraph)
@@ -62,13 +58,13 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// <summary>
         /// Sorted vertices.
         /// </summary>
-        [ItemNotNull]
+        
         public TVertex[] SortedVertices { get; private set; }
 
         /// <summary>
         /// Vertices in degrees.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, int> InDegrees { get; } = new Dictionary<TVertex, int>();
 
         /// <summary>
@@ -76,7 +72,7 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// </summary>
         public event VertexAction<TVertex> VertexAdded;
 
-        private void OnVertexAdded([JBNotNull] TVertex vertex)
+        private void OnVertexAdded( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 

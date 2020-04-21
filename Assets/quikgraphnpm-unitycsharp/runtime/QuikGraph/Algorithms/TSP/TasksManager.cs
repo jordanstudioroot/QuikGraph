@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using JetBrains.Annotations;
+
 using QuikGraph.Collections;
 
 namespace QuikGraph.Algorithms.TSP
@@ -7,7 +7,7 @@ namespace QuikGraph.Algorithms.TSP
     internal class TasksManager<TVertex, TEdge>
         where TEdge : EquatableEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly BinaryHeap<TaskPriority, Task<TVertex, TEdge>> _tasksQueue;
 
         public TasksManager()
@@ -19,7 +19,7 @@ namespace QuikGraph.Algorithms.TSP
         /// Adds the given <paramref name="task"/> into the <see cref="TasksManager{TVertex,TEdge}"/>.
         /// </summary>
         /// <param name="task">Task to add.</param>
-        public void AddTask([JBNotNull] Task<TVertex, TEdge> task)
+        public void AddTask( Task<TVertex, TEdge> task)
         {
             Debug.Assert(task != null);
 
@@ -33,7 +33,7 @@ namespace QuikGraph.Algorithms.TSP
         /// Gets and removes the task with minimal priority.
         /// </summary>
         /// <returns>The <see cref="Task{TVertex,TEdge}"/>.</returns>
-        [JBNotNull]
+        
         public Task<TVertex, TEdge> GetTask()
         {
             return _tasksQueue.RemoveMinimum().Value;
@@ -43,7 +43,7 @@ namespace QuikGraph.Algorithms.TSP
         /// Checks if there are pending tasks.
         /// </summary>
         /// <returns>True if there are pending tasks, false otherwise.</returns>
-        [JBPure]
+        
         public bool HasTasks()
         {
             return _tasksQueue.Count > 0;

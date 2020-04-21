@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -12,9 +12,8 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public class DelegateVertexAndEdgeListGraph<TVertex, TEdge> : DelegateIncidenceGraph<TVertex, TEdge>, IVertexAndEdgeListGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
@@ -29,8 +28,8 @@ namespace QuikGraph
         /// to parallel edges due to the delegated implementation.
         /// </param>
         public DelegateVertexAndEdgeListGraph(
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> vertices,
-            [JBNotNull] TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges,
+             IEnumerable<TVertex> vertices,
+             TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges,
             bool allowParallelEdges = true)
             : base(tryGetOutEdges, allowParallelEdges)
         {
@@ -45,7 +44,7 @@ namespace QuikGraph
         /// <inheritdoc />
         public int VertexCount => _vertices.Count();
 
-        [JBNotNull]
+        
         private readonly IEnumerable<TVertex> _vertices;
 
         /// <inheritdoc />
@@ -106,7 +105,7 @@ namespace QuikGraph
 
         #region IIncidenceGraph<TVertex,TEdge>
 
-        private bool FilterEdges([JBNotNull] TEdge edge, [JBNotNull] TVertex vertex)
+        private bool FilterEdges( TEdge edge,  TVertex vertex)
         {
             return IsInGraph(edge, vertex) && EqualityComparer<TVertex>.Default.Equals(edge.Source, vertex);
         }
@@ -117,8 +116,8 @@ namespace QuikGraph
         /// It requires to have been checked if <paramref name="vertex"/> is
         /// in the graph before.
         /// </summary>
-        [JBPure]
-        private bool IsInGraph([JBNotNull] TEdge edge, [JBNotNull] TVertex vertex)
+        
+        private bool IsInGraph( TEdge edge,  TVertex vertex)
         {
             Debug.Assert(edge != null);
             Debug.Assert(vertex != null);

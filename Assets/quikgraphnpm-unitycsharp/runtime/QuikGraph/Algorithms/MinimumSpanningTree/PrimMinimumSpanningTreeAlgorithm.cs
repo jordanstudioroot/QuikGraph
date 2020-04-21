@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph.Algorithms.MinimumSpanningTree
 {
@@ -13,15 +13,13 @@ namespace QuikGraph.Algorithms.MinimumSpanningTree
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class PrimMinimumSpanningTreeAlgorithm<TVertex, TEdge>
         : AlgorithmBase<IUndirectedGraph<TVertex, TEdge>>
             , IMinimumSpanningTreeAlgorithm<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly Func<TEdge, double> _edgeWeights;
 
         /// <summary>
@@ -30,8 +28,8 @@ namespace QuikGraph.Algorithms.MinimumSpanningTree
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         public PrimMinimumSpanningTreeAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : this(null, visitedGraph, edgeWeights)
         {
         }
@@ -43,9 +41,9 @@ namespace QuikGraph.Algorithms.MinimumSpanningTree
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         public PrimMinimumSpanningTreeAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             IAlgorithmComponent host,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : base(host, visitedGraph)
         {
             _edgeWeights = edgeWeights ?? throw new ArgumentNullException(nameof(edgeWeights));
@@ -56,7 +54,7 @@ namespace QuikGraph.Algorithms.MinimumSpanningTree
         /// </summary>
         public event EdgeAction<TVertex, TEdge> ExamineEdge;
 
-        private void OnExamineEdge([JBNotNull] TEdge edge)
+        private void OnExamineEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -68,7 +66,7 @@ namespace QuikGraph.Algorithms.MinimumSpanningTree
         /// <inheritdoc />
         public event EdgeAction<TVertex, TEdge> TreeEdge;
 
-        private void OnTreeEdge([JBNotNull] TEdge edge)
+        private void OnTreeEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -171,7 +169,7 @@ namespace QuikGraph.Algorithms.MinimumSpanningTree
             }
         }
 
-        private void EnqueueEdgesFrom([JBNotNull] TVertex vertex)
+        private void EnqueueEdgesFrom( TVertex vertex)
         {
             foreach (TEdge edge in _verticesEdges[vertex])
             {

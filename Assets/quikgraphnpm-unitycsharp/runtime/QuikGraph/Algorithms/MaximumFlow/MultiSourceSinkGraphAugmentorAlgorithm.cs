@@ -1,5 +1,6 @@
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.MaximumFlow
 {
@@ -19,9 +20,9 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public MultiSourceSinkGraphAugmentorAlgorithm(
-            [JBNotNull] IMutableBidirectionalGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+             IMutableBidirectionalGraph<TVertex, TEdge> visitedGraph,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
             : this(null, visitedGraph, vertexFactory, edgeFactory)
         {
         }
@@ -34,10 +35,10 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public MultiSourceSinkGraphAugmentorAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IMutableBidirectionalGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+             IAlgorithmComponent host,
+             IMutableBidirectionalGraph<TVertex, TEdge> visitedGraph,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
             : base(host, visitedGraph, vertexFactory, edgeFactory)
         {
         }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using static QuikGraph.Utils.DisposableHelpers;
+
 
 namespace QuikGraph.Algorithms.Observers
 {
@@ -10,9 +10,7 @@ namespace QuikGraph.Algorithms.Observers
     /// Recorder of vertices discover timestamps.
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class VertexTimeStamperObserver<TVertex> : IObserver<IVertexTimeStamperAlgorithm<TVertex>>
     {
         private int _currentTime;
@@ -29,7 +27,7 @@ namespace QuikGraph.Algorithms.Observers
         /// Initializes a new instance of the <see cref="VertexTimeStamperObserver{TVertex}"/> class.
         /// </summary>
         /// <param name="discoverTimes">Vertices discover times.</param>
-        public VertexTimeStamperObserver([JBNotNull] IDictionary<TVertex, int> discoverTimes)
+        public VertexTimeStamperObserver( IDictionary<TVertex, int> discoverTimes)
         {
             DiscoverTimes = discoverTimes ?? throw new ArgumentNullException(nameof(discoverTimes));
             FinishTimes = null;
@@ -41,8 +39,8 @@ namespace QuikGraph.Algorithms.Observers
         /// <param name="discoverTimes">Vertices discover times.</param>
         /// <param name="finishTimes">Vertices fully treated times.</param>
         public VertexTimeStamperObserver(
-            [JBNotNull] IDictionary<TVertex, int> discoverTimes,
-            [JBNotNull] IDictionary<TVertex, int> finishTimes)
+             IDictionary<TVertex, int> discoverTimes,
+             IDictionary<TVertex, int> finishTimes)
         {
             DiscoverTimes = discoverTimes ?? throw new ArgumentNullException(nameof(discoverTimes));
             FinishTimes = finishTimes ?? throw new ArgumentNullException(nameof(finishTimes));
@@ -51,13 +49,13 @@ namespace QuikGraph.Algorithms.Observers
         /// <summary>
         /// Times of vertices discover.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, int> DiscoverTimes { get; }
 
         /// <summary>
         /// Times of vertices fully treated.
         /// </summary>
-        [JBCanBeNull]
+        
         public IDictionary<TVertex, int> FinishTimes { get; }
 
         #region IObserver<TAlgorithm>
@@ -82,14 +80,14 @@ namespace QuikGraph.Algorithms.Observers
 
         #endregion
 
-        private void OnVertexDiscovered([JBNotNull] TVertex vertex)
+        private void OnVertexDiscovered( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
             DiscoverTimes[vertex] = _currentTime++;
         }
 
-        private void OnVertexFinished([JBNotNull] TVertex vertex)
+        private void OnVertexFinished( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 

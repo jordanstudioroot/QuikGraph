@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Search;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
@@ -24,13 +24,13 @@ namespace QuikGraph.Algorithms
         : RootedAlgorithmBase<TVertex, IVertexListGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
-        [JBCanBeNull]
+        
         private SEquatableEdge<TVertex>[] _pairs;
 
         /// <summary>
         /// Ancestors of vertices pairs.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<SEquatableEdge<TVertex>, TVertex> Ancestors { get; } = 
             new Dictionary<SEquatableEdge<TVertex>, TVertex>();
 
@@ -39,7 +39,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
         public TarjanOfflineLeastCommonAncestorAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph)
+             IVertexListGraph<TVertex, TEdge> visitedGraph)
             : this(null, visitedGraph)
         {
         }
@@ -50,8 +50,8 @@ namespace QuikGraph.Algorithms
         /// <param name="host">Host to use if set, otherwise use this reference.</param>
         /// <param name="visitedGraph">Graph to visit.</param>
         public TarjanOfflineLeastCommonAncestorAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph)
+             IAlgorithmComponent host,
+             IVertexListGraph<TVertex, TEdge> visitedGraph)
             : base(host, visitedGraph)
         {
         }
@@ -114,7 +114,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="pairs">Vertices pairs if set.</param>
         /// <returns>True if vertex pairs were set, false otherwise.</returns>
-        [JBPure]
+        
         public bool TryGetVertexPairs(out IEnumerable<SEquatableEdge<TVertex>> pairs)
         {
             pairs = _pairs;
@@ -125,7 +125,7 @@ namespace QuikGraph.Algorithms
         /// Sets vertices pairs.
         /// </summary>
         /// <param name="pairs">Vertices pairs.</param>
-        public void SetVertexPairs([JBNotNull] IEnumerable<SEquatableEdge<TVertex>> pairs)
+        public void SetVertexPairs( IEnumerable<SEquatableEdge<TVertex>> pairs)
         {
             if (pairs is null)
                 throw new ArgumentNullException(nameof(pairs));
@@ -145,7 +145,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="root">Root vertex.</param>
         /// <param name="pairs">Vertices pairs.</param>
-        public void Compute([JBNotNull] TVertex root, [JBNotNull] IEnumerable<SEquatableEdge<TVertex>> pairs)
+        public void Compute( TVertex root,  IEnumerable<SEquatableEdge<TVertex>> pairs)
         {
             SetVertexPairs(pairs);
             Compute(root);

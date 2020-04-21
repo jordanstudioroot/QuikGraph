@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
+
+
 
 namespace QuikGraph
 {
@@ -9,9 +10,8 @@ namespace QuikGraph
     /// An <see cref="ITermEdge{TVertex}"/> implementation that supports equality.
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("{" + nameof(Source) + "}->{" + nameof(Target) + "}")]
     public class EquatableTermEdge<TVertex> : TermEdge<TVertex>, IEquatable<EquatableTermEdge<TVertex>>
     {
@@ -21,7 +21,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
-        public EquatableTermEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target)
+        public EquatableTermEdge( TVertex source,  TVertex target)
             : base(source, target)
         {
         }
@@ -34,7 +34,7 @@ namespace QuikGraph
         /// <param name="target">The target vertex.</param>
         /// <param name="sourceTerminal">The source terminal.</param>
         /// <param name="targetTerminal">The target terminal.</param>
-        public EquatableTermEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target, int sourceTerminal, int targetTerminal)
+        public EquatableTermEdge( TVertex source,  TVertex target, int sourceTerminal, int targetTerminal)
             : base(source, target, sourceTerminal, targetTerminal)
         {
         }

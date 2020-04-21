@@ -1,8 +1,8 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
 using QuikGraph.Constants;
+
 
 namespace QuikGraph
 {
@@ -10,9 +10,8 @@ namespace QuikGraph
     /// The default struct based <see cref="IEdge{TVertex}"/> implementation (it is by design an equatable edge).
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("{" + nameof(Source) + "}->{" + nameof(Target) + "}")]
     [StructLayout(LayoutKind.Auto)]
     public struct SEdge<TVertex> : IEdge<TVertex>
@@ -22,7 +21,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
-        public SEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target)
+        public SEdge( TVertex source,  TVertex target)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));

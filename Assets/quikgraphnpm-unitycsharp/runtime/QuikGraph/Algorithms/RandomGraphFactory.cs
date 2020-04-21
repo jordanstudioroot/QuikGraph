@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms
 {
@@ -16,11 +16,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">The graph.</param>
         /// <param name="rng">Random number generator.</param>
         /// <returns>Chosen vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TVertex GetVertex<TVertex>(
-            [JBNotNull] IVertexSet<TVertex> graph,
-            [JBNotNull] Random rng)
+             IVertexSet<TVertex> graph,
+             Random rng)
         {
             if (graph is null)
                 throw new ArgumentNullException(nameof(graph));
@@ -35,12 +35,12 @@ namespace QuikGraph.Algorithms
         /// <param name="count">Number of vertices in the set.</param>
         /// <param name="rng">Random number generator.</param>
         /// <returns>Chosen vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TVertex GetVertex<TVertex>(
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> vertices,
+             IEnumerable<TVertex> vertices,
             int count,
-            [JBNotNull] Random rng)
+             Random rng)
         {
             if (vertices is null)
                 throw new ArgumentNullException(nameof(vertices));
@@ -69,11 +69,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">The graph.</param>
         /// <param name="rng">Random number generator.</param>
         /// <returns>Chosen vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TEdge GetEdge<TVertex, TEdge>(
-            [JBNotNull] IEdgeSet<TVertex, TEdge> graph,
-            [JBNotNull] Random rng)
+             IEdgeSet<TVertex, TEdge> graph,
+             Random rng)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -90,12 +90,12 @@ namespace QuikGraph.Algorithms
         /// <param name="count">Number of edges in the set.</param>
         /// <param name="rng">Random number generator.</param>
         /// <returns>Chosen vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TEdge GetEdge<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] IEnumerable<TEdge> edges,
+             IEnumerable<TEdge> edges,
             int count,
-            [JBNotNull] Random rng)
+             Random rng)
             where TEdge : IEdge<TVertex>
         {
             if (edges is null)
@@ -118,10 +118,10 @@ namespace QuikGraph.Algorithms
         }
 
         private static void CreateInternal<TVertex, TEdge>(
-            [JBNotNull] IMutableVertexAndEdgeSet<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull, JBInstantHandle] EdgeFactory<TVertex, TEdge> edgeFactory,
-            [JBNotNull] Random rng,
+             IMutableVertexAndEdgeSet<TVertex, TEdge> graph,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory,
+             Random rng,
             int vertexCount,
             int edgeCount,
             bool selfEdges)
@@ -178,10 +178,10 @@ namespace QuikGraph.Algorithms
         /// <param name="edgeCount">Number of edges to create.</param>
         /// <param name="selfEdges">Indicates if self edge are allowed.</param>
         public static void Create<TVertex, TEdge>(
-            [JBNotNull] IMutableVertexAndEdgeListGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull, JBInstantHandle] EdgeFactory<TVertex, TEdge> edgeFactory,
-            [JBNotNull] Random rng,
+             IMutableVertexAndEdgeListGraph<TVertex, TEdge> graph,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory,
+             Random rng,
             int vertexCount,
             int edgeCount,
             bool selfEdges)
@@ -204,10 +204,10 @@ namespace QuikGraph.Algorithms
         /// <param name="edgeCount">Number of edges to create.</param>
         /// <param name="selfEdges">Indicates if self edge are allowed.</param>
         public static void Create<TVertex, TEdge>(
-            [JBNotNull] IMutableUndirectedGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull, JBInstantHandle] EdgeFactory<TVertex, TEdge> edgeFactory,
-            [JBNotNull] Random rng,
+             IMutableUndirectedGraph<TVertex, TEdge> graph,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory,
+             Random rng,
             int vertexCount,
             int edgeCount,
             bool selfEdges)

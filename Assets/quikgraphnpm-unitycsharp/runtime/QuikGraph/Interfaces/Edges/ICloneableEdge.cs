@@ -1,4 +1,5 @@
-using JetBrains.Annotations;
+
+
 
 namespace QuikGraph
 {
@@ -17,8 +18,8 @@ namespace QuikGraph
         /// <param name="source">The source vertex of the new edge.</param>
         /// <param name="target">The target vertex of the new edge.</param>
         /// <returns>A clone of the edge with new source and target vertices.</returns>
-        [JBPure]
-        [JBNotNull]
-        TEdge Clone([JBNotNull] TVertex source, [JBNotNull] TVertex target);
+        
+        
+        TEdge Clone( TVertex source,  TVertex target);
     }
 }

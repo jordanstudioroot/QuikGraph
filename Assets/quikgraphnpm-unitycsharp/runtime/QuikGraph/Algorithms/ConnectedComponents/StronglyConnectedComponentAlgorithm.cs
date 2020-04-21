@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Search;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.ConnectedComponents
 {
@@ -17,15 +17,13 @@ namespace QuikGraph.Algorithms.ConnectedComponents
     /// </remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class StronglyConnectedComponentsAlgorithm<TVertex, TEdge>
         : AlgorithmBase<IVertexListGraph<TVertex, TEdge>>
         , IConnectedComponentAlgorithm<TVertex, TEdge, IVertexListGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly Stack<TVertex> _stack;
 
         private int _dfsTime;
@@ -35,7 +33,7 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
         public StronglyConnectedComponentsAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph)
+             IVertexListGraph<TVertex, TEdge> visitedGraph)
             : this(visitedGraph, new Dictionary<TVertex, int>())
         {
         }
@@ -46,8 +44,8 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="components">Graph components.</param>
         public StronglyConnectedComponentsAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             IDictionary<TVertex, int> components)
             : this(null, visitedGraph, components)
         {
         }
@@ -59,9 +57,9 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="components">Graph components.</param>
         public StronglyConnectedComponentsAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             IAlgorithmComponent host,
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             IDictionary<TVertex, int> components)
             : base(host, visitedGraph)
         {
             Components = components ?? throw new ArgumentNullException(nameof(components));
@@ -75,13 +73,13 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// <summary>
         /// Root vertices associated to their minimal linked vertex.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, TVertex> Roots { get; }
 
         /// <summary>
         /// Times of vertices discover.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, int> DiscoverTimes { get; }
 
         /// <summary>
@@ -99,13 +97,13 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// </summary>
         public List<TVertex> VerticesPerStep { get; private set; }
 
-        [ItemNotNull]
+        
         private BidirectionalGraph<TVertex, TEdge>[] _graphs;
 
         /// <summary>
         /// Strongly connected components.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public BidirectionalGraph<TVertex, TEdge>[] Graphs
         {
             get
@@ -137,9 +135,9 @@ namespace QuikGraph.Algorithms.ConnectedComponents
             }
         }
 
-        [JBPure]
-        [JBNotNull]
-        private TVertex MinDiscoverTime([JBNotNull] TVertex u, [JBNotNull] TVertex v)
+        
+        
+        private TVertex MinDiscoverTime( TVertex u,  TVertex v)
         {
             Debug.Assert(u != null);
             Debug.Assert(v != null);
@@ -211,7 +209,7 @@ namespace QuikGraph.Algorithms.ConnectedComponents
 
         #endregion
 
-        private void OnVertexDiscovered([JBNotNull] TVertex vertex)
+        private void OnVertexDiscovered( TVertex vertex)
         {
             Roots[vertex] = vertex;
             Components[vertex] = int.MaxValue;
@@ -224,7 +222,7 @@ namespace QuikGraph.Algorithms.ConnectedComponents
             _stack.Push(vertex);
         }
 
-        private void OnVertexFinished([JBNotNull] TVertex vertex)
+        private void OnVertexFinished( TVertex vertex)
         {
             foreach (TEdge edge in VisitedGraph.OutEdges(vertex))
             {

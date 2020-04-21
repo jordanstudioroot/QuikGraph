@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -9,9 +9,8 @@ namespace QuikGraph
     /// An <see cref="IEdge{TVertex}"/> implementation that supports equality.
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("{" + nameof(Source) + "}->{" + nameof(Target) + "}")]
     public class EquatableEdge<TVertex> : Edge<TVertex>, IEquatable<EquatableEdge<TVertex>>
     {
@@ -20,7 +19,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
-        public EquatableEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target)
+        public EquatableEdge( TVertex source,  TVertex target)
             : base(source, target)
         {
         }

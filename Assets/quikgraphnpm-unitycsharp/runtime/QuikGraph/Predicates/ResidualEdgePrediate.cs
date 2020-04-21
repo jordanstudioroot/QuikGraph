@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Predicates
 {
@@ -16,7 +16,7 @@ namespace QuikGraph.Predicates
         /// Initializes a new instance of the <see cref="ResidualEdgePredicate{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="residualCapacities">Residual capacities per edge.</param>
-        public ResidualEdgePredicate([JBNotNull] IDictionary<TEdge, double> residualCapacities)
+        public ResidualEdgePredicate( IDictionary<TEdge, double> residualCapacities)
         {
             ResidualCapacities = residualCapacities ?? throw new ArgumentNullException(nameof(residualCapacities));
         }
@@ -24,7 +24,7 @@ namespace QuikGraph.Predicates
         /// <summary>
         /// Residual capacities map.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TEdge, double> ResidualCapacities { get; }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace QuikGraph.Predicates
         /// <remarks>Check if the implemented predicate is matched.</remarks>
         /// <param name="edge">Edge to use in predicate.</param>
         /// <returns>True if the edge is residual, false otherwise.</returns>
-        [JBPure]
-        public bool Test([JBNotNull] TEdge edge)
+        
+        public bool Test( TEdge edge)
         {
             if (edge == null)
                 throw new ArgumentNullException(nameof(edge));

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.RandomWalks
 {
@@ -18,8 +18,8 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// <param name="vertex">The vertex.</param>
         /// <param name="successor">Found successor, otherwise null.</param>
         /// <returns>True if a successor was found, false otherwise.</returns>
-        [JBPure]
-        bool TryGetSuccessor([JBNotNull] IImplicitGraph<TVertex, TEdge> graph, [JBNotNull] TVertex vertex, out TEdge successor);
+        
+        bool TryGetSuccessor( IImplicitGraph<TVertex, TEdge> graph,  TVertex vertex, out TEdge successor);
 
         /// <summary>
         /// Tries to get the successor of the given <paramref name="vertex"/> in the given set of <paramref name="edges"/>.
@@ -28,7 +28,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// <param name="vertex">The vertex.</param>
         /// <param name="successor">Found successor, otherwise null.</param>
         /// <returns>True if a successor was found, false otherwise.</returns>
-        [JBPure]
-        bool TryGetSuccessor([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges, [JBNotNull] TVertex vertex, out TEdge successor);
+        
+        bool TryGetSuccessor( IEnumerable<TEdge> edges,  TVertex vertex, out TEdge successor);
     }
 }

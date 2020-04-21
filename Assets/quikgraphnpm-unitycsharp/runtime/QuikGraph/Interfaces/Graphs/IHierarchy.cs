@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -14,7 +14,7 @@ namespace QuikGraph
         /// <summary>
         /// Gets the root of the hierarchy.
         /// </summary>
-        [JBCanBeNull]
+        
         TVertex Root { get; }
 
         /// <summary>
@@ -23,9 +23,9 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <returns>The parent vertex if there is one, otherwise null.</returns>
         /// <exception cref="System.ArgumentException">The given <paramref name="vertex"/> is the root of the graph.</exception>
-        [JBPure]
-        [JBCanBeNull]
-        TVertex GetParent([JBNotNull] TVertex vertex);
+        
+        
+        TVertex GetParent( TVertex vertex);
 
         /// <summary>
         /// Gets the parent edge of the <paramref name="vertex"/>.
@@ -33,17 +33,17 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <returns>The parent vertex edge.</returns>
         /// <exception cref="System.ArgumentException">The <paramref name="vertex"/> is the root of the graph.</exception>
-        [JBPure]
-        [JBCanBeNull]
-        TEdge GetParentEdge([JBNotNull] TVertex vertex);
+        
+        
+        TEdge GetParentEdge( TVertex vertex);
 
         /// <summary>
         /// Gets a value indicating if <paramref name="edge"/> is  a cross edge.
         /// </summary>
         /// <param name="edge">The edge.</param>
         /// <returns>True if the edge is a cross edge, false otherwise.</returns>
-        [JBPure]
-        bool IsCrossEdge([JBNotNull] TEdge edge);
+        
+        bool IsCrossEdge( TEdge edge);
 
         /// <summary>
         /// Gets a value indicating whether the <paramref name="edge"/> 
@@ -51,8 +51,8 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edge">The edge.</param>
         /// <returns>True if it's a real edge, false otherwise.</returns>
-        [JBPure]
-        bool IsRealEdge([JBNotNull] TEdge edge);
+        
+        bool IsRealEdge( TEdge edge);
 
         /// <summary>
         /// Gets a value indicating if <paramref name="source"/>
@@ -61,8 +61,8 @@ namespace QuikGraph
         /// <param name="source">Source vertex.</param>
         /// <param name="target">Target vertex.</param>
         /// <returns>True if the <paramref name="source"/> is a predecessor of <paramref name="target"/>.</returns>
-        [JBPure]
-        bool IsPredecessorOf([JBNotNull] TVertex source, [JBNotNull] TVertex target);
+        
+        bool IsPredecessorOf( TVertex source,  TVertex target);
 
         /// <summary>
         /// Gets the number of edges between the <paramref name="source"/> and <paramref name="target"/> vertex. 
@@ -72,33 +72,33 @@ namespace QuikGraph
         /// <returns>The number of edge between <paramref name="source"/> and <paramref name="target"/>.</returns>
         /// <exception cref="System.ArgumentException">The <paramref name="source"/> is a predecessor of
         /// <paramref name="target"/> or the other-way round.</exception>
-        [JBPure]
-        int InducedEdgeCount([JBNotNull] TVertex source, [JBNotNull] TVertex target);
+        
+        int InducedEdgeCount( TVertex source,  TVertex target);
 
         /// <summary>
         /// Gets a value indicating if the <paramref name="vertex"/> is an inner node or a leaf.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>True if the <paramref name="vertex"/> is not a leaf, false otherwise.</returns>
-        [JBPure]
-        bool IsInnerNode([JBNotNull] TVertex vertex);
+        
+        bool IsInnerNode( TVertex vertex);
 
         /// <summary>
         /// Gets the collection of children edges from the <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>Children edges.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        IEnumerable<TEdge> ChildrenEdges([JBNotNull] TVertex vertex);
+        
+        
+        IEnumerable<TEdge> ChildrenEdges( TVertex vertex);
 
         /// <summary>
         /// Gets the collection of children vertices from the <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>Children vertices.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        IEnumerable<TVertex> ChildrenVertices([JBNotNull] TVertex vertex);
+        
+        
+        IEnumerable<TVertex> ChildrenVertices( TVertex vertex);
     }
 }

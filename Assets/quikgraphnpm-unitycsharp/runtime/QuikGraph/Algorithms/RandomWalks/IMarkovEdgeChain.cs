@@ -1,5 +1,6 @@
 using System;
-using JetBrains.Annotations;
+using QuikGraph.Utils;
+
 
 namespace QuikGraph.Algorithms.RandomWalks
 {
@@ -14,7 +15,9 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// <summary>
         /// Random number generator for a Markov process to do random walks.
         /// </summary>
-        [JBNotNull]
-        Random Rand { get; set; }
+        
+// TODO: Add options for using unity native random values or
+//       proprietary random number generator.
+        CryptoRandom Rand { get; set; }
     }
 }

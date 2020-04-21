@@ -1,5 +1,5 @@
 using System;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Predicates
 {
@@ -10,9 +10,8 @@ namespace QuikGraph.Predicates
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <typeparam name="TGraph">Graph type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public class FilteredGraph<TVertex, TEdge, TGraph> : IGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
         where TGraph : IGraph<TVertex, TEdge>
@@ -24,9 +23,9 @@ namespace QuikGraph.Predicates
         /// <param name="vertexPredicate">Predicate to match vertex that should be taken into account.</param>
         /// <param name="edgePredicate">Predicate to match edge that should be taken into account.</param>
         public FilteredGraph(
-            [JBNotNull] TGraph baseGraph,
-            [JBNotNull] VertexPredicate<TVertex> vertexPredicate,
-            [JBNotNull] EdgePredicate<TVertex, TEdge> edgePredicate)
+             TGraph baseGraph,
+             VertexPredicate<TVertex> vertexPredicate,
+             EdgePredicate<TVertex, TEdge> edgePredicate)
         {
             if (baseGraph == null)
                 throw new ArgumentNullException(nameof(baseGraph));
@@ -39,19 +38,19 @@ namespace QuikGraph.Predicates
         /// <summary>
         /// Underlying graph (graph that is filtered).
         /// </summary>
-        [JBNotNull]
+        
         public TGraph BaseGraph { get; }
 
         /// <summary>
         /// Vertex predicate used to filter the vertices.
         /// </summary>
-        [JBNotNull]
+        
         public VertexPredicate<TVertex> VertexPredicate { get; }
 
         /// <summary>
         /// Edge predicate used to filter the edges.
         /// </summary>
-        [JBNotNull]
+        
         public EdgePredicate<TVertex, TEdge> EdgePredicate { get; }
 
         #region IGraph<TVertex,TEdge>
@@ -71,8 +70,8 @@ namespace QuikGraph.Predicates
         /// </summary>
         /// <param name="edge">Edge to check.</param>
         /// <returns>True if the <paramref name="edge"/> matches all predicates, false otherwise.</returns>
-        [JBPure]
-        protected bool FilterEdge([JBNotNull] TEdge edge)
+        
+        protected bool FilterEdge( TEdge edge)
         {
             if (edge == null)
                 throw new ArgumentNullException(nameof(edge));

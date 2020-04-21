@@ -1,8 +1,7 @@
-#if SUPPORTS_GRAPHS_SERIALIZATION
 using System;
 using System.Net;
 using System.Xml;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Serialization
 {
@@ -12,7 +11,7 @@ namespace QuikGraph.Serialization
     // ReSharper disable once InconsistentNaming
     public sealed class GraphMLXmlResolver : XmlResolver
     {
-        [NotNull]
+        
         private readonly XmlResolver _baseResolver;
 
         /// <summary>
@@ -27,7 +26,7 @@ namespace QuikGraph.Serialization
         /// Initializes a new instance of the <see cref="GraphMLXmlResolver"/> class.
         /// </summary>
         /// <param name="baseResolver">Base XML resolver.</param>
-        public GraphMLXmlResolver([NotNull] XmlResolver baseResolver)
+        public GraphMLXmlResolver( XmlResolver baseResolver)
         {
             _baseResolver = baseResolver ?? throw new ArgumentNullException(nameof(baseResolver));
         }
@@ -35,7 +34,7 @@ namespace QuikGraph.Serialization
         /// <summary>
         /// Graph ML XML namespace.
         /// </summary>
-        [NotNull]
+        
         // ReSharper disable once InconsistentNaming
         public const string GraphMLNamespace = "http://graphml.graphdrawing.org/xmlns";
 
@@ -61,4 +60,3 @@ namespace QuikGraph.Serialization
         }
     }
 }
-#endif

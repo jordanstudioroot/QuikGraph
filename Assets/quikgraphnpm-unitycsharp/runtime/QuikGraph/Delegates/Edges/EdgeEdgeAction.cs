@@ -1,4 +1,6 @@
-using JetBrains.Annotations;
+
+
+
 
 namespace QuikGraph
 {
@@ -9,6 +11,8 @@ namespace QuikGraph
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <param name="edge">First edge.</param>
     /// <param name="targetEdge">Second edge.</param>
-    public delegate void EdgeEdgeAction<TVertex, in TEdge>([JBNotNull] TEdge edge, [JBNotNull] TEdge targetEdge)
-        where TEdge : IEdge<TVertex>;
+    public delegate void EdgeEdgeAction<TVertex, in TEdge>(
+         TEdge edge,
+         TEdge targetEdge
+    ) where TEdge : IEdge<TVertex>;
 }

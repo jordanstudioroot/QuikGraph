@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Constants;
+
 
 namespace QuikGraph
 {
@@ -9,9 +9,8 @@ namespace QuikGraph
     /// The default <see cref="IEdge{TVertex}"/> implementation.
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("{" + nameof(Source) + "}->{" + nameof(Target) + "}")]
     public class Edge<TVertex> : IEdge<TVertex>
     {
@@ -20,7 +19,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
-        public Edge([JBNotNull] TVertex source, [JBNotNull] TVertex target)
+        public Edge( TVertex source,  TVertex target)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));

@@ -1,13 +1,10 @@
-#if SUPPORTS_GRAPHS_SERIALIZATION
 using System;
-#if SUPPORTS_XML_DTD_PROCESSING
 using System.Diagnostics;
 using System.Xml.Schema;
-#endif
 using System.IO;
 using System.Xml;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms;
+
 
 namespace QuikGraph.Serialization
 {
@@ -18,7 +15,7 @@ namespace QuikGraph.Serialization
     {
         #region Serialization
 
-        [NotNull]
+        
         private const string SerializationIndent = "    ";
 
         /// <summary>
@@ -30,8 +27,8 @@ namespace QuikGraph.Serialization
         /// <param name="graph">Graph instance to serialize.</param>
         /// <param name="filePath">Path to the file where serializing the graph.</param>
         public static void SerializeToGraphML<TVertex, TEdge, TGraph>(
-            [NotNull] this TGraph graph,
-            [NotNull] string filePath)
+             this TGraph graph,
+             string filePath)
             where TEdge : IEdge<TVertex>
             where TGraph : IEdgeListGraph<TVertex, TEdge>
         {
@@ -57,10 +54,10 @@ namespace QuikGraph.Serialization
         /// <param name="vertexIdentities">Vertex identity method.</param>
         /// <param name="edgeIdentities">Edge identity method.</param>
         public static void SerializeToGraphML<TVertex, TEdge, TGraph>(
-            [NotNull] this TGraph graph,
-            [NotNull] string filePath,
-            [NotNull] VertexIdentity<TVertex> vertexIdentities,
-            [NotNull] EdgeIdentity<TVertex, TEdge> edgeIdentities)
+             this TGraph graph,
+             string filePath,
+             VertexIdentity<TVertex> vertexIdentities,
+             EdgeIdentity<TVertex, TEdge> edgeIdentities)
             where TEdge : IEdge<TVertex>
             where TGraph : IEdgeListGraph<TVertex, TEdge>
         {
@@ -84,8 +81,8 @@ namespace QuikGraph.Serialization
         /// <param name="graph">Graph instance to serialize.</param>
         /// <param name="writer">The XML writer.</param>
         public static void SerializeToGraphML<TVertex, TEdge, TGraph>(
-            [NotNull] this TGraph graph,
-            [NotNull] XmlWriter writer)
+             this TGraph graph,
+             XmlWriter writer)
             where TEdge : IEdge<TVertex>
             where TGraph : IEdgeListGraph<TVertex, TEdge>
         {
@@ -109,10 +106,10 @@ namespace QuikGraph.Serialization
         /// <param name="vertexIdentities">Vertex identity method.</param>
         /// <param name="edgeIdentities">Edge identity method.</param>
         public static void SerializeToGraphML<TVertex, TEdge, TGraph>(
-            [NotNull] this TGraph graph,
-            [NotNull] XmlWriter writer,
-            [NotNull] VertexIdentity<TVertex> vertexIdentities,
-            [NotNull] EdgeIdentity<TVertex, TEdge> edgeIdentities)
+             this TGraph graph,
+             XmlWriter writer,
+             VertexIdentity<TVertex> vertexIdentities,
+             EdgeIdentity<TVertex, TEdge> edgeIdentities)
             where TEdge : IEdge<TVertex>
             where TGraph : IEdgeListGraph<TVertex, TEdge>
         {
@@ -135,10 +132,10 @@ namespace QuikGraph.Serialization
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public static void DeserializeFromGraphML<TVertex, TEdge, TGraph>(
-            [NotNull] this TGraph graph,
-            [NotNull] XmlReader reader,
-            [NotNull] IdentifiableVertexFactory<TVertex> vertexFactory,
-            [NotNull] IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
+             this TGraph graph,
+             XmlReader reader,
+             IdentifiableVertexFactory<TVertex> vertexFactory,
+             IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
             where TEdge : IEdge<TVertex>
             where TGraph : IMutableVertexAndEdgeListGraph<TVertex, TEdge>
         {
@@ -157,17 +154,16 @@ namespace QuikGraph.Serialization
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public static void DeserializeFromGraphML<TVertex, TEdge, TGraph>(
-            [NotNull] this TGraph graph,
-            [NotNull] TextReader reader,
-            [NotNull] IdentifiableVertexFactory<TVertex> vertexFactory,
-            [NotNull] IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
+             this TGraph graph,
+             TextReader reader,
+             IdentifiableVertexFactory<TVertex> vertexFactory,
+             IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
             where TEdge : IEdge<TVertex>
             where TGraph : IMutableVertexAndEdgeListGraph<TVertex, TEdge>
         {
             if (reader is null)
                 throw new ArgumentNullException(nameof(reader));
 
-#if SUPPORTS_XML_DTD_PROCESSING
             var settings = new XmlReaderSettings
             {
                 ValidationFlags = XmlSchemaValidationFlags.None,
@@ -177,15 +173,6 @@ namespace QuikGraph.Serialization
 
             using (XmlReader xmlReader = XmlReader.Create(reader, settings))
                 DeserializeFromGraphML(graph, xmlReader, vertexFactory, edgeFactory);
-#else
-            var xmlReader = new XmlTextReader(reader)
-            {
-                ProhibitDtd = false,
-                XmlResolver = null
-            };
-
-            DeserializeFromGraphML(graph, xmlReader, vertexFactory, edgeFactory);
-#endif
         }
 
         /// <summary>
@@ -199,10 +186,10 @@ namespace QuikGraph.Serialization
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public static void DeserializeFromGraphML<TVertex, TEdge, TGraph>(
-            [NotNull] this TGraph graph,
-            [NotNull] string filePath,
-            [NotNull] IdentifiableVertexFactory<TVertex> vertexFactory,
-            [NotNull] IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
+             this TGraph graph,
+             string filePath,
+             IdentifiableVertexFactory<TVertex> vertexFactory,
+             IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
             where TEdge : IEdge<TVertex>
             where TGraph : IMutableVertexAndEdgeListGraph<TVertex, TEdge>
         {
@@ -213,7 +200,6 @@ namespace QuikGraph.Serialization
                 DeserializeFromGraphML(graph, reader, vertexFactory, edgeFactory);
         }
 
-#if SUPPORTS_XML_DTD_PROCESSING
         /// <summary>
         /// Deserializes from the given <paramref name="reader"/> (GraphML graph) into the given <paramref name="graph"/>
         /// and checks if content is valid.
@@ -226,10 +212,10 @@ namespace QuikGraph.Serialization
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public static void DeserializeAndValidateFromGraphML<TVertex, TEdge, TGraph>(
-            [NotNull] this TGraph graph,
-            [NotNull] TextReader reader,
-            [NotNull] IdentifiableVertexFactory<TVertex> vertexFactory,
-            [NotNull] IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
+             this TGraph graph,
+             TextReader reader,
+             IdentifiableVertexFactory<TVertex> vertexFactory,
+             IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
             where TEdge : IEdge<TVertex>
             where TGraph : IMutableVertexAndEdgeListGraph<TVertex, TEdge>
         {
@@ -262,7 +248,7 @@ namespace QuikGraph.Serialization
             }
         }
 
-        private static void AddGraphMLSchema([NotNull] XmlReaderSettings settings)
+        private static void AddGraphMLSchema( XmlReaderSettings settings)
         {
             using (Stream xsdStream = typeof(GraphMLExtensions).Assembly.GetManifestResourceStream(typeof(GraphMLExtensions), "graphml.xsd"))
             {
@@ -278,9 +264,7 @@ namespace QuikGraph.Serialization
             if (args.Severity == XmlSeverityType.Error)
                 throw new InvalidOperationException(args.Message);
         }
-#endif
 
         #endregion
     }
 }
-#endif

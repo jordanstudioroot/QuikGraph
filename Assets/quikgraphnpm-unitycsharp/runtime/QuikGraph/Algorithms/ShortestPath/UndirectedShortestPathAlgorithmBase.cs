@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.ShortestPath
 {
@@ -11,9 +11,7 @@ namespace QuikGraph.Algorithms.ShortestPath
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public abstract class UndirectedShortestPathAlgorithmBase<TVertex, TEdge>
         : RootedAlgorithmBase<TVertex, IUndirectedGraph<TVertex, TEdge>>
         , IVertexColorizerAlgorithm<TVertex>
@@ -27,9 +25,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         protected UndirectedShortestPathAlgorithmBase(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             IAlgorithmComponent host,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : this(host, visitedGraph, edgeWeights, DistanceRelaxers.ShortestDistance)
         {
         }
@@ -42,10 +40,10 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         protected UndirectedShortestPathAlgorithmBase(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph)
         {
             Weights = edgeWeights ?? throw new ArgumentNullException(nameof(edgeWeights));
@@ -58,7 +56,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="vertex">The vertex.</param>
         /// <param name="distance">Associated distance.</param>
         /// <returns>True if the distance was found, false otherwise.</returns>
-        public bool TryGetDistance([JBNotNull] TVertex vertex, out double distance)
+        public bool TryGetDistance( TVertex vertex, out double distance)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -76,8 +74,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <summary>
         /// Gets the function that gives access to distances from a vertex.
         /// </summary>
-        [JBPure]
-        [JBNotNull]
+        
+        
         protected Func<TVertex, double> DistancesIndexGetter()
         {
             return AlgorithmExtensions.GetIndexer(Distances);
@@ -86,13 +84,13 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <summary>
         /// Function that given an edge return the weight of this edge.
         /// </summary>
-        [JBNotNull]
+        
         public Func<TEdge, double> Weights { get; }
 
         /// <summary>
         /// Distance relaxer.
         /// </summary>
-        [JBNotNull]
+        
         public IDistanceRelaxer DistanceRelaxer { get; }
 
         #region AlgorithmBase<TGraph>
@@ -137,7 +135,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         /// <param name="edge">Concerned edge.</param>
         /// <param name="reversed">Indicates if the edge is reversed.</param>
-        protected virtual void OnTreeEdge([JBNotNull] TEdge edge, bool reversed)
+        protected virtual void OnTreeEdge( TEdge edge, bool reversed)
         {
             Debug.Assert(edge != null);
 

@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Collections
 {
@@ -22,16 +22,16 @@ namespace QuikGraph.Collections
         /// Creates a new set for the <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The value.</param>
-        void MakeSet([JBNotNull] T value);
+        void MakeSet( T value);
 
         /// <summary>
         /// Finds the set containing the <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Value to search.</param>
         /// <returns>Root value of the set.</returns>
-        [JBPure]
-        [JBNotNull]
-        T FindSet([JBNotNull] T value);
+        
+        
+        T FindSet( T value);
 
         /// <summary>
         /// Gets a value indicating if left and right are contained in the same set.
@@ -39,8 +39,8 @@ namespace QuikGraph.Collections
         /// <param name="left">Left value.</param>
         /// <param name="right">Right value.</param>
         /// <returns>True if both values are in the same set, false otherwise.</returns>
-        [JBPure]
-        bool AreInSameSet([JBNotNull] T left, [JBNotNull] T right);
+        
+        bool AreInSameSet( T left,  T right);
 
         /// <summary>
         /// Merges the sets from the two values.
@@ -49,14 +49,14 @@ namespace QuikGraph.Collections
         /// <param name="right">Right value.</param>
         /// <returns>True if <paramref name="left"/> and <paramref name="right"/> were unioned,
         /// false if they already belong to the same set.</returns>
-        bool Union([JBNotNull] T left, [JBNotNull] T right);
+        bool Union( T left,  T right);
 
         /// <summary>
         /// Gets a value indicating whether the value is in the data structure.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>True if the value is already in the set, false otherwise.</returns>
-        [JBPure]
-        bool Contains([JBNotNull] T value);
+        
+        bool Contains( T value);
     }
 }

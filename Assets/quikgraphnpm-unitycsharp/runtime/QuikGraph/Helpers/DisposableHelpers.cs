@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Utils
 {
@@ -14,8 +14,8 @@ namespace QuikGraph.Utils
         /// </summary>
         /// <param name="action">The action to call.</param>
         /// <returns>A <see cref="IDisposable"/> object to give to a using clause.</returns>
-        [JBNotNull]
-        public static IDisposable Finally([JBNotNull] Action action)
+        
+        public static IDisposable Finally( Action action)
         {
             return new FinallyScope(action);
         }
@@ -24,7 +24,7 @@ namespace QuikGraph.Utils
         {
             private Action _action;
 
-            public FinallyScope([JBNotNull] Action action)
+            public FinallyScope( Action action)
             {
                 Debug.Assert(action != null);
 

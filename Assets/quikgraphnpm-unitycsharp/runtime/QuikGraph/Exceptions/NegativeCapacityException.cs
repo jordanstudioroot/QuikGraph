@@ -1,16 +1,14 @@
-#if SUPPORTS_SERIALIZATION
+
 using System;
 using System.Runtime.Serialization;
-#endif
 
 namespace QuikGraph
 {
     /// <summary>
     /// Exception raised when an algorithm find a negative capacity in a graph.
     /// </summary>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public class NegativeCapacityException : QuikGraphException
     {
         /// <summary>
@@ -21,7 +19,7 @@ namespace QuikGraph
         {
         }
 
-#if SUPPORTS_SERIALIZATION
+
         /// <summary>
         /// Initializes a new instance of <see cref="NegativeCapacityException"/> with serialized data.
         /// </summary>
@@ -32,6 +30,5 @@ namespace QuikGraph
             : base(info, context)
         {
         }
-#endif
     }
 }

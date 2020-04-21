@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -19,14 +19,14 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">Vertex to add.</param>
         /// <returns>True if the vertex was added, false otherwise.</returns>
-        bool AddVertex([JBNotNull] TVertex vertex);
+        bool AddVertex( TVertex vertex);
 
         /// <summary>
         /// Adds given vertices to this set.
         /// </summary>
         /// <param name="vertices">Vertices to add.</param>
         /// <returns>The number of vertex added.</returns>
-        int AddVertexRange([JBNotNull, ItemNotNull] IEnumerable<TVertex> vertices);
+        int AddVertexRange( IEnumerable<TVertex> vertices);
 
         /// <summary>
         /// Fired when a vertex is removed from this set.
@@ -38,13 +38,13 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">Vertex to remove.</param>
         /// <returns>True if the vertex was removed, false otherwise.</returns>
-        bool RemoveVertex([JBNotNull] TVertex vertex);
+        bool RemoveVertex( TVertex vertex);
 
         /// <summary>
         /// Removes all vertices matching the given <paramref name="predicate"/>.
         /// </summary>
         /// <param name="predicate">Predicate to check on each vertex.</param>
         /// <returns>The number of vertex removed.</returns>
-        int RemoveVertexIf([JBNotNull, JBInstantHandle] VertexPredicate<TVertex> predicate);
+        int RemoveVertexIf( VertexPredicate<TVertex> predicate);
     }
 }

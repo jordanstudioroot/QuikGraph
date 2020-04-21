@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -22,12 +22,12 @@ namespace QuikGraph
         /// <param name="vertexEquality">Vertex equality comparer.</param>
         /// <param name="edgeEquality">Edge equality comparer.</param>
         /// <returns>True if both graphs are equal, false otherwise.</returns>
-        [JBPure]
+        
         public static bool Equate<TVertex, TEdge>(
-            [JBCanBeNull] IVertexAndEdgeListGraph<TVertex, TEdge> g,
-            [JBCanBeNull] IVertexAndEdgeListGraph<TVertex, TEdge> h,
-            [JBNotNull] IEqualityComparer<TVertex> vertexEquality,
-            [JBNotNull] IEqualityComparer<TEdge> edgeEquality)
+             IVertexAndEdgeListGraph<TVertex, TEdge> g,
+             IVertexAndEdgeListGraph<TVertex, TEdge> h,
+             IEqualityComparer<TVertex> vertexEquality,
+             IEqualityComparer<TEdge> edgeEquality)
             where TEdge : IEdge<TVertex>
         {
             if (vertexEquality is null)
@@ -73,10 +73,10 @@ namespace QuikGraph
         /// <param name="g">First graph to compare.</param>
         /// <param name="h">Second graph to compare.</param>
         /// <returns>True if both graphs are equal, false otherwise.</returns>
-        [JBPure]
+        
         public static bool Equate<TVertex, TEdge>(
-            [JBCanBeNull] IVertexAndEdgeListGraph<TVertex, TEdge> g,
-            [JBCanBeNull] IVertexAndEdgeListGraph<TVertex, TEdge> h)
+             IVertexAndEdgeListGraph<TVertex, TEdge> g,
+             IVertexAndEdgeListGraph<TVertex, TEdge> h)
             where TEdge : IEdge<TVertex>
         {
             return Equate(g, h, EqualityComparer<TVertex>.Default, EqualityComparer<TEdge>.Default);

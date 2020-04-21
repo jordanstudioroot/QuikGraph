@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -15,30 +15,27 @@ namespace QuikGraph
     /// </remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
-    public sealed class ArrayBidirectionalGraph<TVertex, TEdge> : IBidirectionalGraph<TVertex, TEdge>
-#if SUPPORTS_CLONEABLE
-        , ICloneable
-#endif
+    public sealed class ArrayBidirectionalGraph<TVertex, TEdge> :
+    IBidirectionalGraph<TVertex, TEdge>,
+    ICloneable
         where TEdge : IEdge<TVertex>
     {
-#if SUPPORTS_SERIALIZATION
+
         [Serializable]
-#endif
         private struct InOutEdges
         {
-            [JBNotNull, ItemNotNull]
+            
             public TEdge[] OutEdges { get; }
 
-            [JBNotNull, ItemNotNull]
+            
             public TEdge[] InEdges { get; }
 
             public InOutEdges(
-                [JBNotNull, ItemNotNull] TEdge[] outEdges,
-                [JBNotNull, ItemNotNull] TEdge[] inEdges)
+                 TEdge[] outEdges,
+                 TEdge[] inEdges)
             {
                 OutEdges = outEdges;
                 InEdges = inEdges;
@@ -49,7 +46,7 @@ namespace QuikGraph
         /// Initializes a new instance of the <see cref="ArrayBidirectionalGraph{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        public ArrayBidirectionalGraph([JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph)
+        public ArrayBidirectionalGraph( IBidirectionalGraph<TVertex, TEdge> visitedGraph)
         {
             if (visitedGraph is null)
                 throw new ArgumentNullException(nameof(visitedGraph));
@@ -83,7 +80,7 @@ namespace QuikGraph
         /// <inheritdoc />
         public int VertexCount => _vertexEdges.Count;
 
-        [JBNotNull]
+        
         private readonly Dictionary<TVertex, InOutEdges> _vertexEdges;
 
         /// <inheritdoc />
@@ -310,20 +307,18 @@ namespace QuikGraph
         /// Clones this graph, returns this instance because this class is immutable.
         /// </summary>
         /// <returns>This graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public ArrayBidirectionalGraph<TVertex, TEdge> Clone()
         {
             return this;
         }
 
-#if SUPPORTS_CLONEABLE
         /// <inheritdoc />
         object ICloneable.Clone()
         {
             return Clone();
         }
-#endif
 
         #endregion
     }

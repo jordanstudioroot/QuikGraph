@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -13,7 +13,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">Vertex to check.</param>
         /// <returns>True if the specified <paramref name="vertex"/> is contained in this set, false otherwise.</returns>
-        [JBPure]
-        bool ContainsVertex([JBNotNull] TVertex vertex);
+        
+        bool ContainsVertex( TVertex vertex);
     }
 }

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -25,7 +25,7 @@ namespace QuikGraph
         /// <summary>
         /// Gets the edges.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         IEnumerable<TEdge> Edges { get; }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edge">Edge to check.</param>
         /// <returns>True if the specified <paramref name="edge"/> is contained in this set, false otherwise.</returns>
-        [JBPure]
-        bool ContainsEdge([JBNotNull] TEdge edge);
+        
+        bool ContainsEdge( TEdge edge);
     }
 }

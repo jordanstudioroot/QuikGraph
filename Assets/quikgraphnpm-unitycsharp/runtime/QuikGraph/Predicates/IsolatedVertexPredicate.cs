@@ -1,5 +1,5 @@
 using System;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Predicates
 {
@@ -11,14 +11,14 @@ namespace QuikGraph.Predicates
     public sealed class IsolatedVertexPredicate<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly IBidirectionalGraph<TVertex, TEdge> _visitedGraph;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IsolatedVertexPredicate{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to consider.</param>
-        public IsolatedVertexPredicate([JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph)
+        public IsolatedVertexPredicate( IBidirectionalGraph<TVertex, TEdge> visitedGraph)
         {
             _visitedGraph = visitedGraph ?? throw new ArgumentNullException(nameof(visitedGraph));
         }
@@ -29,8 +29,8 @@ namespace QuikGraph.Predicates
         /// <remarks>Check if the implemented predicate is matched.</remarks>
         /// <param name="vertex">Vertex to check.</param>
         /// <returns>True if the vertex is isolated, false otherwise.</returns>
-        [JBPure]
-        public bool Test([JBNotNull] TVertex vertex)
+        
+        public bool Test( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));

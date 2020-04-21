@@ -2,14 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Search;
 using QuikGraph.Algorithms.Services;
-#if !SUPPORTS_SORTEDSET
-using Collections = QuikGraph.Collections;
-#else
-using Collections = System.Collections;
-#endif
+
 
 namespace QuikGraph.Algorithms.ConnectedComponents
 {
@@ -23,15 +18,13 @@ namespace QuikGraph.Algorithms.ConnectedComponents
     /// </remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class WeaklyConnectedComponentsAlgorithm<TVertex, TEdge>
         : AlgorithmBase<IVertexListGraph<TVertex, TEdge>>
         , IConnectedComponentAlgorithm<TVertex, TEdge, IVertexListGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly Dictionary<int, int> _componentEquivalences = new Dictionary<int, int>();
 
         private int _currentComponent;
@@ -41,7 +34,7 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
         public WeaklyConnectedComponentsAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph)
+             IVertexListGraph<TVertex, TEdge> visitedGraph)
             : this(visitedGraph, new Dictionary<TVertex, int>())
         {
         }
@@ -52,8 +45,8 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="components">Graph components.</param>
         public WeaklyConnectedComponentsAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             IDictionary<TVertex, int> components)
             : this(null, visitedGraph, components)
         {
         }
@@ -65,21 +58,21 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="components">Graph components.</param>
         public WeaklyConnectedComponentsAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             IAlgorithmComponent host,
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             IDictionary<TVertex, int> components)
             : base(host, visitedGraph)
         {
             Components = components ?? throw new ArgumentNullException(nameof(components));
         }
 
-        [ItemNotNull]
+        
         private BidirectionalGraph<TVertex, TEdge>[] _graphs;
 
         /// <summary>
         /// Weakly connected components.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public BidirectionalGraph<TVertex, TEdge>[] Graphs
         {
             get
@@ -227,7 +220,7 @@ namespace QuikGraph.Algorithms.ConnectedComponents
 
         #endregion
 
-        private void OnStartVertex([JBNotNull] TVertex vertex)
+        private void OnStartVertex( TVertex vertex)
         {
             // We are looking on a new tree
             _currentComponent = _componentEquivalences.Count;
@@ -236,13 +229,13 @@ namespace QuikGraph.Algorithms.ConnectedComponents
             Components.Add(vertex, _currentComponent);
         }
 
-        private void OnEdgeDiscovered([JBNotNull] TEdge edge)
+        private void OnEdgeDiscovered( TEdge edge)
         {
             // New edge, we store with the current component number
             Components.Add(edge.Target, _currentComponent);
         }
 
-        private void OnForwardOrCrossEdge([JBNotNull] TEdge edge)
+        private void OnForwardOrCrossEdge( TEdge edge)
         {
             // We have touched another tree, updating count and current component
             int otherComponent = GetComponentEquivalence(Components[edge.Target]);

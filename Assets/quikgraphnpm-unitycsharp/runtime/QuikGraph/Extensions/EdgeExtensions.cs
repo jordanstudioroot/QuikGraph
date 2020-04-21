@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-#if !SUPPORTS_TYPE_FULL_FEATURES
-using System.Reflection;
-#endif
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -20,8 +17,8 @@ namespace QuikGraph
         /// <typeparam name="TVertex">Vertex type.</typeparam>
         /// <param name="edge">Edge to check.</param>
         /// <returns>True if edge is a self one, false otherwise.</returns>
-        [JBPure]
-        public static bool IsSelfEdge<TVertex>([JBNotNull] this IEdge<TVertex> edge)
+        
+        public static bool IsSelfEdge<TVertex>( this IEdge<TVertex> edge)
         {
             if (edge is null)
                 throw new ArgumentNullException(nameof(edge));
@@ -36,9 +33,9 @@ namespace QuikGraph
         /// <param name="edge">The edge.</param>
         /// <param name="vertex">The source or target vertex of the <paramref name="edge"/>.</param>
         /// <returns>The other edge vertex.</returns>
-        [JBPure]
-        [JBNotNull]
-        public static TVertex GetOtherVertex<TVertex>([JBNotNull] this IEdge<TVertex> edge, [JBNotNull] TVertex vertex)
+        
+        
+        public static TVertex GetOtherVertex<TVertex>( this IEdge<TVertex> edge,  TVertex vertex)
         {
             if (edge is null)
                 throw new ArgumentNullException(nameof(edge));
@@ -56,8 +53,8 @@ namespace QuikGraph
         /// <param name="edge">The edge.</param>
         /// <param name="vertex">Source or target <paramref name="edge"/> vertex.</param>
         /// <returns>True if the <paramref name="vertex"/> is adjacent to this <paramref name="edge"/>, false otherwise.</returns>
-        [JBPure]
-        public static bool IsAdjacent<TVertex>([JBNotNull] this IEdge<TVertex> edge, [JBNotNull] TVertex vertex)
+        
+        public static bool IsAdjacent<TVertex>( this IEdge<TVertex> edge,  TVertex vertex)
         {
             if (edge is null)
                 throw new ArgumentNullException(nameof(edge));
@@ -75,8 +72,8 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="path">Sequence of edges.</param>
         /// <returns>True if the set makes a complete path, false otherwise.</returns>
-        [JBPure]
-        public static bool IsPath<TVertex, TEdge>([JBNotNull, ItemNotNull] this IEnumerable<TEdge> path)
+        
+        public static bool IsPath<TVertex, TEdge>( this IEnumerable<TEdge> path)
             where TEdge : IEdge<TVertex>
         {
             if (path is null)
@@ -110,8 +107,8 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="path">Sequence of edges.</param>
         /// <returns>True if the set makes a cycle, false otherwise.</returns>
-        [JBPure]
-        public static bool HasCycles<TVertex, TEdge>([JBNotNull, ItemNotNull] this IEnumerable<TEdge> path)
+        
+        public static bool HasCycles<TVertex, TEdge>( this IEnumerable<TEdge> path)
             where TEdge : IEdge<TVertex>
         {
             if (path is null)
@@ -147,8 +144,8 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="path">Path of edges.</param>
         /// <returns>True if the path makes a cycle, false otherwise.</returns>
-        [JBPure]
-        public static bool IsPathWithoutCycles<TVertex, TEdge>([JBNotNull, ItemNotNull] this IEnumerable<TEdge> path)
+        
+        public static bool IsPathWithoutCycles<TVertex, TEdge>( this IEnumerable<TEdge> path)
             where TEdge : IEdge<TVertex>
         {
             if (path is null)
@@ -189,8 +186,8 @@ namespace QuikGraph
         /// <typeparam name="TVertex">Vertex type.</typeparam>
         /// <param name="edge">The edge.</param>
         /// <returns>A <see cref="SEquatableEdge{TVertex}"/>.</returns>
-        [JBPure]
-        public static SEquatableEdge<TVertex> ToVertexPair<TVertex>([JBNotNull] this IEdge<TVertex> edge)
+        
+        public static SEquatableEdge<TVertex> ToVertexPair<TVertex>( this IEdge<TVertex> edge)
         {
             if (edge is null)
                 throw new ArgumentNullException(nameof(edge));
@@ -206,11 +203,11 @@ namespace QuikGraph
         /// <param name="root">Root vertex.</param>
         /// <param name="vertex">Ending vertex.</param>
         /// <returns>True if the <paramref name="root"/> is a predecessor of the <paramref name="vertex"/>.</returns>
-        [JBPure]
+        
         public static bool IsPredecessor<TVertex, TEdge>(
-            [JBNotNull] this IDictionary<TVertex, TEdge> predecessors,
-            [JBNotNull] TVertex root,
-            [JBNotNull] TVertex vertex)
+             this IDictionary<TVertex, TEdge> predecessors,
+             TVertex root,
+             TVertex vertex)
             where TEdge : IEdge<TVertex>
         {
             if (predecessors is null)
@@ -245,13 +242,11 @@ namespace QuikGraph
         /// <param name="predecessors">Predecessors map.</param>
         /// <param name="vertex">Path ending vertex.</param>
         /// <param name="path">Path to the ending vertex.</param>
-        /// <returns>True if a path was found, false otherwise.</returns>
-        [JBPure]
-        [JBContractAnnotation("=> true, path:notnull;=> false, path:null")]
+        /// <returns>True if a path was found, false otherwise.</returns>        
         public static bool TryGetPath<TVertex, TEdge>(
-            [JBNotNull] this IDictionary<TVertex, TEdge> predecessors,
-            [JBNotNull] TVertex vertex,
-            [ItemNotNull] out IEnumerable<TEdge> path)
+             this IDictionary<TVertex, TEdge> predecessors,
+             TVertex vertex,
+             out IEnumerable<TEdge> path)
             where TEdge : IEdge<TVertex>
         {
             if (predecessors is null)
@@ -291,8 +286,8 @@ namespace QuikGraph
         /// <typeparam name="TVertex">Vertex type.</typeparam>
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <returns>The best edge equality comparer.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static EdgeEqualityComparer<TVertex> GetUndirectedVertexEquality<TVertex, TEdge>()
         {
             if (typeof(IUndirectedEdge<TVertex>).IsAssignableFrom(typeof(TEdge)))
@@ -311,11 +306,11 @@ namespace QuikGraph
         /// <param name="target">Target vertex.</param>
         /// <returns>True if both <paramref name="source"/> and
         /// <paramref name="target"/> match edge vertices, false otherwise.</returns>
-        [JBPure]
+        
         public static bool UndirectedVertexEquality<TVertex>(
-            [JBNotNull] this IEdge<TVertex> edge,
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target)
+             this IEdge<TVertex> edge,
+             TVertex source,
+             TVertex target)
         {
             if (edge is null)
                 throw new ArgumentNullException(nameof(edge));
@@ -327,11 +322,11 @@ namespace QuikGraph
             return UndirectedVertexEqualityInternal(edge, source, target);
         }
 
-        [JBPure]
+        
         internal static bool UndirectedVertexEqualityInternal<TVertex>(
-            [JBNotNull] this IEdge<TVertex> edge,
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target)
+             this IEdge<TVertex> edge,
+             TVertex source,
+             TVertex target)
         {
             Debug.Assert(edge != null);
             Debug.Assert(source != null);
@@ -353,11 +348,11 @@ namespace QuikGraph
         /// <param name="target">Target vertex.</param>
         /// <returns>True if both <paramref name="source"/> and
         /// <paramref name="target"/> match edge vertices, false otherwise.</returns>
-        [JBPure]
+        
         public static bool SortedVertexEquality<TVertex>(
-            [JBNotNull] this IEdge<TVertex> edge,
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target)
+             this IEdge<TVertex> edge,
+             TVertex source,
+             TVertex target)
         {
             if (edge is null)
                 throw new ArgumentNullException(nameof(edge));
@@ -369,11 +364,11 @@ namespace QuikGraph
             return SortedVertexEqualityInternal(edge, source, target);
         }
 
-        [JBPure]
+        
         internal static bool SortedVertexEqualityInternal<TVertex>(
-            [JBNotNull] this IEdge<TVertex> edge,
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target)
+             this IEdge<TVertex> edge,
+             TVertex source,
+             TVertex target)
         {
             Debug.Assert(edge != null);
             Debug.Assert(source != null);
@@ -390,10 +385,10 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="edges">Edges to reversed.</param>
         /// <returns>Reversed edges.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static IEnumerable<SReversedEdge<TVertex, TEdge>> ReverseEdges<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] IEnumerable<TEdge> edges)
+             IEnumerable<TEdge> edges)
             where TEdge : IEdge<TVertex>
         {
             if (edges is null)

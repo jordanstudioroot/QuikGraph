@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -12,9 +12,8 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
     public class ClusteredAdjacencyGraph<TVertex, TEdge>
         : IVertexAndEdgeListGraph<TVertex, TEdge>
@@ -26,7 +25,7 @@ namespace QuikGraph
         /// Initializes a new instance of the <see cref="ClusteredAdjacencyGraph{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="wrappedGraph">Graph to wrap.</param>
-        public ClusteredAdjacencyGraph([JBNotNull] AdjacencyGraph<TVertex, TEdge> wrappedGraph)
+        public ClusteredAdjacencyGraph( AdjacencyGraph<TVertex, TEdge> wrappedGraph)
         {
             Parent = null;
             Wrapped = wrappedGraph ?? throw new ArgumentNullException(nameof(wrappedGraph));
@@ -38,7 +37,7 @@ namespace QuikGraph
         /// Initializes a new instance of the <see cref="ClusteredAdjacencyGraph{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="parentGraph">Parent graph.</param>
-        public ClusteredAdjacencyGraph([JBNotNull] ClusteredAdjacencyGraph<TVertex, TEdge> parentGraph)
+        public ClusteredAdjacencyGraph( ClusteredAdjacencyGraph<TVertex, TEdge> parentGraph)
         {
             Parent = parentGraph ?? throw new ArgumentNullException(nameof(parentGraph));
             Wrapped = new AdjacencyGraph<TVertex, TEdge>(parentGraph.AllowParallelEdges);
@@ -48,13 +47,13 @@ namespace QuikGraph
         /// <summary>
         /// Parent graph.
         /// </summary>
-        [JBCanBeNull]
+        
         public ClusteredAdjacencyGraph<TVertex, TEdge> Parent { get; }
 
         /// <summary>
         /// Wrapped graph.
         /// </summary>
-        [JBNotNull]
+        
         protected AdjacencyGraph<TVertex, TEdge> Wrapped { get; }
 
         /// <summary>
@@ -69,13 +68,13 @@ namespace QuikGraph
         /// <summary>
         /// Gets the type of vertices.
         /// </summary>
-        [JBNotNull]
+        
         public Type VertexType => typeof(TVertex);
 
         /// <summary>
         /// Gets the type of edges.
         /// </summary>
-        [JBNotNull]
+        
         public Type EdgeType => typeof(TEdge);
 
         #region IGraph<TVertex,TEdge>
@@ -93,7 +92,7 @@ namespace QuikGraph
         /// <inheritdoc />
         public bool Collapsed { get; set; }
 
-        [JBNotNull]
+        
         private readonly ArrayList _clusters;
 
         /// <inheritdoc />
@@ -229,7 +228,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">Vertex to add.</param>
         /// <returns>True if the vertex was added, false otherwise.</returns>
-        public virtual bool AddVertex([JBNotNull] TVertex vertex)
+        public virtual bool AddVertex( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -248,7 +247,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertices">Vertices to add.</param>
         /// <returns>The number of vertex added.</returns>
-        public virtual int AddVertexRange([JBNotNull, ItemNotNull] IEnumerable<TVertex> vertices)
+        public virtual int AddVertexRange( IEnumerable<TVertex> vertices)
         {
             if (vertices is null)
                 throw new ArgumentNullException(nameof(vertices));
@@ -270,7 +269,7 @@ namespace QuikGraph
         /// Removes the given vertex from clusters.
         /// </summary>
         /// <param name="vertex">Vertex to remove.</param>
-        private void RemoveChildVertex([JBNotNull] TVertex vertex)
+        private void RemoveChildVertex( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -289,7 +288,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">Vertex to remove.</param>
         /// <returns>True if the vertex was removed, false otherwise.</returns>
-        public virtual bool RemoveVertex([JBNotNull] TVertex vertex)
+        public virtual bool RemoveVertex( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -309,7 +308,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="predicate">Predicate to check on each vertex.</param>
         /// <returns>The number of vertex removed.</returns>
-        public int RemoveVertexIf([JBNotNull, JBInstantHandle] VertexPredicate<TVertex> predicate)
+        public int RemoveVertexIf( VertexPredicate<TVertex> predicate)
         {
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
@@ -329,7 +328,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edge">The edge to add.</param>
         /// <returns>True if the edge was added, false otherwise.</returns>
-        public virtual bool AddVerticesAndEdge([JBNotNull] TEdge edge)
+        public virtual bool AddVerticesAndEdge( TEdge edge)
         {
             if (edge == null)
                 throw new ArgumentNullException(nameof(edge));
@@ -344,7 +343,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edges">Edges to add.</param>
         /// <returns>The number of edges added.</returns>
-        public int AddVerticesAndEdgeRange([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges)
+        public int AddVerticesAndEdgeRange( IEnumerable<TEdge> edges)
         {
             if (edges is null)
                 throw new ArgumentNullException(nameof(edges));
@@ -367,7 +366,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edge">An edge.</param>
         /// <returns>True if the edge was added, false otherwise.</returns>
-        public virtual bool AddEdge([JBNotNull] TEdge edge)
+        public virtual bool AddEdge( TEdge edge)
         {
             if (edge == null)
                 throw new ArgumentNullException(nameof(edge));
@@ -382,7 +381,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edges">Edges to add.</param>
         /// <returns>The number of edges successfully added to this graph.</returns>
-        public int AddEdgeRange([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges)
+        public int AddEdgeRange( IEnumerable<TEdge> edges)
         {
             if (edges is null)
                 throw new ArgumentNullException(nameof(edges));
@@ -400,7 +399,7 @@ namespace QuikGraph
             return count;
         }
 
-        private void RemoveChildEdge([JBNotNull] TEdge edge)
+        private void RemoveChildEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -419,7 +418,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edge">Edge to remove.</param>
         /// <returns>True if the <paramref name="edge"/> was successfully removed, false otherwise.</returns>
-        public virtual bool RemoveEdge([JBNotNull] TEdge edge)
+        public virtual bool RemoveEdge( TEdge edge)
         {
             if (edge == null)
                 throw new ArgumentNullException(nameof(edge));
@@ -439,7 +438,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="predicate">Predicate to check if an edge should be removed.</param>
         /// <returns>The number of edges removed.</returns>
-        public int RemoveEdgeIf([JBNotNull, JBInstantHandle] EdgePredicate<TVertex, TEdge> predicate)
+        public int RemoveEdgeIf( EdgePredicate<TVertex, TEdge> predicate)
         {
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
@@ -461,7 +460,7 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="predicate">Predicate to remove edges.</param>
         /// <returns>The number of removed edges.</returns>
-        public int RemoveOutEdgeIf([JBNotNull] TVertex vertex, [JBNotNull, JBInstantHandle] EdgePredicate<TVertex, TEdge> predicate)
+        public int RemoveOutEdgeIf( TVertex vertex,  EdgePredicate<TVertex, TEdge> predicate)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -478,7 +477,7 @@ namespace QuikGraph
         /// Clears the out-edges of the given <paramref name="vertex"/>
         /// </summary>
         /// <param name="vertex">The vertex.</param>
-        public void ClearOutEdges([JBNotNull] TVertex vertex)
+        public void ClearOutEdges( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));

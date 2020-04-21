@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-#if SUPPORTS_AGGRESSIVE_INLINING
 using System.Runtime.CompilerServices;
-#endif
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms
 {
@@ -15,13 +13,11 @@ namespace QuikGraph.Algorithms
     /// <remarks>Requires a starting vertex (root).</remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TGraph">Graph type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public abstract class RootedAlgorithmBase<TVertex, TGraph> : AlgorithmBase<TGraph>
         where TGraph : IImplicitVertexSet<TVertex>
     {
-        [JBCanBeNull]
+        
         private TVertex _root;
 
         private bool _hasRootVertex;
@@ -32,8 +28,8 @@ namespace QuikGraph.Algorithms
         /// <param name="host">Host to use if set, otherwise use this reference.</param>
         /// <param name="visitedGraph">Graph to visit.</param>
         protected RootedAlgorithmBase(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] TGraph visitedGraph)
+             IAlgorithmComponent host,
+             TGraph visitedGraph)
             : base(host, visitedGraph)
         {
         }
@@ -43,7 +39,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="root">Root vertex if set, otherwise null.</param>
         /// <returns>True if the root vertex was set, false otherwise.</returns>
-        [JBPure]
+        
         public bool TryGetRootVertex(out TVertex root)
         {
             if (_hasRootVertex)
@@ -60,7 +56,7 @@ namespace QuikGraph.Algorithms
         /// Sets the root vertex.
         /// </summary>
         /// <param name="root">Root vertex.</param>
-        public void SetRootVertex([JBNotNull] TVertex root)
+        public void SetRootVertex( TVertex root)
         {
             if (root == null)
                 throw new ArgumentNullException(nameof(root));
@@ -95,7 +91,7 @@ namespace QuikGraph.Algorithms
         /// Called on each root vertex change.
         /// </summary>
         /// <param name="args"><see cref="EventArgs.Empty"/>.</param>
-        protected virtual void OnRootVertexChanged([JBNotNull] EventArgs args)
+        protected virtual void OnRootVertexChanged( EventArgs args)
         {
             Debug.Assert(args != null);
 
@@ -111,7 +107,7 @@ namespace QuikGraph.Algorithms
         /// <exception cref="VertexNotFoundException">
         /// If the set root vertex is not part of the <see cref="AlgorithmBase{TGraph}.VisitedGraph"/>.
         /// </exception>
-        [JBNotNull]
+        
         protected TVertex GetAndAssertRootInGraph()
         {
             if (!TryGetRootVertex(out TVertex root))
@@ -127,10 +123,12 @@ namespace QuikGraph.Algorithms
         /// <exception cref="VertexNotFoundException">
         /// If the set root vertex is not part of the <see cref="AlgorithmBase{TGraph}.VisitedGraph"/>.
         /// </exception>
-#if SUPPORTS_AGGRESSIVE_INLINING
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        protected void AssertRootInGraph([JBNotNull] TVertex root)
+
+// https://stackoverflow.com/questions/43060376/aggressiveinlining-doesnt-exist
+// Same as [MethodImpl(MethodImplOptions.AggressiveInlining)] but compatible
+// with all ver of .NET.
+        [MethodImpl(256)]
+        protected void AssertRootInGraph( TVertex root)
         {
             if (!VisitedGraph.ContainsVertex(root))
                 throw new VertexNotFoundException("Root vertex is not part of the graph.");
@@ -140,7 +138,7 @@ namespace QuikGraph.Algorithms
         /// Runs the algorithm with the given <paramref name="root"/> vertex.
         /// </summary>
         /// <param name="root">Root vertex.</param>
-        public virtual void Compute([JBNotNull] TVertex root)
+        public virtual void Compute( TVertex root)
         {
             SetRootVertex(root);
             if (!VisitedGraph.ContainsVertex(root))

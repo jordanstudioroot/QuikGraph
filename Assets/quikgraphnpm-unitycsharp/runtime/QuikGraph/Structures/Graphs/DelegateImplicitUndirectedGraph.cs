@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -10,9 +10,8 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public class DelegateImplicitUndirectedGraph<TVertex, TEdge> : IImplicitUndirectedGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
@@ -26,7 +25,7 @@ namespace QuikGraph
         /// to parallel edges due to the delegated implementation.
         /// </param>
         public DelegateImplicitUndirectedGraph(
-            [JBNotNull] TryFunc<TVertex, IEnumerable<TEdge>> tryGetAdjacentEdges,
+             TryFunc<TVertex, IEnumerable<TEdge>> tryGetAdjacentEdges,
             bool allowParallelEdges = true)
         {
             _tryGetAdjacencyEdges = tryGetAdjacentEdges ?? throw new ArgumentNullException(nameof(tryGetAdjacentEdges));
@@ -40,7 +39,7 @@ namespace QuikGraph
         /// <summary>
         /// Getter of adjacent edges.
         /// </summary>
-        [JBNotNull]
+        
         private readonly TryFunc<TVertex, IEnumerable<TEdge>> _tryGetAdjacencyEdges;
 
         #region IGraph<TVertex,TEdge>
@@ -55,8 +54,8 @@ namespace QuikGraph
 
         #region IImplicitVertexSet<TVertex>
 
-        [JBPure]
-        internal virtual bool ContainsVertexInternal([JBNotNull] TVertex vertex)
+        
+        internal virtual bool ContainsVertexInternal( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -86,9 +85,9 @@ namespace QuikGraph
             return !AdjacentEdges(vertex).Any();
         }
 
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        internal virtual IEnumerable<TEdge> AdjacentEdgesInternal([JBNotNull] TVertex vertex)
+        
+        
+        internal virtual IEnumerable<TEdge> AdjacentEdgesInternal( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -132,8 +131,8 @@ namespace QuikGraph
             return false;
         }
 
-        [JBPure]
-        internal virtual bool TryGetAdjacentEdgesInternal([JBNotNull] TVertex vertex, out IEnumerable<TEdge> edges)
+        
+        internal virtual bool TryGetAdjacentEdgesInternal( TVertex vertex, out IEnumerable<TEdge> edges)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -147,14 +146,14 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="edges">Edges found, otherwise null.</param>
         /// <returns>True if <paramref name="vertex"/> was found or/and edges were found, false otherwise.</returns>
-        [JBPure]
-        public bool TryGetAdjacentEdges([JBNotNull] TVertex vertex, out IEnumerable<TEdge> edges)
+        
+        public bool TryGetAdjacentEdges( TVertex vertex, out IEnumerable<TEdge> edges)
         {
             return TryGetAdjacentEdgesInternal(vertex, out edges);
         }
 
-        [JBPure]
-        internal virtual bool ContainsEdgeInternal([JBNotNull] TVertex source, [JBNotNull] TVertex target)
+        
+        internal virtual bool ContainsEdgeInternal( TVertex source,  TVertex target)
         {
             return TryGetEdge(source, target, out _);
         }

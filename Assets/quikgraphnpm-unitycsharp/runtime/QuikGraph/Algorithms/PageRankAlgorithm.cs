@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Predicates;
 
@@ -12,9 +12,7 @@ namespace QuikGraph.Algorithms.Ranking
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class PageRankAlgorithm<TVertex, TEdge> : AlgorithmBase<IBidirectionalGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
@@ -22,7 +20,7 @@ namespace QuikGraph.Algorithms.Ranking
         /// Initializes a new instance of the <see cref="PageRankAlgorithm{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        public PageRankAlgorithm([JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph)
+        public PageRankAlgorithm( IBidirectionalGraph<TVertex, TEdge> visitedGraph)
             : base(visitedGraph)
         {
         }
@@ -30,7 +28,7 @@ namespace QuikGraph.Algorithms.Ranking
         /// <summary>
         /// Ranks per vertices.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, double> Ranks { get; private set; } = new Dictionary<TVertex, double>();
 
         private double _damping = 0.85;
@@ -164,7 +162,7 @@ namespace QuikGraph.Algorithms.Ranking
         /// Gets the sum of all ranks.
         /// </summary>
         /// <returns>Ranks sum.</returns>
-        [JBPure]
+        
         public double GetRanksSum()
         {
             return Ranks.Values.Sum();
@@ -174,7 +172,7 @@ namespace QuikGraph.Algorithms.Ranking
         /// Gets the rank average.
         /// </summary>
         /// <returns>Rank average.</returns>
-        [JBPure]
+        
         public double GetRanksMean()
         {
             return GetRanksSum() / Ranks.Count;

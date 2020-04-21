@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.ConnectedComponents;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.Condensation
 {
@@ -20,7 +20,7 @@ namespace QuikGraph.Algorithms.Condensation
         /// Initializes a new instance of the <see cref="CondensationGraphAlgorithm{TVertex,TEdge,TGraph}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        public CondensationGraphAlgorithm([JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
+        public CondensationGraphAlgorithm( IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
             : base(visitedGraph)
         {
         }
@@ -107,8 +107,8 @@ namespace QuikGraph.Algorithms.Condensation
 
         #endregion
 
-        [JBPure]
-        private int ComputeComponentCount([JBNotNull] IDictionary<TVertex, int> components)
+        
+        private int ComputeComponentCount( IDictionary<TVertex, int> components)
         {
             IConnectedComponentAlgorithm<TVertex, TEdge, IVertexListGraph<TVertex, TEdge>> componentAlgorithm;
             if (StronglyConnected)

@@ -1,45 +1,45 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.TSP
 {
     internal class Task<TVertex, TEdge>
         where TEdge : EquatableEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly BidirectionalGraph<TVertex, TEdge> _graph;
 
-        [JBNotNull]
+        
         private readonly IDictionary<EquatableEdge<TVertex>, double> _weight;
 
-        [JBNotNull]
+        
         public BidirectionalGraph<TVertex, TEdge> Path { get; }
 
-        [JBNotNull]
+        
         public string TaskName { get; }
 
         public double MinCost { get; private set; }
 
-        [JBNotNull]
+        
         public TaskPriority Priority { get; }
 
         public Task(
-            [JBNotNull] BidirectionalGraph<TVertex, TEdge> graph,
-            [JBNotNull] IDictionary<EquatableEdge<TVertex>, double> weights,
-            [JBNotNull] BidirectionalGraph<TVertex, TEdge> path,
+             BidirectionalGraph<TVertex, TEdge> graph,
+             IDictionary<EquatableEdge<TVertex>, double> weights,
+             BidirectionalGraph<TVertex, TEdge> path,
             double cost)
             : this(graph, weights, path, cost, "Init")
         {
         }
 
         public Task(
-            [JBNotNull] BidirectionalGraph<TVertex, TEdge> graph,
-            [JBNotNull] IDictionary<EquatableEdge<TVertex>, double> weights,
-            [JBNotNull] BidirectionalGraph<TVertex, TEdge> path,
+             BidirectionalGraph<TVertex, TEdge> graph,
+             IDictionary<EquatableEdge<TVertex>, double> weights,
+             BidirectionalGraph<TVertex, TEdge> path,
             double cost,
-            [JBNotNull] string taskName)
+             string taskName)
         {
             TaskName = taskName;
             _graph = new BidirectionalGraph<TVertex, TEdge>(graph);
@@ -156,7 +156,7 @@ namespace QuikGraph.Algorithms.TSP
             return sum;
         }
 
-        [JBNotNull, ItemNotNull]
+        
         private IEnumerable<TEdge> GetZeroEdges()
         {
             var zeros = new List<TEdge>();
@@ -171,12 +171,12 @@ namespace QuikGraph.Algorithms.TSP
             return zeros;
         }
 
-        [JBPure]
+        
         private double ComputeMaxCandidate(
-            [JBNotNull, ItemNotNull] IEnumerable<TEdge> row,
-            [JBNotNull, ItemNotNull] IEnumerable<TEdge> column,
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target)
+             IEnumerable<TEdge> row,
+             IEnumerable<TEdge> column,
+             TVertex source,
+             TVertex target)
         {
             return
                 row.Where(edge => !EqualityComparer<TVertex>.Default.Equals(edge.Target, target))

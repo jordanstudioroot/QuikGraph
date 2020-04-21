@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -19,8 +19,8 @@ namespace QuikGraph
         /// <param name="source">Source vertex.</param>
         /// <param name="target">Target vertex.</param>
         /// <returns>True if an edge exists, false otherwise.</returns>
-        [JBPure]
-        bool ContainsEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target);
+        
+        bool ContainsEdge( TVertex source,  TVertex target);
 
         /// <summary>
         /// Tries to get the edge that link
@@ -29,10 +29,8 @@ namespace QuikGraph
         /// <param name="source">Source vertex.</param>
         /// <param name="target">Target vertex.</param>
         /// <param name="edge">Edge found, otherwise null.</param>
-        /// <returns>True if an edge was found, false otherwise.</returns>
-        [JBPure]
-        [JBContractAnnotation("=> true, edge:notnull;=> false, edge:null")]
-        bool TryGetEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target, out TEdge edge);
+        /// <returns>True if an edge was found, false otherwise.</returns>        
+        bool TryGetEdge( TVertex source,  TVertex target, out TEdge edge);
 
         /// <summary>
         /// Tries to get edges that link
@@ -41,9 +39,7 @@ namespace QuikGraph
         /// <param name="source">Source vertex.</param>
         /// <param name="target">Target vertex.</param>
         /// <param name="edges">Edges found, otherwise null.</param>
-        /// <returns>True if at least an edge was found, false otherwise.</returns>
-        [JBPure]
-        [JBContractAnnotation("=> true, edges:notnull;=> false, edges:null")]
-        bool TryGetEdges([JBNotNull] TVertex source, [JBNotNull] TVertex target, [ItemNotNull] out IEnumerable<TEdge> edges);
+        /// <returns>True if at least an edge was found, false otherwise.</returns>        
+        bool TryGetEdges( TVertex source,  TVertex target,  out IEnumerable<TEdge> edges);
     }
 }

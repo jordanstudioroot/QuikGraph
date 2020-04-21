@@ -1,4 +1,3 @@
-#if SUPPORTS_GRAPHS_SERIALIZATION
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,9 +5,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Xml;
-using JetBrains.Annotations;
 using static QuikGraph.Serialization.ILHelpers;
 using static QuikGraph.Serialization.XmlConstants;
+
 
 namespace QuikGraph.Serialization
 {
@@ -41,38 +40,38 @@ namespace QuikGraph.Serialization
         #region Compiler
 
         private delegate void ReadVertexAttributesDelegate(
-            [NotNull] XmlReader reader,
-            [NotNull] string namespaceUri,
-            [NotNull] TVertex vertex);
+             XmlReader reader,
+             string namespaceUri,
+             TVertex vertex);
 
         private delegate void ReadEdgeAttributesDelegate(
-            [NotNull] XmlReader reader,
-            [NotNull] string namespaceUri,
-            [NotNull] TEdge edge);
+             XmlReader reader,
+             string namespaceUri,
+             TEdge edge);
 
         private delegate void ReadGraphAttributesDelegate(
-            [NotNull] XmlReader reader,
-            [NotNull] string namespaceUri,
-            [NotNull] TGraph graph);
+             XmlReader reader,
+             string namespaceUri,
+             TGraph graph);
 
         private static class ReadDelegateCompiler
         {
-            [NotNull]
+            
             public static ReadVertexAttributesDelegate VertexAttributesReader { get; }
 
-            [NotNull]
+            
             public static ReadEdgeAttributesDelegate EdgeAttributesReader { get; }
 
-            [NotNull]
+            
             public static ReadGraphAttributesDelegate GraphAttributesReader { get; }
 
-            [NotNull]
+            
             public static Action<TVertex> SetVertexDefault { get; }
 
-            [NotNull]
+            
             public static Action<TEdge> SetEdgeDefault { get; }
 
-            [NotNull]
+            
             public static Action<TGraph> SetGraphDefault { get; }
 
             static ReadDelegateCompiler()
@@ -108,10 +107,10 @@ namespace QuikGraph.Serialization
                         typeof(TGraph));
             }
 
-            [NotNull]
+            
             private static Delegate CreateSetDefaultDelegate(
-                [NotNull] Type delegateType,
-                [NotNull] Type elementType)
+                 Type delegateType,
+                 Type elementType)
             {
                 Debug.Assert(delegateType != null);
                 Debug.Assert(elementType != null);
@@ -155,10 +154,10 @@ namespace QuikGraph.Serialization
                 return method.CreateDelegate(delegateType);
             }
 
-            [NotNull]
+            
             private static Delegate CreateReadDelegate(
-                [NotNull] Type delegateType,
-                [NotNull] Type elementType)
+                 Type delegateType,
+                 Type elementType)
             {
                 Debug.Assert(delegateType != null);
                 Debug.Assert(elementType != null);
@@ -252,10 +251,10 @@ namespace QuikGraph.Serialization
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public void Deserialize(
-            [NotNull] XmlReader reader,
-            [NotNull] TGraph graph,
-            [NotNull] IdentifiableVertexFactory<TVertex> vertexFactory,
-            [NotNull] IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
+             XmlReader reader,
+             TGraph graph,
+             IdentifiableVertexFactory<TVertex> vertexFactory,
+             IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
         {
             if (reader is null)
                 throw new ArgumentNullException(nameof(reader));
@@ -272,26 +271,26 @@ namespace QuikGraph.Serialization
 
         private class ReaderWorker
         {
-            [NotNull]
+            
             private readonly XmlReader _reader;
 
-            [NotNull]
+            
             private readonly TGraph _graph;
 
-            [NotNull]
+            
             private readonly IdentifiableVertexFactory<TVertex> _vertexFactory;
 
-            [NotNull]
+            
             private readonly IdentifiableEdgeFactory<TVertex, TEdge> _edgeFactory;
 
-            [NotNull]
+            
             private string _graphMLNamespace = string.Empty;
 
             public ReaderWorker(
-                [NotNull] XmlReader reader,
-                [NotNull] TGraph graph,
-                [NotNull] IdentifiableVertexFactory<TVertex> vertexFactory,
-                [NotNull] IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
+                 XmlReader reader,
+                 TGraph graph,
+                 IdentifiableVertexFactory<TVertex> vertexFactory,
+                 IdentifiableEdgeFactory<TVertex, TEdge> edgeFactory)
             {
                 Debug.Assert(reader != null);
                 Debug.Assert(graph != null);
@@ -367,7 +366,7 @@ namespace QuikGraph.Serialization
                 }
             }
 
-            private void ReadEdge([NotNull] IDictionary<string, TVertex> vertices)
+            private void ReadEdge( IDictionary<string, TVertex> vertices)
             {
                 Debug.Assert(vertices != null);
                 Debug.Assert(
@@ -405,7 +404,7 @@ namespace QuikGraph.Serialization
                 }
             }
 
-            private void ReadVertex([NotNull] IDictionary<string, TVertex> vertices)
+            private void ReadVertex( IDictionary<string, TVertex> vertices)
             {
                 Debug.Assert(vertices != null);
                 Debug.Assert(
@@ -439,7 +438,7 @@ namespace QuikGraph.Serialization
                 }
             }
 
-            private static string ReadAttributeValue([NotNull] XmlReader reader, [NotNull] string attributeName)
+            private static string ReadAttributeValue( XmlReader reader,  string attributeName)
             {
                 Debug.Assert(reader != null);
                 Debug.Assert(attributeName != null);
@@ -454,7 +453,7 @@ namespace QuikGraph.Serialization
 
     internal static partial class Metadata
     {
-        [NotNull]
+        
         public static readonly MethodInfo GetAttributeMethod =
             typeof(XmlReader).GetMethod(
                 nameof(XmlReader.GetAttribute),
@@ -463,7 +462,7 @@ namespace QuikGraph.Serialization
                 new[] { typeof(string) },
                 null) ?? throw new InvalidOperationException($"Cannot find {nameof(XmlReader.GetAttribute)} method on {nameof(XmlReader)}.");
 
-        [NotNull]
+        
         public static MethodInfo StringEqualsMethod { get; } =
             typeof(string).GetMethod(
                 "op_Equality",
@@ -472,15 +471,15 @@ namespace QuikGraph.Serialization
                 new[] { typeof(string), typeof(string) },
                 null) ?? throw new InvalidOperationException("Cannot find == operator method on string.");
 
-        [NotNull]
+        
         public static readonly ConstructorInfo ArgumentExceptionCtor =
             typeof(ArgumentException).GetConstructor(new[] { typeof(string) })
             ?? throw new InvalidOperationException($"Cannot find {nameof(ArgumentException)} constructor.");
 
-        [NotNull]
+        
         private static readonly Dictionary<Type, MethodInfo> ReadContentMethods = InitializeReadMethods();
 
-        [NotNull]
+        
         private static Dictionary<Type, MethodInfo> InitializeReadMethods()
         {
             Type readerType = typeof(XmlReader);
@@ -512,8 +511,8 @@ namespace QuikGraph.Serialization
             };
         }
 
-        [Pure]
-        public static bool TryGetReadContentMethod([NotNull] Type type, out MethodInfo method)
+        
+        public static bool TryGetReadContentMethod( Type type, out MethodInfo method)
         {
             Debug.Assert(type != null);
 
@@ -525,4 +524,3 @@ namespace QuikGraph.Serialization
         }
     }
 }
-#endif

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
 
 namespace QuikGraph.Algorithms
@@ -15,7 +15,7 @@ namespace QuikGraph.Algorithms
     public abstract class RootedSearchAlgorithmBase<TVertex, TGraph> : RootedAlgorithmBase<TVertex, TGraph>
         where TGraph : IImplicitVertexSet<TVertex>
     {
-        [JBCanBeNull]
+        
         private TVertex _target;
 
         private bool _hasTargetVertex;
@@ -26,8 +26,8 @@ namespace QuikGraph.Algorithms
         /// <param name="host">Host to use if set, otherwise use this reference.</param>
         /// <param name="visitedGraph">Graph to visit.</param>
         protected RootedSearchAlgorithmBase(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] TGraph visitedGraph)
+             IAlgorithmComponent host,
+             TGraph visitedGraph)
             : base(host, visitedGraph)
         {
         }
@@ -37,7 +37,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="target">Target vertex if set, otherwise null.</param>
         /// <returns>True if the target vertex was set, false otherwise.</returns>
-        [JBPure]
+        
         public bool TryGetTargetVertex(out TVertex target)
         {
             if (_hasTargetVertex)
@@ -54,7 +54,7 @@ namespace QuikGraph.Algorithms
         /// Sets the target vertex.
         /// </summary>
         /// <param name="target">Target vertex.</param>
-        public void SetTargetVertex([JBNotNull] TVertex target)
+        public void SetTargetVertex( TVertex target)
         {
             if (target == null)
                 throw new ArgumentNullException(nameof(target));
@@ -90,7 +90,7 @@ namespace QuikGraph.Algorithms
         /// Called on each target vertex change.
         /// </summary>
         /// <param name="args"><see cref="EventArgs.Empty"/>.</param>
-        protected virtual void OnTargetVertexChanged([JBNotNull] EventArgs args)
+        protected virtual void OnTargetVertexChanged( EventArgs args)
         {
             Debug.Assert(args != null);
 
@@ -115,7 +115,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="root">Root vertex.</param>
         /// <param name="target">Target vertex.</param>
-        public void Compute([JBNotNull] TVertex root, [JBNotNull] TVertex target)
+        public void Compute( TVertex root,  TVertex target)
         {
             if (root == null)
                 throw new ArgumentNullException(nameof(root));

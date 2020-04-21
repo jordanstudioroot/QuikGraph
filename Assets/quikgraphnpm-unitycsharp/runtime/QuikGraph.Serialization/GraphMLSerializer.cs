@@ -1,4 +1,3 @@
-#if SUPPORTS_GRAPHS_SERIALIZATION
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,9 +5,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Xml;
-using JetBrains.Annotations;
 using static QuikGraph.Serialization.ILHelpers;
 using static QuikGraph.Serialization.XmlConstants;
+
 
 namespace QuikGraph.Serialization
 {
@@ -41,24 +40,24 @@ namespace QuikGraph.Serialization
         #region Compiler
 
         private delegate void WriteVertexAttributesDelegate(
-            [NotNull] XmlWriter writer,
-            [NotNull] TVertex vertex);
+             XmlWriter writer,
+             TVertex vertex);
 
         private delegate void WriteEdgeAttributesDelegate(
-            [NotNull] XmlWriter writer,
-            [NotNull] TEdge edge);
+             XmlWriter writer,
+             TEdge edge);
 
         private delegate void WriteGraphAttributesDelegate(
-            [NotNull] XmlWriter writer,
-            [NotNull] TGraph graph);
+             XmlWriter writer,
+             TGraph graph);
 
         private static class WriteDelegateCompiler
         {
-            [NotNull] public static WriteVertexAttributesDelegate VertexAttributesWriter { get; }
+             public static WriteVertexAttributesDelegate VertexAttributesWriter { get; }
 
-            [NotNull] public static WriteEdgeAttributesDelegate EdgeAttributesWriter { get; }
+             public static WriteEdgeAttributesDelegate EdgeAttributesWriter { get; }
 
-            [NotNull] public static WriteGraphAttributesDelegate GraphAttributesWriter { get; }
+             public static WriteGraphAttributesDelegate GraphAttributesWriter { get; }
 
             static WriteDelegateCompiler()
             {
@@ -78,7 +77,7 @@ namespace QuikGraph.Serialization
                         typeof(WriteGraphAttributesDelegate));
             }
 
-            private static void EmitCallWriter([NotNull] ILGenerator generator, [NotNull] MethodInfo writer)
+            private static void EmitCallWriter( ILGenerator generator,  MethodInfo writer)
             {
                 // When reading scalar values we call member methods of XmlReader, while for array values 
                 // we call our own static methods.  These two types of methods seem to need different OpCode.
@@ -90,7 +89,7 @@ namespace QuikGraph.Serialization
                     null);
             }
 
-            private static void EmitWriteProperty(PropertySerializationInfo info, [NotNull] ILGenerator generator)
+            private static void EmitWriteProperty(PropertySerializationInfo info,  ILGenerator generator)
             {
                 Label @default = default(Label);
                 PropertyInfo property = info.Property;
@@ -149,8 +148,8 @@ namespace QuikGraph.Serialization
                 }
             }
 
-            [NotNull]
-            private static Delegate CreateWriteDelegate([NotNull] Type nodeType, [NotNull] Type delegateType)
+            
+            private static Delegate CreateWriteDelegate( Type nodeType,  Type delegateType)
             {
                 Debug.Assert(nodeType != null);
                 Debug.Assert(delegateType != null);
@@ -185,10 +184,10 @@ namespace QuikGraph.Serialization
         /// <param name="vertexIdentities">Vertex identity method.</param>
         /// <param name="edgeIdentities">Edge identity method.</param>
         public void Serialize(
-            [NotNull] XmlWriter writer,
-            [NotNull] TGraph graph,
-            [NotNull] VertexIdentity<TVertex> vertexIdentities,
-            [NotNull] EdgeIdentity<TVertex, TEdge> edgeIdentities)
+             XmlWriter writer,
+             TGraph graph,
+             VertexIdentity<TVertex> vertexIdentities,
+             EdgeIdentity<TVertex, TEdge> edgeIdentities)
         {
             if (writer is null)
                 throw new ArgumentNullException(nameof(writer));
@@ -205,22 +204,22 @@ namespace QuikGraph.Serialization
 
         internal class WriterWorker
         {
-            [NotNull] private readonly GraphMLSerializer<TVertex, TEdge, TGraph> _serializer;
+             private readonly GraphMLSerializer<TVertex, TEdge, TGraph> _serializer;
 
-            [NotNull] private readonly XmlWriter _writer;
+             private readonly XmlWriter _writer;
 
-            [NotNull] private readonly TGraph _graph;
+             private readonly TGraph _graph;
 
-            [NotNull] private readonly VertexIdentity<TVertex> _vertexIdentities;
+             private readonly VertexIdentity<TVertex> _vertexIdentities;
 
-            [NotNull] private readonly EdgeIdentity<TVertex, TEdge> _edgeIdentities;
+             private readonly EdgeIdentity<TVertex, TEdge> _edgeIdentities;
 
             public WriterWorker(
-                [NotNull] GraphMLSerializer<TVertex, TEdge, TGraph> serializer,
-                [NotNull] XmlWriter writer,
-                [NotNull] TGraph graph,
-                [NotNull] VertexIdentity<TVertex> vertexIdentities,
-                [NotNull] EdgeIdentity<TVertex, TEdge> edgeIdentities)
+                 GraphMLSerializer<TVertex, TEdge, TGraph> serializer,
+                 XmlWriter writer,
+                 TGraph graph,
+                 VertexIdentity<TVertex> vertexIdentities,
+                 EdgeIdentity<TVertex, TEdge> edgeIdentities)
             {
                 Debug.Assert(serializer != null);
                 Debug.Assert(writer != null);
@@ -295,7 +294,7 @@ namespace QuikGraph.Serialization
                 WriteAttributeDefinitions(EdgeTag, typeof(TEdge));
             }
 
-            private static string ConstructTypeCodeForSimpleType([NotNull] Type type)
+            private static string ConstructTypeCodeForSimpleType( Type type)
             {
                 switch (Type.GetTypeCode(type))
                 {
@@ -318,7 +317,7 @@ namespace QuikGraph.Serialization
                 }
             }
 
-            private static string ConstructTypeCode([NotNull] Type type)
+            private static string ConstructTypeCode( Type type)
             {
                 string code = ConstructTypeCodeForSimpleType(type);
                 if (code == "invalid")
@@ -343,7 +342,7 @@ namespace QuikGraph.Serialization
                 return code;
             }
 
-            private void WriteAttributeDefinitions([NotNull] string nodeName, [NotNull] Type nodeType)
+            private void WriteAttributeDefinitions( string nodeName,  Type nodeType)
             {
                 Debug.Assert(nodeName != null);
                 Debug.Assert(nodeType != null);
@@ -443,7 +442,7 @@ namespace QuikGraph.Serialization
 
     internal static partial class Metadata
     {
-        [NotNull] public static readonly MethodInfo WriteStartElementMethod =
+         public static readonly MethodInfo WriteStartElementMethod =
             typeof(XmlWriter).GetMethod(
                 nameof(XmlWriter.WriteStartElement),
                 BindingFlags.Instance | BindingFlags.Public,
@@ -452,7 +451,7 @@ namespace QuikGraph.Serialization
                 null) ?? throw new InvalidOperationException(
                 $"Cannot find {nameof(XmlWriter.WriteStartElement)} method on {nameof(XmlWriter)}.");
 
-        [NotNull] public static readonly MethodInfo WriteEndElementMethod =
+         public static readonly MethodInfo WriteEndElementMethod =
             typeof(XmlWriter).GetMethod(
                 nameof(XmlWriter.WriteEndElement),
                 BindingFlags.Instance | BindingFlags.Public,
@@ -461,7 +460,7 @@ namespace QuikGraph.Serialization
                 null) ?? throw new InvalidOperationException(
                 $"Cannot find {nameof(XmlWriter.WriteEndElement)} method on {nameof(XmlWriter)}.");
 
-        [NotNull] public static readonly MethodInfo WriteAttributeStringMethod =
+         public static readonly MethodInfo WriteAttributeStringMethod =
             typeof(XmlWriter).GetMethod(
                 nameof(XmlWriter.WriteAttributeString),
                 BindingFlags.Instance | BindingFlags.Public,
@@ -470,9 +469,9 @@ namespace QuikGraph.Serialization
                 null) ?? throw new InvalidOperationException(
                 $"Cannot find {nameof(XmlWriter.WriteAttributeString)} method on {nameof(XmlWriter)}.");
 
-        [NotNull] private static readonly Dictionary<Type, MethodInfo> WriteContentMethods = InitializeWriteMethods();
+         private static readonly Dictionary<Type, MethodInfo> WriteContentMethods = InitializeWriteMethods();
 
-        [NotNull]
+        
         private static Dictionary<Type, MethodInfo> InitializeWriteMethods()
         {
             Type writerType = typeof(XmlWriter);
@@ -504,8 +503,8 @@ namespace QuikGraph.Serialization
             };
         }
 
-        [Pure]
-        public static bool TryGetWriteValueMethod([NotNull] Type type, out MethodInfo method)
+        
+        public static bool TryGetWriteValueMethod( Type type, out MethodInfo method)
         {
             Debug.Assert(type != null);
 
@@ -514,4 +513,3 @@ namespace QuikGraph.Serialization
         }
     }
 }
-#endif

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -10,9 +10,8 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public class DelegateBidirectionalIncidenceGraph<TVertex, TEdge> : DelegateIncidenceGraph<TVertex, TEdge>, IBidirectionalIncidenceGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
@@ -27,8 +26,8 @@ namespace QuikGraph
         /// to parallel edges due to the delegated implementation.
         /// </param>
         public DelegateBidirectionalIncidenceGraph(
-            [JBNotNull] TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges,
-            [JBNotNull] TryFunc<TVertex, IEnumerable<TEdge>> tryGetInEdges,
+             TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges,
+             TryFunc<TVertex, IEnumerable<TEdge>> tryGetInEdges,
             bool allowParallelEdges = true)
             : base(tryGetOutEdges, allowParallelEdges)
         {
@@ -38,7 +37,7 @@ namespace QuikGraph
         /// <summary>
         /// Getter of in-edges.
         /// </summary>
-        [JBNotNull]
+        
         private readonly TryFunc<TVertex, IEnumerable<TEdge>> _tryGetInEdgesFunc;
 
         #region IBidirectionalImplicitGraph<TVertex,TEdge>

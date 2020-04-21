@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms
 {
@@ -14,7 +14,7 @@ namespace QuikGraph.Algorithms
     public class IsHamiltonianGraphAlgorithm<TVertex, TEdge>
         where TEdge : IUndirectedEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly UndirectedGraph<TVertex, TEdge> _graph;
 
         private readonly double _threshold;
@@ -23,7 +23,7 @@ namespace QuikGraph.Algorithms
         /// Initializes a new instance of the <see cref="IsHamiltonianGraphAlgorithm{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="graph">Graph to check.</param>
-        public IsHamiltonianGraphAlgorithm([JBNotNull] IUndirectedGraph<TVertex, TEdge> graph)
+        public IsHamiltonianGraphAlgorithm( IUndirectedGraph<TVertex, TEdge> graph)
         {
             if (graph is null)
                 throw new ArgumentNullException(nameof(graph));
@@ -44,8 +44,8 @@ namespace QuikGraph.Algorithms
         /// Gets vertices permutations.
         /// </summary>
         /// <returns>List of permutations.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public List<List<TVertex>> GetPermutations()
         {
             List<TVertex> vertices = _graph.Vertices.ToList();
@@ -57,10 +57,10 @@ namespace QuikGraph.Algorithms
         }
 
         private static void GetPermutations(
-            [JBNotNull, ItemNotNull] IList<TVertex> vertices,
+             IList<TVertex> vertices,
             int recursionDepth,
             int maxDepth,
-            [JBNotNull, ItemNotNull] ICollection<List<TVertex>> permutations)
+             ICollection<List<TVertex>> permutations)
         {
             if (recursionDepth == maxDepth)
             {
@@ -77,8 +77,8 @@ namespace QuikGraph.Algorithms
             }
         }
 
-        [JBPure]
-        private bool ExistsInGraph([JBNotNull, ItemNotNull] List<TVertex> path)
+        
+        private bool ExistsInGraph( List<TVertex> path)
         {
             if (path.Count > 1)
             {
@@ -96,8 +96,8 @@ namespace QuikGraph.Algorithms
             return true;
         }
 
-        [JBPure]
-        private bool SatisfiesDiracTheorem([JBNotNull] TVertex vertex)
+        
+        private bool SatisfiesDiracTheorem( TVertex vertex)
         {
             // Using Dirac's theorem:
             // if |vertices| >= 3 and for any vertex deg(vertex) >= (|vertices| / 2)
@@ -109,7 +109,7 @@ namespace QuikGraph.Algorithms
         /// Returns true if the graph is Hamiltonian, otherwise false.
         /// </summary>
         /// <returns>True if the graph is Hamiltonian, false otherwise.</returns>
-        [JBPure]
+        
         public bool IsHamiltonian()
         {
             int n = _graph.VertexCount;
@@ -120,7 +120,7 @@ namespace QuikGraph.Algorithms
 
         #region Helpers
 
-        private static void Swap([JBNotNull, ItemNotNull] IList<TVertex> vertices, int indexA, int indexB)
+        private static void Swap( IList<TVertex> vertices, int indexA, int indexB)
         {
             TVertex tmp = vertices[indexA];
             vertices[indexA] = vertices[indexB];
@@ -143,9 +143,9 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to check.</param>
         /// <returns>True if the <paramref name="graph"/> is Hamiltonian, false otherwise.</returns>
-        [JBPure]
+        
         public static bool IsHamiltonian<TVertex, TEdge>(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> graph)
+             IUndirectedGraph<TVertex, TEdge> graph)
             where TEdge : IUndirectedEdge<TVertex>
         {
             return new IsHamiltonianGraphAlgorithm<TVertex, TEdge>(graph).IsHamiltonian();

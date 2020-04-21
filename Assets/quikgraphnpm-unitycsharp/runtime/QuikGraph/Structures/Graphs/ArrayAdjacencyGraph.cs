@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -15,21 +15,18 @@ namespace QuikGraph
     /// </remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
-    public sealed class ArrayAdjacencyGraph<TVertex, TEdge> : IVertexAndEdgeListGraph<TVertex, TEdge>
-#if SUPPORTS_CLONEABLE
-        , ICloneable
-#endif
-        where TEdge : IEdge<TVertex>
-    {
+    public sealed class ArrayAdjacencyGraph<TVertex, TEdge> :
+    IVertexAndEdgeListGraph<TVertex, TEdge>,
+    ICloneable
+    where TEdge : IEdge<TVertex> {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayAdjacencyGraph{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        public ArrayAdjacencyGraph([JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
+        public ArrayAdjacencyGraph( IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
         {
             if (visitedGraph is null)
                 throw new ArgumentNullException(nameof(visitedGraph));
@@ -63,7 +60,7 @@ namespace QuikGraph
         /// <inheritdoc />
         public int VertexCount => _vertexOutEdges.Count;
 
-        [JBNotNull]
+        
         private readonly Dictionary<TVertex, TEdge[]> _vertexOutEdges;
 
         /// <inheritdoc />
@@ -221,20 +218,18 @@ namespace QuikGraph
         /// Clones this graph, returns this instance because this class is immutable.
         /// </summary>
         /// <returns>This graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public ArrayAdjacencyGraph<TVertex, TEdge> Clone()
         {
             return this;
         }
 
-#if SUPPORTS_CLONEABLE
         /// <inheritdoc />
         object ICloneable.Clone()
         {
             return Clone();
         }
-#endif
 
         #endregion
     }

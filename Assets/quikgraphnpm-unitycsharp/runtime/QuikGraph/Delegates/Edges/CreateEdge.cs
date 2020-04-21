@@ -1,7 +1,6 @@
-#if SUPPORTS_SERIALIZATION
+
 using System;
-#endif
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -14,13 +13,12 @@ namespace QuikGraph
     /// <param name="source">Edge source vertex.</param>
     /// <param name="target">Edge target vertex.</param>
     /// <returns>The created edge.</returns>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
-    [JBNotNull]
+    
     public delegate TEdge CreateEdge<TVertex, TEdge>(
-        [JBNotNull] IVertexListGraph<TVertex, TEdge> graph,
-        [JBNotNull] TVertex source,
-        [JBNotNull] TVertex target)
-        where TEdge : IEdge<TVertex>;
+         IVertexListGraph<TVertex, TEdge> graph,
+         TVertex source,
+         TVertex target
+    ) where TEdge : IEdge<TVertex>;
 }

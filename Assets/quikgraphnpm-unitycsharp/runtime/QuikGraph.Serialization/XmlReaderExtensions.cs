@@ -1,6 +1,6 @@
 using System;
 using System.Xml;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Serialization
 {
@@ -16,12 +16,12 @@ namespace QuikGraph.Serialization
         /// <param name="localName">Node name.</param>
         /// <param name="namespaceURI">XML namespace.</param>
         /// <returns>Boolean array.</returns>
-        [Pure]
-        [CanBeNull]
+        
+        
         public static bool[] ReadElementContentAsBooleanArray(
-            [JBNotNull] XmlReader xmlReader,
-            [JBNotNull] string localName,
-            [JBNotNull] string namespaceURI)
+             XmlReader xmlReader,
+             string localName,
+             string namespaceURI)
         {
             return ReadElementContentAsArray(xmlReader, localName, namespaceURI, Convert.ToBoolean);
         }
@@ -33,12 +33,12 @@ namespace QuikGraph.Serialization
         /// <param name="localName">Node name.</param>
         /// <param name="namespaceURI">XML namespace.</param>
         /// <returns>Int array.</returns>
-        [Pure]
-        [CanBeNull]
+        
+        
         public static int[] ReadElementContentAsInt32Array(
-            [JBNotNull] XmlReader xmlReader,
-            [JBNotNull] string localName,
-            [JBNotNull] string namespaceURI)
+             XmlReader xmlReader,
+             string localName,
+             string namespaceURI)
         {
             return ReadElementContentAsArray(xmlReader, localName, namespaceURI, Convert.ToInt32);
         }
@@ -50,12 +50,12 @@ namespace QuikGraph.Serialization
         /// <param name="localName">Node name.</param>
         /// <param name="namespaceURI">XML namespace.</param>
         /// <returns>Long array.</returns>
-        [Pure]
-        [CanBeNull]
+        
+        
         public static long[] ReadElementContentAsInt64Array(
-            [JBNotNull] XmlReader xmlReader,
-            [JBNotNull] string localName,
-            [JBNotNull] string namespaceURI)
+             XmlReader xmlReader,
+             string localName,
+             string namespaceURI)
         {
             return ReadElementContentAsArray(xmlReader, localName, namespaceURI, Convert.ToInt64);
         }
@@ -67,12 +67,12 @@ namespace QuikGraph.Serialization
         /// <param name="localName">Node name.</param>
         /// <param name="namespaceURI">XML namespace.</param>
         /// <returns>Float array.</returns>
-        [Pure]
-        [CanBeNull]
+        
+        
         public static float[] ReadElementContentAsSingleArray(
-            [JBNotNull] XmlReader xmlReader,
-            [JBNotNull] string localName,
-            [JBNotNull] string namespaceURI)
+             XmlReader xmlReader,
+             string localName,
+             string namespaceURI)
         {
             return ReadElementContentAsArray(xmlReader, localName, namespaceURI, Convert.ToSingle);
         }
@@ -84,12 +84,12 @@ namespace QuikGraph.Serialization
         /// <param name="localName">Node name.</param>
         /// <param name="namespaceURI">XML namespace.</param>
         /// <returns>Double array.</returns>
-        [Pure]
-        [CanBeNull]
+        
+        
         public static double[] ReadElementContentAsDoubleArray(
-            [JBNotNull] XmlReader xmlReader,
-            [JBNotNull] string localName,
-            [JBNotNull] string namespaceURI)
+             XmlReader xmlReader,
+             string localName,
+             string namespaceURI)
         {
             return ReadElementContentAsArray(xmlReader, localName, namespaceURI, Convert.ToDouble);
         }
@@ -101,12 +101,12 @@ namespace QuikGraph.Serialization
         /// <param name="localName">Node name.</param>
         /// <param name="namespaceURI">XML namespace.</param>
         /// <returns>String array.</returns>
-        [Pure]
-        [CanBeNull]
+        
+        
         public static string[] ReadElementContentAsStringArray(
-            [JBNotNull] XmlReader xmlReader,
-            [JBNotNull] string localName,
-            [JBNotNull] string namespaceURI)
+             XmlReader xmlReader,
+             string localName,
+             string namespaceURI)
         {
             return ReadElementContentAsArray(xmlReader, localName, namespaceURI, str => str);
         }
@@ -120,13 +120,13 @@ namespace QuikGraph.Serialization
         /// <param name="namespaceURI">XML namespace.</param>
         /// <param name="stringToT">Converts the XML element string as <typeparamref name="T"/>.</param>
         /// <returns>Array of <typeparamref name="T"/>.</returns>
-        [Pure]
-        [CanBeNull]
+        
+        
         public static T[] ReadElementContentAsArray<T>(
-            [JBNotNull] XmlReader xmlReader,
-            [JBNotNull] string localName,
-            [JBNotNull] string namespaceURI,
-            [JBNotNull, InstantHandle] Func<string, T> stringToT)
+             XmlReader xmlReader,
+             string localName,
+             string namespaceURI,
+             Func<string, T> stringToT)
         {
             string str = xmlReader.ReadElementContentAsString(localName, namespaceURI);
             if (str == "null")

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -17,7 +17,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edge">An edge.</param>
         /// <returns>True if the edge was added, false otherwise.</returns>
-        bool AddEdge([JBNotNull] TEdge edge);
+        bool AddEdge( TEdge edge);
 
         /// <summary>
         /// Fired when an edge is added to this graph.
@@ -29,14 +29,14 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edges">Edges to add.</param>
         /// <returns>The number of edges successfully added to this graph.</returns>
-        int AddEdgeRange([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges);
+        int AddEdgeRange( IEnumerable<TEdge> edges);
 
         /// <summary>
         /// Removes the <paramref name="edge"/> from this graph.
         /// </summary>
         /// <param name="edge">Edge to remove.</param>
         /// <returns>True if the <paramref name="edge"/> was successfully removed, false otherwise.</returns>
-        bool RemoveEdge([JBNotNull] TEdge edge);
+        bool RemoveEdge( TEdge edge);
 
         /// <summary>
         /// Fired when an edge has been removed from this graph.
@@ -48,6 +48,6 @@ namespace QuikGraph
         /// </summary>
         /// <param name="predicate">Predicate to check if an edge should be removed.</param>
         /// <returns>The number of edges removed.</returns>
-        int RemoveEdgeIf([JBNotNull, JBInstantHandle] EdgePredicate<TVertex, TEdge> predicate);
+        int RemoveEdgeIf( EdgePredicate<TVertex, TEdge> predicate);
     }
 }

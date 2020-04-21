@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-#if !SUPPORTS_TYPE_FULL_FEATURES
-using System.Reflection;
-#endif
-using JetBrains.Annotations;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph
 {
@@ -15,17 +12,15 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
-    public class UndirectedGraph<TVertex, TEdge> : IMutableUndirectedGraph<TVertex, TEdge>
-#if SUPPORTS_CLONEABLE
-        , ICloneable
-#endif
-        where TEdge : IEdge<TVertex>
+    public class UndirectedGraph<TVertex, TEdge> :
+    IMutableUndirectedGraph<TVertex, TEdge>,
+    ICloneable
+    where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly IVertexEdgeDictionary<TVertex, TEdge> _adjacentEdges =
             new VertexEdgeDictionary<TVertex, TEdge>();
 
@@ -54,7 +49,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="allowParallelEdges">Indicates if parallel edges are allowed.</param>
         /// <param name="edgeEqualityComparer">Equality comparer to use to compare edges.</param>
-        public UndirectedGraph(bool allowParallelEdges, [JBNotNull] EdgeEqualityComparer<TVertex> edgeEqualityComparer)
+        public UndirectedGraph(bool allowParallelEdges,  EdgeEqualityComparer<TVertex> edgeEqualityComparer)
         {
             AllowParallelEdges = allowParallelEdges;
             EdgeEqualityComparer = edgeEqualityComparer ?? throw new ArgumentNullException(nameof(edgeEqualityComparer));
@@ -81,12 +76,12 @@ namespace QuikGraph
         }
 
         private delegate void ReorderVertices(
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target,
-            [JBNotNull] out TVertex orderedSource,
-            [JBNotNull] out TVertex orderedTarget);
+             TVertex source,
+             TVertex target,
+             out TVertex orderedSource,
+             out TVertex orderedTarget);
 
-        [JBNotNull]
+        
         private readonly ReorderVertices _reorder;
 
         /// <inheritdoc />
@@ -102,8 +97,8 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">Vertex to get adjacent ones.</param>
         /// <returns>Set of adjacent vertices.</returns>
-        [JBNotNull, ItemNotNull]
-        public IEnumerable<TVertex> AdjacentVertices([JBNotNull] TVertex vertex)
+        
+        public IEnumerable<TVertex> AdjacentVertices( TVertex vertex)
         {
             IEnumerable<TEdge> adjacentEdges = AdjacentEdges(vertex);
             var adjacentVertices = new HashSet<TVertex>();
@@ -158,7 +153,7 @@ namespace QuikGraph
         /// <inheritdoc />
         public int EdgeCount { get; private set; }
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly IList<TEdge> _edges = new List<TEdge>();
 
         /// <inheritdoc />
@@ -188,7 +183,7 @@ namespace QuikGraph
             return TryGetEdge(source, target, out _);
         }
 
-        private bool ContainsEdgeBetweenVertices([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges, [JBNotNull] TEdge edge)
+        private bool ContainsEdgeBetweenVertices( IEnumerable<TEdge> edges,  TEdge edge)
         {
             Debug.Assert(edges != null);
             Debug.Assert(edge != null);
@@ -316,7 +311,7 @@ namespace QuikGraph
         /// Called on each added vertex.
         /// </summary>
         /// <param name="vertex">Added vertex.</param>
-        protected virtual void OnVertexAdded([JBNotNull] TVertex vertex)
+        protected virtual void OnVertexAdded( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -358,8 +353,8 @@ namespace QuikGraph
             return true;
         }
 
-        [JBNotNull]
-        private IEdgeList<TVertex, TEdge> AddAndReturnEdges([JBNotNull] TVertex vertex)
+        
+        private IEdgeList<TVertex, TEdge> AddAndReturnEdges( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -382,7 +377,7 @@ namespace QuikGraph
         /// Called for each removed vertex.
         /// </summary>
         /// <param name="vertex">Removed vertex.</param>
-        protected virtual void OnVertexRemoved([JBNotNull] TVertex vertex)
+        protected virtual void OnVertexRemoved( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -465,7 +460,7 @@ namespace QuikGraph
         /// Clears edges of the given <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
-        public void ClearEdges([JBNotNull] TVertex vertex)
+        public void ClearEdges( TVertex vertex)
         {
             ClearAdjacentEdges(vertex);
         }
@@ -569,7 +564,7 @@ namespace QuikGraph
         /// Called on each added edge.
         /// </summary>
         /// <param name="edge">Added edge.</param>
-        protected virtual void OnEdgeAdded([JBNotNull] TEdge edge)
+        protected virtual void OnEdgeAdded( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -607,7 +602,7 @@ namespace QuikGraph
         /// Called on each removed edge.
         /// </summary>
         /// <param name="edge">Removed edge.</param>
-        protected virtual void OnEdgeRemoved([JBNotNull] TEdge edge)
+        protected virtual void OnEdgeRemoved( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -629,7 +624,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="edges">Edges to remove.</param>
         /// <returns>The number of removed edges.</returns>
-        public int RemoveEdges([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges)
+        public int RemoveEdges( IEnumerable<TEdge> edges)
         {
             if (edges is null)
                 throw new ArgumentNullException(nameof(edges));
@@ -652,9 +647,9 @@ namespace QuikGraph
         #region ICloneable
 
         private UndirectedGraph(
-            [JBNotNull, ItemNotNull] IList<TEdge> edges,
-            [JBNotNull] IVertexEdgeDictionary<TVertex, TEdge> adjacentEdges,
-            [JBNotNull] EdgeEqualityComparer<TVertex> edgeEqualityComparer,
+             IList<TEdge> edges,
+             IVertexEdgeDictionary<TVertex, TEdge> adjacentEdges,
+             EdgeEqualityComparer<TVertex> edgeEqualityComparer,
             int edgeCapacity,
             bool allowParallelEdges)
             : this(allowParallelEdges, edgeEqualityComparer)
@@ -672,8 +667,8 @@ namespace QuikGraph
         /// Clones this graph.
         /// </summary>
         /// <returns>Cloned graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public UndirectedGraph<TVertex, TEdge> Clone()
         {
             return new UndirectedGraph<TVertex, TEdge>(
@@ -684,13 +679,11 @@ namespace QuikGraph
                 AllowParallelEdges);
         }
 
-#if SUPPORTS_CLONEABLE
         /// <inheritdoc />
         object ICloneable.Clone()
         {
             return Clone();
         }
-#endif
 
         #endregion
     }

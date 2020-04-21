@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
 
 namespace QuikGraph.Algorithms.MaximumFlow
@@ -27,11 +27,11 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public BipartiteToMaximumFlowGraphAugmentorAlgorithm(
-            [JBNotNull] IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph,
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> sourceToVertices,
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> verticesToSink,
-            [JBNotNull] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+             IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph,
+             IEnumerable<TVertex> sourceToVertices,
+             IEnumerable<TVertex> verticesToSink,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
             : this(null, visitedGraph, sourceToVertices, verticesToSink, vertexFactory, edgeFactory)
         {
         }
@@ -46,12 +46,12 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public BipartiteToMaximumFlowGraphAugmentorAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph,
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> sourceToVertices,
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> verticesToSink,
-            [JBNotNull] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+             IAlgorithmComponent host,
+             IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph,
+             IEnumerable<TVertex> sourceToVertices,
+             IEnumerable<TVertex> verticesToSink,
+             VertexFactory<TVertex> vertexFactory,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
             : base(host, visitedGraph, vertexFactory, edgeFactory)
         {
             SourceToVertices = sourceToVertices ?? throw new ArgumentNullException(nameof(sourceToVertices));
@@ -61,13 +61,13 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <summary>
         /// Vertices to which augmented edge from super source are created with augmentation.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IEnumerable<TVertex> SourceToVertices { get; }
 
         /// <summary>
         /// Vertices from which augmented edge to super sink are created with augmentation.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IEnumerable<TVertex> VerticesToSink { get; }
 
         #region GraphAugmentorAlgorithmBase<TVertex,TEdge,TGraph>

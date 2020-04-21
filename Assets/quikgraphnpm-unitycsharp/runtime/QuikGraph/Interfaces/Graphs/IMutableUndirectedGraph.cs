@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -19,12 +19,12 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="predicate">Predicate to match edges.</param>
         /// <returns>The number of removed edges.</returns>
-        int RemoveAdjacentEdgeIf([JBNotNull] TVertex vertex, [JBNotNull, JBInstantHandle] EdgePredicate<TVertex, TEdge> predicate);
+        int RemoveAdjacentEdgeIf( TVertex vertex,  EdgePredicate<TVertex, TEdge> predicate);
 
         /// <summary>
         /// Clears adjacent edges of the given <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
-        void ClearAdjacentEdges([JBNotNull] TVertex vertex);
+        void ClearAdjacentEdges( TVertex vertex);
     }
 }

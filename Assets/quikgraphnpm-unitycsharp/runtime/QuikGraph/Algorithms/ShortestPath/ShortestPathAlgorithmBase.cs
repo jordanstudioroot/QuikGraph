@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.ShortestPath
 {
@@ -12,9 +12,7 @@ namespace QuikGraph.Algorithms.ShortestPath
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <typeparam name="TGraph">Graph type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public abstract class ShortestPathAlgorithmBase<TVertex, TEdge, TGraph>
         : RootedAlgorithmBase<TVertex, TGraph>
         , IVertexColorizerAlgorithm<TVertex>
@@ -29,9 +27,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         protected ShortestPathAlgorithmBase(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] TGraph visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             IAlgorithmComponent host,
+             TGraph visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : this(host, visitedGraph, edgeWeights, DistanceRelaxers.ShortestDistance)
         {
         }
@@ -44,10 +42,10 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         protected ShortestPathAlgorithmBase(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] TGraph visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             TGraph visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph)
         {
             Weights = edgeWeights ?? throw new ArgumentNullException(nameof(edgeWeights));
@@ -60,7 +58,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="vertex">The vertex.</param>
         /// <param name="distance">Associated distance.</param>
         /// <returns>True if the distance was found, false otherwise.</returns>
-        public bool TryGetDistance([JBNotNull] TVertex vertex, out double distance)
+        public bool TryGetDistance( TVertex vertex, out double distance)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -78,8 +76,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <summary>
         /// Gets the function that gives access to distances from a vertex.
         /// </summary>
-        [JBPure]
-        [JBNotNull]
+        
+        
         protected Func<TVertex, double> DistancesIndexGetter()
         {
             return AlgorithmExtensions.GetIndexer(Distances);
@@ -88,13 +86,13 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <summary>
         /// Function that given an edge return the weight of this edge.
         /// </summary>
-        [JBNotNull]
+        
         public Func<TEdge, double> Weights { get; }
 
         /// <summary>
         /// Distance relaxer.
         /// </summary>
-        [JBNotNull]
+        
         public IDistanceRelaxer DistanceRelaxer { get; }
 
         #region AlgorithmBase<TGraph>
@@ -138,7 +136,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// Called on each <see cref="TreeEdge"/> event.
         /// </summary>
         /// <param name="edge">Concerned edge.</param>
-        protected virtual void OnTreeEdge([JBNotNull] TEdge edge)
+        protected virtual void OnTreeEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -150,7 +148,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         /// <param name="edge">Edge to relax.</param>
         /// <returns>True if relaxation decreased the target vertex distance, false otherwise.</returns>
-        protected bool Relax([JBNotNull] TEdge edge)
+        protected bool Relax( TEdge edge)
         {
             Debug.Assert(edge != null);
 

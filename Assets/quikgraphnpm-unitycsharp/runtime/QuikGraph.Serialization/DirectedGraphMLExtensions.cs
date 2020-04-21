@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms;
 using QuikGraph.Serialization.DirectedGraphML;
+
 
 namespace QuikGraph.Serialization
 {
@@ -14,13 +14,13 @@ namespace QuikGraph.Serialization
     /// </summary>
     public static class DirectedGraphMLExtensions
     {
-        [CanBeNull]
+        
         private static XmlSerializer _directedGraphSerializer;
 
         /// <summary>
         /// Gets the DirectedGraph XML serializer.
         /// </summary>
-        [JBNotNull]
+        
         public static XmlSerializer DirectedGraphSerializer =>
             _directedGraphSerializer ?? (_directedGraphSerializer = new XmlSerializer(typeof(DirectedGraph)));
 
@@ -29,7 +29,7 @@ namespace QuikGraph.Serialization
         /// </summary>
         /// <param name="graph">Graph instance to write.</param>
         /// <param name="filePath">Path to the file to write into.</param>
-        public static void WriteXml([JBNotNull] this DirectedGraph graph, [JBNotNull] string filePath)
+        public static void WriteXml( this DirectedGraph graph,  string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
                 throw new ArgumentException("Must provide a file path.", nameof(filePath));
@@ -43,7 +43,7 @@ namespace QuikGraph.Serialization
         /// </summary>
         /// <param name="graph">Graph instance to write.</param>
         /// <param name="writer">XML writer in which writing graph data.</param>
-        public static void WriteXml([JBNotNull] this DirectedGraph graph, [JBNotNull] XmlWriter writer)
+        public static void WriteXml( this DirectedGraph graph,  XmlWriter writer)
         {
             if (graph is null)
                 throw new ArgumentNullException(nameof(graph));
@@ -58,7 +58,7 @@ namespace QuikGraph.Serialization
         /// </summary>
         /// <param name="graph">Graph instance to write.</param>
         /// <param name="stream">Stream in which writing graph data.</param>
-        public static void WriteXml([JBNotNull] this DirectedGraph graph, [JBNotNull] Stream stream)
+        public static void WriteXml( this DirectedGraph graph,  Stream stream)
         {
             if (graph is null)
                 throw new ArgumentNullException(nameof(graph));
@@ -73,7 +73,7 @@ namespace QuikGraph.Serialization
         /// </summary>
         /// <param name="graph">Graph instance to write.</param>
         /// <param name="writer">Text writer in which writing graph data.</param>
-        public static void WriteXml([JBNotNull] this DirectedGraph graph, [JBNotNull] TextWriter writer)
+        public static void WriteXml( this DirectedGraph graph,  TextWriter writer)
         {
             if (graph is null)
                 throw new ArgumentNullException(nameof(graph));
@@ -90,10 +90,10 @@ namespace QuikGraph.Serialization
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="visitedGraph">Graph to convert to <see cref="DirectedGraph"/>.</param>
         /// <returns>Converted graph.</returns>
-        [Pure]
-        [JBNotNull]
+        
+        
         public static DirectedGraph ToDirectedGraphML<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
             where TEdge : IEdge<TVertex>
         {
             return ToDirectedGraphML(
@@ -110,11 +110,11 @@ namespace QuikGraph.Serialization
         /// <param name="visitedGraph">Graph to convert to <see cref="DirectedGraph"/>.</param>
         /// <param name="vertexColors">Function that gives the color of a vertex.</param>
         /// <returns>Converted graph.</returns>
-        [Pure]
-        [JBNotNull]
+        
+        
         public static DirectedGraph ToDirectedGraphML<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TVertex, GraphColor> vertexColors)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TVertex, GraphColor> vertexColors)
             where TEdge : IEdge<TVertex>
         {
             if (vertexColors is null)
@@ -152,12 +152,12 @@ namespace QuikGraph.Serialization
         /// <param name="vertexIdentities">Vertex identity method.</param>
         /// <param name="edgeIdentities">Edge identity method.</param>
         /// <returns>Converted graph.</returns>
-        [Pure]
-        [JBNotNull]
+        
+        
         public static DirectedGraph ToDirectedGraphML<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] VertexIdentity<TVertex> vertexIdentities,
-            [JBNotNull] EdgeIdentity<TVertex, TEdge> edgeIdentities)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             VertexIdentity<TVertex> vertexIdentities,
+             EdgeIdentity<TVertex, TEdge> edgeIdentities)
             where TEdge : IEdge<TVertex>
         {
             return ToDirectedGraphML(
@@ -179,14 +179,14 @@ namespace QuikGraph.Serialization
         /// <param name="formatNode">Formats a vertex into a <see cref="DirectedGraphNode"/>.</param>
         /// <param name="formatEdge">Formats an edge into a <see cref="DirectedGraphLink"/>.</param>
         /// <returns>Converted graph.</returns>
-        [Pure]
-        [JBNotNull]
+        
+        
         public static DirectedGraph ToDirectedGraphML<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] VertexIdentity<TVertex> vertexIdentities,
-            [JBNotNull] EdgeIdentity<TVertex, TEdge> edgeIdentities,
-            [CanBeNull] Action<TVertex, DirectedGraphNode> formatNode,
-            [CanBeNull] Action<TEdge, DirectedGraphLink> formatEdge)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             VertexIdentity<TVertex> vertexIdentities,
+             EdgeIdentity<TVertex, TEdge> edgeIdentities,
+             Action<TVertex, DirectedGraphNode> formatNode,
+             Action<TEdge, DirectedGraphLink> formatEdge)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new DirectedGraphMLAlgorithm<TVertex, TEdge>(
@@ -211,8 +211,8 @@ namespace QuikGraph.Serialization
         /// <param name="graph">Graph to open.</param>
         /// <param name="filePath">Path to the file to save.</param>
         public static void OpenAsDGML<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
-            [CanBeNull] string filePath)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
+             string filePath)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)

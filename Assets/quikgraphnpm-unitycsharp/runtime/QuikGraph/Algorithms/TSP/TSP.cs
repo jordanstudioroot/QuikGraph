@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Algorithms.ShortestPath;
 
@@ -18,13 +18,13 @@ namespace QuikGraph.Algorithms.TSP
         where TEdge : EquatableEdge<TVertex>
         where TGraph : BidirectionalGraph<TVertex, TEdge>
     {
-        [JBNotNull]
+        
         private readonly TasksManager<TVertex, TEdge> _taskManager = new TasksManager<TVertex, TEdge>();
 
         /// <summary>
         /// Shortest path found, otherwise null.
         /// </summary>
-        [JBCanBeNull]
+        
         public BidirectionalGraph<TVertex, TEdge> ResultPath { get; private set; }
 
         /// <summary>
@@ -38,17 +38,17 @@ namespace QuikGraph.Algorithms.TSP
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         public TSP(
-            [JBNotNull] TGraph visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             TGraph visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : base(null, visitedGraph, edgeWeights)
         {
         }
 
-        [JBPure]
-        [JBNotNull]
+        
+        
         private static Dictionary<EquatableEdge<TVertex>, double> BuildWeightsDictionary(
-            [JBNotNull] TGraph visitedGraph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights)
+             TGraph visitedGraph,
+             Func<TEdge, double> edgeWeights)
         {
             var weights = new Dictionary<EquatableEdge<TVertex>, double>();
             foreach (TEdge edge in visitedGraph.Edges)

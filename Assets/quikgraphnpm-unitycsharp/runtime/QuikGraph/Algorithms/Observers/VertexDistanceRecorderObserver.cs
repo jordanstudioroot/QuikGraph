@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using static QuikGraph.Utils.DisposableHelpers;
+
 
 namespace QuikGraph.Algorithms.Observers
 {
@@ -11,9 +11,7 @@ namespace QuikGraph.Algorithms.Observers
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class VertexDistanceRecorderObserver<TVertex, TEdge> : IObserver<ITreeBuilderAlgorithm<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
@@ -21,7 +19,7 @@ namespace QuikGraph.Algorithms.Observers
         /// Initializes a new instance of the <see cref="VertexDistanceRecorderObserver{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
-        public VertexDistanceRecorderObserver([JBNotNull] Func<TEdge, double> edgeWeights)
+        public VertexDistanceRecorderObserver( Func<TEdge, double> edgeWeights)
             : this(edgeWeights, DistanceRelaxers.EdgeShortestDistance, new Dictionary<TVertex, double>())
         {
         }
@@ -33,9 +31,9 @@ namespace QuikGraph.Algorithms.Observers
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         /// <param name="distances">Distances per vertex.</param>
         public VertexDistanceRecorderObserver(
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer,
-            [JBNotNull] IDictionary<TVertex, double> distances)
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer,
+             IDictionary<TVertex, double> distances)
         {
             EdgeWeights = edgeWeights ?? throw new ArgumentNullException(nameof(edgeWeights));
             DistanceRelaxer = distanceRelaxer ?? throw new ArgumentNullException(nameof(distanceRelaxer));
@@ -45,19 +43,19 @@ namespace QuikGraph.Algorithms.Observers
         /// <summary>
         /// Distance relaxer.
         /// </summary>
-        [JBNotNull]
+        
         public IDistanceRelaxer DistanceRelaxer { get; }
 
         /// <summary>
         /// Function that computes the weight for a given edge.
         /// </summary>
-        [JBNotNull]
+        
         public Func<TEdge, double> EdgeWeights { get; }
 
         /// <summary>
         /// Distances per vertex.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, double> Distances { get; }
 
         #region IObserver<TAlgorithm>
@@ -74,7 +72,7 @@ namespace QuikGraph.Algorithms.Observers
 
         #endregion
 
-        private void OnEdgeDiscovered([JBNotNull] TEdge edge)
+        private void OnEdgeDiscovered( TEdge edge)
         {
             Debug.Assert(edge != null);
 

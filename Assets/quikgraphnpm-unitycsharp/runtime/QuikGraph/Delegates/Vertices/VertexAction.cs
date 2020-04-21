@@ -1,4 +1,5 @@
-using JetBrains.Annotations;
+
+
 
 namespace QuikGraph
 {
@@ -7,5 +8,7 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <param name="vertex">Vertex to treat.</param>
-    public delegate void VertexAction<in TVertex>([JBNotNull] TVertex vertex);
+    public delegate void VertexAction<in TVertex>(
+         TVertex vertex
+    );
 }

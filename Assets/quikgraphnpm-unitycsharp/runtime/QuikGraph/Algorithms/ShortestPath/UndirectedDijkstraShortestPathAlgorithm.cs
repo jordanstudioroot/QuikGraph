@@ -1,9 +1,9 @@
 using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Search;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph.Algorithms.ShortestPath
 {
@@ -13,9 +13,7 @@ namespace QuikGraph.Algorithms.ShortestPath
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class UndirectedDijkstraShortestPathAlgorithm<TVertex, TEdge>
         : UndirectedShortestPathAlgorithmBase<TVertex, TEdge>
         , IUndirectedVertexPredecessorRecorderAlgorithm<TVertex, TEdge>
@@ -30,8 +28,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         public UndirectedDijkstraShortestPathAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : base(null, visitedGraph, edgeWeights)
         {
         }
@@ -43,9 +41,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public UndirectedDijkstraShortestPathAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : this(null, visitedGraph, edgeWeights, distanceRelaxer)
         {
         }
@@ -58,10 +56,10 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public UndirectedDijkstraShortestPathAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph, edgeWeights, distanceRelaxer)
         {
         }
@@ -110,7 +108,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         public event UndirectedEdgeAction<TVertex, TEdge> EdgeNotRelaxed;
 
-        private void OnEdgeNotRelaxed([JBNotNull] TEdge edge, bool reversed)
+        private void OnEdgeNotRelaxed( TEdge edge, bool reversed)
         {
             Debug.Assert(edge != null);
 
@@ -185,7 +183,7 @@ namespace QuikGraph.Algorithms.ShortestPath
 
         #endregion
 
-        private void ComputeFromRoot([JBNotNull] TVertex rootVertex)
+        private void ComputeFromRoot( TVertex rootVertex)
         {
             Debug.Assert(rootVertex != null);
             Debug.Assert(VisitedGraph.ContainsVertex(rootVertex));
@@ -196,7 +194,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             ComputeNoInit(rootVertex);
         }
 
-        private void ComputeNoInit([JBNotNull] TVertex root)
+        private void ComputeNoInit( TVertex root)
         {
             Debug.Assert(root != null);
             Debug.Assert(VisitedGraph.ContainsVertex(root));

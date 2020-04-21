@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
+
 using static QuikGraph.Collections.HeapConstants;
 
-namespace QuikGraph.Collections
-{
+namespace QuikGraph.Collections {
     /// <summary>
     /// Binary heap.
     /// </summary>
@@ -24,9 +23,7 @@ namespace QuikGraph.Collections
     /// </remarks>
     /// <typeparam name="TValue">Value type.</typeparam>
     /// <typeparam name="TPriority">Priority metric type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
     public class BinaryHeap<TPriority, TValue> : IEnumerable<KeyValuePair<TPriority, TValue>>
     {
@@ -34,7 +31,7 @@ namespace QuikGraph.Collections
 
         private const int DefaultCapacity = 16;
 
-        [JBNotNull]
+        
         private KeyValuePair<TPriority, TValue>[] _items;
 
         /// <summary>
@@ -58,7 +55,7 @@ namespace QuikGraph.Collections
         /// Initializes a new instance of the <see cref="BinaryHeap{TPriority,TValue}"/> class.
         /// </summary>
         /// <param name="priorityComparison">Priority comparer.</param>
-        public BinaryHeap([JBNotNull] Comparison<TPriority> priorityComparison)
+        public BinaryHeap( Comparison<TPriority> priorityComparison)
             : this(DefaultCapacity, priorityComparison)
         {
         }
@@ -68,7 +65,7 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="capacity">Heap capacity.</param>
         /// <param name="priorityComparison">Priority comparer.</param>
-        public BinaryHeap(int capacity, [JBNotNull] Comparison<TPriority> priorityComparison)
+        public BinaryHeap(int capacity,  Comparison<TPriority> priorityComparison)
         {
             if (capacity < 0)
                 throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be positive.");
@@ -80,7 +77,7 @@ namespace QuikGraph.Collections
         /// <summary>
         /// Priority comparer.
         /// </summary>
-        [JBNotNull]
+        
         public Comparison<TPriority> PriorityComparison { get; }
 
         /// <summary>
@@ -95,7 +92,7 @@ namespace QuikGraph.Collections
 
         #region Helpers
 
-        [JBPure]
+        
         private bool Less(int i, int j)
         {
             Debug.Assert(i >= 0 && i < Count);
@@ -122,7 +119,7 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="priority">Item priority.</param>
         /// <param name="value">The value.</param>
-        public void Add([JBNotNull] TPriority priority, [JBCanBeNull] TValue value)
+        public void Add( TPriority priority,  TValue value)
         {
 #if BINARY_HEAP_DEBUG
             Console.WriteLine($"{nameof(Add)}({priority}, {value})");
@@ -237,8 +234,8 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>Index of the value if found, otherwise -1.</returns>
-        [JBPure]
-        public int IndexOf([JBCanBeNull] TValue value)
+        
+        public int IndexOf( TValue value)
         {
             for (int i = 0; i < Count; i++)
             {
@@ -254,7 +251,7 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="priority">The priority.</param>
         /// <param name="value">The value.</param>
-        public void Update([JBNotNull] TPriority priority, [JBNotNull] TValue value)
+        public void Update( TPriority priority,  TValue value)
         {
 #if BINARY_HEAP_DEBUG
             Console.WriteLine($"{nameof(Update)}({priority}, {value})");
@@ -288,7 +285,7 @@ namespace QuikGraph.Collections
         /// <param name="priority">The priority.</param>
         /// <param name="value">The value.</param>
         /// <returns>True if the heap was updated, false otherwise.</returns>
-        public bool MinimumUpdate([JBNotNull] TPriority priority, [JBNotNull] TValue value)
+        public bool MinimumUpdate( TPriority priority,  TValue value)
         {
             // Find index
             int index = IndexOf(value);
@@ -335,7 +332,7 @@ namespace QuikGraph.Collections
             private readonly int _version;
             private int _index;
 
-            public Enumerator([JBNotNull] BinaryHeap<TPriority, TValue> owner)
+            public Enumerator( BinaryHeap<TPriority, TValue> owner)
             {
                 _owner = owner;
                 _items = owner._items;
@@ -388,8 +385,8 @@ namespace QuikGraph.Collections
         /// Gets all heap values.
         /// </summary>
         /// <returns>Array of heap values.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public TValue[] ToArray()
         {
             var array = new TValue[Count];
@@ -402,8 +399,8 @@ namespace QuikGraph.Collections
         /// Gets all values with their priorities.
         /// </summary>
         /// <returns>Array of heap priorities and values.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public KeyValuePair<TPriority, TValue>[] ToPairsArray()
         {
             var array = new KeyValuePair<TPriority, TValue>[Count];
@@ -411,7 +408,7 @@ namespace QuikGraph.Collections
             return array;
         }
 
-        [JBNotNull]
+        
         private string EntryToString(int i)
         {
             if (i < 0 || i >= Count)
@@ -464,8 +461,8 @@ namespace QuikGraph.Collections
         /// Gets a string representation of this heap.
         /// </summary>
         /// <returns>String representation.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public string ToString2()
         {
             bool status = IsConsistent();
@@ -476,8 +473,8 @@ namespace QuikGraph.Collections
         /// Gets a string tree representation of this heap.
         /// </summary>
         /// <returns>String representation.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public string ToStringTree()
         {
             bool status = IsConsistent();

@@ -3,26 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 
-namespace QuikGraph.Collections
-{
+
+namespace QuikGraph.Collections {
     /// <summary>
     /// Heap following Fibonacci rules.
     /// </summary>
     /// <typeparam name="TValue">Value type.</typeparam>
     /// <typeparam name="TPriority">Priority metric type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
-    public sealed class FibonacciHeap<TPriority, TValue> : IEnumerable<KeyValuePair<TPriority, TValue>>
-    {
-        [JBNotNull, ItemNotNull]
+    public sealed class FibonacciHeap<TPriority, TValue> :
+        IEnumerable<KeyValuePair<TPriority, TValue>> {
+        
         private readonly FibonacciHeapLinkedList<TPriority, TValue> _cells;
 
-        [JBNotNull]
-        private readonly Dictionary<int, FibonacciHeapCell<TPriority, TValue>> _degreeToCell;
+        
+        private readonly
+            Dictionary<int, FibonacciHeapCell<TPriority, TValue>> _degreeToCell;
 
         // Used to control the direction of the heap, set to 1 if the Heap is increasing,
         // -1 if it's decreasing. We use the approach to avoid unnecessary branches.
@@ -31,39 +29,52 @@ namespace QuikGraph.Collections
         /// <summary>
         /// Initializes a new instance of the <see cref="FibonacciHeap{TPriority,TValue}"/> class.
         /// </summary>
-        public FibonacciHeap()
-            : this(HeapDirection.Increasing, Comparer<TPriority>.Default.Compare)
-        {
-        }
+        public FibonacciHeap() : this(
+            HeapDirection.Increasing,
+            Comparer<TPriority>.Default.Compare
+        ) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FibonacciHeap{TPriority,TValue}"/> class.
         /// </summary>
         /// <param name="direction">Heap direction.</param>
-        public FibonacciHeap(HeapDirection direction)
-            : this(direction, Comparer<TPriority>.Default.Compare)
-        {
-        }
+        public FibonacciHeap(HeapDirection direction) : this(
+            direction,
+            Comparer<TPriority>.Default.Compare
+        ) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FibonacciHeap{TPriority,TValue}"/> class.
         /// </summary>
         /// <param name="direction">Heap direction.</param>
         /// <param name="priorityComparison">Priority comparer.</param>
-        public FibonacciHeap(HeapDirection direction, [JBNotNull] Comparison<TPriority> priorityComparison)
-        {
+        public FibonacciHeap(
+            HeapDirection direction,
+             Comparison<TPriority> priorityComparison
+        ) {
             _cells = new FibonacciHeapLinkedList<TPriority, TValue>();
-            _degreeToCell = new Dictionary<int, FibonacciHeapCell<TPriority, TValue>>();
-            _directionMultiplier = (short)(direction == HeapDirection.Increasing ? 1 : -1);
+            
+            _degreeToCell =
+                new Dictionary<int, FibonacciHeapCell<TPriority, TValue>>();
+            
+            _directionMultiplier =
+                (short)(direction == HeapDirection.Increasing ? 1 : -1);
+            
             Direction = direction;
-            PriorityComparison = priorityComparison ?? throw new ArgumentNullException(nameof(priorityComparison));
+            
+            PriorityComparison =
+                priorityComparison ??
+                    throw new ArgumentNullException(
+                        nameof(priorityComparison)
+                    );
+
             Count = 0;
         }
 
         /// <summary>
         /// Priority comparer.
         /// </summary>
-        [JBNotNull]
+        
         public Comparison<TPriority> PriorityComparison { get; }
 
         /// <summary>
@@ -91,8 +102,10 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="priority">Value priority.</param>
         /// <param name="value">Value to add.</param>
-        public FibonacciHeapCell<TPriority, TValue> Enqueue([JBNotNull] TPriority priority, [JBCanBeNull] TValue value)
-        {
+        public FibonacciHeapCell<TPriority, TValue> Enqueue(
+             TPriority priority,
+             TValue value
+        ) {
             if (priority == null)
                 throw new ArgumentNullException(nameof(priority));
 
@@ -127,8 +140,10 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="cell">Cell to update the priority.</param>
         /// <param name="newPriority">New priority.</param>
-        public void ChangeKey([JBNotNull] FibonacciHeapCell<TPriority, TValue> cell, [JBNotNull] TPriority newPriority)
-        {
+        public void ChangeKey(
+             FibonacciHeapCell<TPriority, TValue> cell,
+             TPriority newPriority
+        ) {
             if (cell is null)
                 throw new ArgumentNullException(nameof(cell));
             if (newPriority == null)
@@ -138,23 +153,22 @@ namespace QuikGraph.Collections
         }
 
         private void ChangeKeyInternal(
-            [JBNotNull] FibonacciHeapCell<TPriority, TValue> cell,
-            [JBCanBeNull] TPriority newKey, // Null authorized if deleting the cell
-            bool deletingCell)
-        {
+             FibonacciHeapCell<TPriority, TValue> cell,
+// Null authorized if deleting the cell
+             TPriority newKey, 
+            bool deletingCell
+        ) {
             Debug.Assert(cell != null);
 
             int delta = Math.Sign(PriorityComparison(cell.Priority, newKey));
             if (delta == 0)
                 return;
 
-            if (delta == _directionMultiplier || deletingCell)
-            {
+            if (delta == _directionMultiplier || deletingCell) {
                 // New value is in the same direction as the heap
                 UpdateCellSameDirection(cell, newKey, deletingCell);
             }
-            else
-            {
+            else {
                 // Not removing a cell so the newKey must not be null
                 Debug.Assert(newKey != null);
 
@@ -164,15 +178,20 @@ namespace QuikGraph.Collections
         }
 
         private void UpdateCellSameDirection(
-            [JBNotNull] FibonacciHeapCell<TPriority, TValue> cell,
-            [JBCanBeNull] TPriority newKey,
-            bool deletingCell)
-        {
+             FibonacciHeapCell<TPriority, TValue> cell,
+             TPriority newKey,
+            bool deletingCell
+        ) {
             cell.Priority = newKey;
             FibonacciHeapCell<TPriority, TValue> parentCell = cell.Parent;
-            if (parentCell != null
-                && (PriorityComparison(newKey, parentCell.Priority) * _directionMultiplier < 0 || deletingCell))
-            {
+            if (
+                parentCell != null &&
+                (
+                    PriorityComparison(newKey, parentCell.Priority) *
+                    _directionMultiplier 
+                        < 0 || deletingCell
+                )
+            ) {
                 cell.Marked = false;
 
                 // ReSharper disable once PossibleNullReferenceException
@@ -185,8 +204,7 @@ namespace QuikGraph.Collections
                 // This loop is the cascading cut, we continue to cut
                 // ancestors of the cell reduced until we hit a root 
                 // or we found an unmarked ancestor
-                while (parentCell.Marked && parentCell.Parent != null)
-                {
+                while (parentCell.Marked && parentCell.Parent != null) {
                     // ReSharper disable once PossibleNullReferenceException
                     // Justification: parentCell must have children because child has parentCell as Parent.
                     parentCell.Parent.Children.Remove(parentCell);
@@ -199,8 +217,7 @@ namespace QuikGraph.Collections
                     currentParent.Parent = null;
                 }
 
-                if (parentCell.Parent != null)
-                {
+                if (parentCell.Parent != null) {
                     // We mark this cell to note that it had a child
                     // cut from it before
                     parentCell.Marked = true;
@@ -208,32 +225,41 @@ namespace QuikGraph.Collections
             }
 
             // Update next
-            if (deletingCell || PriorityComparison(newKey, Top.Priority) * _directionMultiplier < 0)
-            {
+            if (
+                deletingCell ||
+                PriorityComparison(newKey, Top.Priority) *
+                _directionMultiplier
+                    < 0
+            ) {
                 Top = cell;
             }
         }
 
-        private void UpdateCellOppositeDirection([JBNotNull] FibonacciHeapCell<TPriority, TValue> cell, [JBNotNull] TPriority newKey)
-        {
+        private void UpdateCellOppositeDirection(
+             FibonacciHeapCell<TPriority, TValue> cell,
+             TPriority newKey
+        ) {
             cell.Priority = newKey;
-            if (cell.Children != null)
-            {
+            if (cell.Children != null) {
                 List<FibonacciHeapCell<TPriority, TValue>> toUpdate = null;
-                foreach (FibonacciHeapCell<TPriority, TValue> child in cell.Children)
-                {
-                    if (PriorityComparison(cell.Priority, child.Priority) * _directionMultiplier > 0)
-                    {
+                foreach (
+                    FibonacciHeapCell<TPriority, TValue> child in cell.Children
+                ) {
+                    if (
+                        PriorityComparison(cell.Priority, child.Priority) *
+                        _directionMultiplier
+                            > 0
+                    ) {
                         if (toUpdate is null)
                             toUpdate = new List<FibonacciHeapCell<TPriority, TValue>>();
                         toUpdate.Add(child);
                     }
                 }
 
-                if (toUpdate != null)
-                {
-                    foreach (FibonacciHeapCell<TPriority, TValue> child in toUpdate)
-                    {
+                if (toUpdate != null) {
+                    foreach (
+                        FibonacciHeapCell<TPriority, TValue> child in toUpdate
+                    ) {
                         cell.Marked = true;
                         cell.Children.Remove(child);
                         child.Parent = null;
@@ -253,8 +279,9 @@ namespace QuikGraph.Collections
         /// parents if necessary.
         /// </summary>
         /// <param name="cell">Cell to update.</param>
-        private void UpdateCellsDegree([JBNotNull] FibonacciHeapCell<TPriority, TValue> cell)
-        {
+        private void UpdateCellsDegree(
+             FibonacciHeapCell<TPriority, TValue> cell
+        ) {
             Debug.Assert(cell != null);
             Debug.Assert(cell.Children != null);
 
@@ -263,15 +290,17 @@ namespace QuikGraph.Collections
                 ? 1
                 : cell.Children.Max(x => x.Degree) + 1;
 
-            if (oldDegree != cell.Degree)
-            {
-                if (_degreeToCell.TryGetValue(oldDegree, out FibonacciHeapCell<TPriority, TValue> degreeMapValue)
-                    && degreeMapValue == cell)
-                {
+            if (oldDegree != cell.Degree) {
+                if (
+                    _degreeToCell.TryGetValue(
+                        oldDegree,
+                        out FibonacciHeapCell<TPriority, TValue> degreeMapValue
+                    ) &&
+                    degreeMapValue == cell
+                ) {
                     _degreeToCell.Remove(oldDegree);
                 }
-                else if (cell.Parent != null)
-                {
+                else if (cell.Parent != null) {
                     UpdateCellsDegree(cell.Parent);
                 }
             }
@@ -281,8 +310,9 @@ namespace QuikGraph.Collections
         /// Deletes the given <paramref name="cell"/> from this heap.
         /// </summary>
         /// <param name="cell">Cell to delete.</param>
-        public void Delete([JBNotNull] FibonacciHeapCell<TPriority, TValue> cell)
-        {
+        public void Delete(
+             FibonacciHeapCell<TPriority, TValue> cell
+        ) {
             if (cell is null)
                 throw new ArgumentNullException(nameof(cell));
 
@@ -294,8 +324,7 @@ namespace QuikGraph.Collections
         /// Dequeues an element from the heap.
         /// </summary>
         /// <returns>Removed element.</returns>
-        public KeyValuePair<TPriority, TValue> Dequeue()
-        {
+        public KeyValuePair<TPriority, TValue> Dequeue() {
             if (Count == 0)
                 throw new InvalidOperationException("Heap is empty.");
 
@@ -307,16 +336,21 @@ namespace QuikGraph.Collections
             Top.Previous = null;
             Top.Removed = true;
 
-            if (_degreeToCell.TryGetValue(Top.Degree, out FibonacciHeapCell<TPriority, TValue> currentDegreeCell)
-                && currentDegreeCell == Top)
-            {
+            if (
+                _degreeToCell.TryGetValue(
+                    Top.Degree,
+                    out FibonacciHeapCell<TPriority, TValue> currentDegreeCell
+                ) && 
+                currentDegreeCell == Top
+            ) {
                 _degreeToCell.Remove(Top.Degree);
             }
 
             Debug.Assert(Top.Children != null);
 
-            foreach (FibonacciHeapCell<TPriority, TValue> child in Top.Children)
-            {
+            foreach (
+                FibonacciHeapCell<TPriority, TValue> child in Top.Children
+            ) {
                 child.Parent = null;
             }
 
@@ -334,15 +368,19 @@ namespace QuikGraph.Collections
         /// by folding duplicate heap degrees into each other.
         /// Takes O(log(N)) time amortized.
         /// </summary>
-        private void UpdateNext()
-        {
+        private void UpdateNext() {
             CompressHeap();
             FibonacciHeapCell<TPriority, TValue> cell = _cells.First;
             Top = cell;
-            while (cell != null)
-            {
-                if (PriorityComparison(cell.Priority, Top.Priority) * _directionMultiplier < 0)
-                {
+            while (cell != null) {
+                if (
+                    PriorityComparison(
+                        cell.Priority,
+                        Top.Priority
+                    ) *
+                    _directionMultiplier
+                        < 0
+                ) {
                     Top = cell;
                 }
 
@@ -350,11 +388,9 @@ namespace QuikGraph.Collections
             }
         }
 
-        private void CompressHeap()
-        {
+        private void CompressHeap() {
             FibonacciHeapCell<TPriority, TValue> cell = _cells.First;
-            while (cell != null)
-            {
+            while (cell != null) {
                 var nextCell = ReduceCell(ref cell);
 
                 _degreeToCell[cell.Degree] = cell;
@@ -362,28 +398,35 @@ namespace QuikGraph.Collections
             }
         }
 
-        [JBCanBeNull]
-        private FibonacciHeapCell<TPriority, TValue> ReduceCell([JBNotNull] ref FibonacciHeapCell<TPriority, TValue> cell)
-        {
+        
+        private FibonacciHeapCell<TPriority, TValue> ReduceCell(
+             ref FibonacciHeapCell<TPriority, TValue> cell
+        ) {
             FibonacciHeapCell<TPriority, TValue> nextCell = cell.Next;
-            while (_degreeToCell.TryGetValue(cell.Degree, out FibonacciHeapCell<TPriority, TValue> currentDegreeCell)
-                   && currentDegreeCell != cell)
-            {
+            while (
+                _degreeToCell.TryGetValue(
+                    cell.Degree,
+                    out FibonacciHeapCell<TPriority, TValue> currentDegreeCell
+                ) &&
+                currentDegreeCell != cell
+            ) {
                 _degreeToCell.Remove(cell.Degree);
-                if (PriorityComparison(currentDegreeCell.Priority, cell.Priority) * _directionMultiplier <= 0)
-                {
-                    if (cell == nextCell)
-                    {
+                if (
+                    PriorityComparison(
+                        currentDegreeCell.Priority, cell.Priority
+                    ) *
+                    _directionMultiplier
+                        <= 0
+                ) {
+                    if (cell == nextCell) {
                         nextCell = cell.Next;
                     }
 
                     ReduceCells(currentDegreeCell, cell);
                     cell = currentDegreeCell;
                 }
-                else
-                {
-                    if (currentDegreeCell == nextCell)
-                    {
+                else {
+                    if (currentDegreeCell == nextCell) {
                         nextCell = currentDegreeCell.Next;
                     }
 
@@ -400,9 +443,9 @@ namespace QuikGraph.Collections
         /// <param name="parentCell">Parent cell.</param>
         /// <param name="childCell">Child cell.</param>
         private void ReduceCells(
-            [JBNotNull] FibonacciHeapCell<TPriority, TValue> parentCell,
-            [JBNotNull] FibonacciHeapCell<TPriority, TValue> childCell)
-        {
+             FibonacciHeapCell<TPriority, TValue> parentCell,
+             FibonacciHeapCell<TPriority, TValue> childCell
+        ) {
             Debug.Assert(parentCell != null);
             Debug.Assert(parentCell.Children != null);
             Debug.Assert(childCell != null);
@@ -412,8 +455,7 @@ namespace QuikGraph.Collections
             childCell.Parent = parentCell;
             childCell.Marked = false;
 
-            if (parentCell.Degree == childCell.Degree)
-            {
+            if (parentCell.Degree == childCell.Degree) {
                 parentCell.Degree += 1;
             }
         }
@@ -423,8 +465,7 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="heap">Heap to merge.</param>
         /// <exception cref="Exception">If the heap is not in the same direction.</exception>
-        public void Merge([JBNotNull] FibonacciHeap<TPriority, TValue> heap)
-        {
+        public void Merge( FibonacciHeap<TPriority, TValue> heap) {
             if (heap is null)
                 throw new ArgumentNullException(nameof(heap));
             if (heap.Direction != Direction)
@@ -434,8 +475,16 @@ namespace QuikGraph.Collections
 
             bool isEmpty = IsEmpty;
             _cells.MergeLists(heap._cells);
-            if (isEmpty || PriorityComparison(heap.Top.Priority, Top.Priority) * _directionMultiplier < 0)
-            {
+
+            if (
+                isEmpty ||
+                PriorityComparison(
+                    heap.Top.Priority,
+                    Top.Priority
+                ) *
+                _directionMultiplier
+                    < 0
+            ) {
                 Top = heap.Top;
             }
 
@@ -445,8 +494,7 @@ namespace QuikGraph.Collections
         #region IEnumerable
 
         /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+        IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
 
@@ -455,21 +503,34 @@ namespace QuikGraph.Collections
         #region IEnumerable<KeyValuePair<TKey,TValue>>
 
         /// <inheritdoc />
-        public IEnumerator<KeyValuePair<TPriority, TValue>> GetEnumerator()
-        {
-            var tempHeap = new FibonacciHeap<TPriority, TValue>(Direction, PriorityComparison);
-            var cellsStack = new Stack<FibonacciHeapCell<TPriority, TValue>>();
-            _cells.ForEach(x => cellsStack.Push(x));
-            while (cellsStack.Count > 0)
-            {
-                FibonacciHeapCell<TPriority, TValue> topCell = cellsStack.Peek();
-                tempHeap.Enqueue(topCell.Priority, topCell.Value);
+        public IEnumerator<KeyValuePair<TPriority, TValue>> GetEnumerator() {
+            var tempHeap =
+                new FibonacciHeap<TPriority, TValue>(
+                    Direction,
+                    PriorityComparison
+                );
+
+            var cellsStack =
+                new Stack<FibonacciHeapCell<TPriority, TValue>>();
+
+            _cells.ForEach(
+                x => cellsStack.Push(x)
+            );
+
+            while (cellsStack.Count > 0) {
+                FibonacciHeapCell<TPriority, TValue> topCell =
+                    cellsStack.Peek();
+
+                tempHeap.Enqueue(
+                    topCell.Priority,
+                    topCell.Value
+                );
+                
                 cellsStack.Pop();
                 topCell.Children?.ForEach(x => cellsStack.Push(x));
             }
 
-            while (!tempHeap.IsEmpty)
-            {
+            while (!tempHeap.IsEmpty) {
                 yield return tempHeap.Top.ToKeyValuePair();
                 tempHeap.Dequeue();
             }
@@ -481,11 +542,10 @@ namespace QuikGraph.Collections
         /// Enumerator for this heap that <see cref="Dequeue"/> elements in the same time.
         /// </summary>
         /// <returns>Heap elements.</returns>
-        [JBNotNull]
-        public IEnumerable<KeyValuePair<TPriority, TValue>> GetDestructiveEnumerator()
-        {
-            while (!IsEmpty)
-            {
+        
+        public
+            IEnumerable<KeyValuePair<TPriority, TValue>> GetDestructiveEnumerator() {
+            while (!IsEmpty) {
                 yield return Top.ToKeyValuePair();
                 Dequeue();
             }
@@ -493,15 +553,16 @@ namespace QuikGraph.Collections
 
         #region String representation
 
-        private struct CellLevel
-        {
-            [JBNotNull]
+        private struct CellLevel {
+            
             public FibonacciHeapCell<TPriority, TValue> Cell { get; }
 
             public int Level { get; }
 
-            public CellLevel([JBNotNull] FibonacciHeapCell<TPriority, TValue> cell, int level)
-            {
+            public CellLevel(
+                 FibonacciHeapCell<TPriority, TValue> cell,
+                int level
+            ) {
                 Cell = cell;
                 Level = level;
             }
@@ -511,18 +572,19 @@ namespace QuikGraph.Collections
         /// Draws the current heap in a string. Marked cells have an * next to them.
         /// </summary>
         /// <returns>Heap string representation.</returns>
-        public string DrawHeap()
-        {
+        public string DrawHeap() {
             var lines = new List<string>();
             int columnPosition = 0;
             var list = new List<CellLevel>();
+
             foreach (FibonacciHeapCell<TPriority, TValue> cell in _cells)
                 list.Add(new CellLevel(cell, 0));
+
             list.Reverse();
 
             var stack = new Stack<CellLevel>(list);
-            while (stack.Count > 0)
-            {
+            
+            while (stack.Count > 0) {
                 CellLevel currentCell = stack.Pop();
                 int lineNum = currentCell.Level;
                 if (lines.Count <= lineNum)
@@ -530,17 +592,28 @@ namespace QuikGraph.Collections
 
                 string currentLine = lines[lineNum];
                 currentLine = currentLine.PadRight(columnPosition, ' ');
-                string cellString = $"{currentCell.Cell.Priority}{(currentCell.Cell.Marked ? "*" : string.Empty)} ";
+                string cellString =
+                    $"{currentCell.Cell.Priority}{(currentCell.Cell.Marked ? "*" : string.Empty)} ";
                 currentLine += cellString;
 
-                if (currentCell.Cell.Children?.First != null)
-                {
-                    var children = new List<FibonacciHeapCell<TPriority, TValue>>(currentCell.Cell.Children);
+                if (currentCell.Cell.Children?.First != null) {
+                    var children =
+                        new List<FibonacciHeapCell<TPriority, TValue>>(
+                        currentCell.Cell.Children
+                    );
+                    
                     children.Reverse();
-                    children.ForEach(x => stack.Push(new CellLevel(x, currentCell.Level + 1)));
+                    
+                    children.ForEach(
+                        x => stack.Push(
+                            new CellLevel(
+                                x,
+                                currentCell.Level + 1
+                            )
+                        )
+                    );
                 }
-                else
-                {
+                else {
                     columnPosition += cellString.Length;
                 }
 

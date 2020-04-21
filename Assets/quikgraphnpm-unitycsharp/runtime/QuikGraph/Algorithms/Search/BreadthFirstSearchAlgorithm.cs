@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph.Algorithms.Search
 {
@@ -16,9 +16,7 @@ namespace QuikGraph.Algorithms.Search
     /// </remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class BreadthFirstSearchAlgorithm<TVertex, TEdge>
         : RootedAlgorithmBase<TVertex, IVertexListGraph<TVertex, TEdge>>
         , IVertexPredecessorRecorderAlgorithm<TVertex, TEdge>
@@ -26,14 +24,14 @@ namespace QuikGraph.Algorithms.Search
         , IVertexColorizerAlgorithm<TVertex>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly IQueue<TVertex> _vertexQueue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BreadthFirstSearchAlgorithm{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        public BreadthFirstSearchAlgorithm([JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph)
+        public BreadthFirstSearchAlgorithm( IVertexListGraph<TVertex, TEdge> visitedGraph)
             : this(visitedGraph, new Collections.Queue<TVertex>(), new Dictionary<TVertex, GraphColor>())
         {
         }
@@ -45,9 +43,9 @@ namespace QuikGraph.Algorithms.Search
         /// <param name="vertexQueue">Queue of vertices to treat.</param>
         /// <param name="verticesColors">Vertices associated to their colors (treatment states).</param>
         public BreadthFirstSearchAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IQueue<TVertex> vertexQueue,
-            [JBNotNull] IDictionary<TVertex, GraphColor> verticesColors)
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             IQueue<TVertex> vertexQueue,
+             IDictionary<TVertex, GraphColor> verticesColors)
             : this(null, visitedGraph, vertexQueue, verticesColors)
         {
         }
@@ -60,10 +58,10 @@ namespace QuikGraph.Algorithms.Search
         /// <param name="vertexQueue">Queue of vertices to treat.</param>
         /// <param name="verticesColors">Vertices associated to their colors (treatment states).</param>
         public BreadthFirstSearchAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IQueue<TVertex> vertexQueue,
-            [JBNotNull] IDictionary<TVertex, GraphColor> verticesColors)
+             IAlgorithmComponent host,
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             IQueue<TVertex> vertexQueue,
+             IDictionary<TVertex, GraphColor> verticesColors)
             : this(host, visitedGraph, vertexQueue, verticesColors, edges => edges)
         {
         }
@@ -77,11 +75,11 @@ namespace QuikGraph.Algorithms.Search
         /// <param name="verticesColors">Vertices associated to their colors (treatment states).</param>
         /// <param name="outEdgesFilter">Function that is used filter out-edges of a vertex.</param>
         public BreadthFirstSearchAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IQueue<TVertex> vertexQueue,
-            [JBNotNull] IDictionary<TVertex, GraphColor> verticesColors,
-            [JBNotNull] Func<IEnumerable<TEdge>, IEnumerable<TEdge>> outEdgesFilter)
+             IAlgorithmComponent host,
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             IQueue<TVertex> vertexQueue,
+             IDictionary<TVertex, GraphColor> verticesColors,
+             Func<IEnumerable<TEdge>, IEnumerable<TEdge>> outEdgesFilter)
             : base(host, visitedGraph)
         {
             VerticesColors = verticesColors ?? throw new ArgumentNullException(nameof(verticesColors));
@@ -92,7 +90,7 @@ namespace QuikGraph.Algorithms.Search
         /// <summary>
         /// Filter of edges.
         /// </summary>
-        [JBNotNull]
+        
         public Func<IEnumerable<TEdge>, IEnumerable<TEdge>> OutEdgesFilter { get; }
 
         #region Events
@@ -100,7 +98,7 @@ namespace QuikGraph.Algorithms.Search
         /// <inheritdoc />
         public event VertexAction<TVertex> InitializeVertex;
 
-        private void OnVertexInitialized([JBNotNull] TVertex vertex)
+        private void OnVertexInitialized( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -110,7 +108,7 @@ namespace QuikGraph.Algorithms.Search
         /// <inheritdoc />
         public event VertexAction<TVertex> StartVertex;
 
-        private void OnStartVertex([JBNotNull] TVertex vertex)
+        private void OnStartVertex( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -122,7 +120,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event VertexAction<TVertex> ExamineVertex;
 
-        private void OnExamineVertex([JBNotNull] TVertex vertex)
+        private void OnExamineVertex( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -134,7 +132,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event VertexAction<TVertex> DiscoverVertex;
 
-        private void OnDiscoverVertex([JBNotNull] TVertex vertex)
+        private void OnDiscoverVertex( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -146,7 +144,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> ExamineEdge;
 
-        private void OnExamineEdge([JBNotNull] TEdge edge)
+        private void OnExamineEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -158,7 +156,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> TreeEdge;
 
-        private void OnTreeEdge([JBNotNull] TEdge edge)
+        private void OnTreeEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -170,7 +168,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> NonTreeEdge;
 
-        private void OnNonTreeEdge([JBNotNull] TEdge edge)
+        private void OnNonTreeEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -182,7 +180,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> GrayTarget;
 
-        private void OnGrayTarget([JBNotNull] TEdge edge)
+        private void OnGrayTarget( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -194,7 +192,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> BlackTarget;
 
-        private void OnBlackTarget([JBNotNull] TEdge edge)
+        private void OnBlackTarget( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -204,7 +202,7 @@ namespace QuikGraph.Algorithms.Search
         /// <inheritdoc />
         public event VertexAction<TVertex> FinishVertex;
 
-        private void OnVertexFinished([JBNotNull] TVertex vertex)
+        private void OnVertexFinished( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -260,7 +258,7 @@ namespace QuikGraph.Algorithms.Search
         /// <summary>
         /// Stores vertices associated to their colors (treatment state).
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, GraphColor> VerticesColors { get; }
 
         #region IVertexColorizerAlgorithm<TVertex>
@@ -275,7 +273,7 @@ namespace QuikGraph.Algorithms.Search
 
         #endregion
 
-        internal void Visit([JBNotNull] TVertex root)
+        internal void Visit( TVertex root)
         {
             Debug.Assert(root!= null);
 
@@ -283,7 +281,7 @@ namespace QuikGraph.Algorithms.Search
             FlushVisitQueue();
         }
 
-        private void EnqueueRoot([JBNotNull] TVertex vertex)
+        private void EnqueueRoot( TVertex vertex)
         {
             OnStartVertex(vertex);
 

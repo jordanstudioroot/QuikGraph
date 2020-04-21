@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Predicates
 {
@@ -9,19 +9,18 @@ namespace QuikGraph.Predicates
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TValue">Type of the value associated to vertices.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public sealed class InDictionaryVertexPredicate<TVertex, TValue>
     {
-        [JBNotNull]
+        
         private readonly IDictionary<TVertex, TValue> _vertexMap;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InDictionaryVertexPredicate{TVertex,TValue}"/> class.
         /// </summary>
         /// <param name="vertexMap">Vertex map.</param>
-        public InDictionaryVertexPredicate([JBNotNull] IDictionary<TVertex, TValue> vertexMap)
+        public InDictionaryVertexPredicate( IDictionary<TVertex, TValue> vertexMap)
         {
             _vertexMap = vertexMap ?? throw new ArgumentNullException(nameof(vertexMap));
         }
@@ -32,8 +31,8 @@ namespace QuikGraph.Predicates
         /// <remarks>Check if the implemented predicate is matched.</remarks>
         /// <param name="vertex">Vertex to use in predicate.</param>
         /// <returns>True if the vertex is in the vertex map, false otherwise.</returns>
-        [JBPure]
-        public bool Test([JBNotNull] TVertex vertex)
+        
+        public bool Test( TVertex vertex)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));

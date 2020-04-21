@@ -1,7 +1,6 @@
-using JetBrains.Annotations;
 
-namespace QuikGraph
-{
+
+namespace QuikGraph {
     /// <summary>
     /// Delegate for an handler dealing with an undirected edge.
     /// </summary>
@@ -9,6 +8,8 @@ namespace QuikGraph
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <param name="sender">Event sender.</param>
     /// <param name="args">Event arguments.</param>
-    public delegate void UndirectedEdgeAction<TVertex, TEdge>([JBNotNull] object sender, [JBNotNull] UndirectedEdgeEventArgs<TVertex, TEdge> args)
-        where TEdge : IEdge<TVertex>;
+    public delegate void UndirectedEdgeAction<TVertex, TEdge>(
+         object sender,
+         UndirectedEdgeEventArgs<TVertex, TEdge> args
+    ) where TEdge : IEdge<TVertex>;
 }

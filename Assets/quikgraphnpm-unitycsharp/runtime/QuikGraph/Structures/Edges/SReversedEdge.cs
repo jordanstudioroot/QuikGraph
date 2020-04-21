@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -11,9 +11,8 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [StructLayout(LayoutKind.Auto)]
     [DebuggerDisplay("{" + nameof(Source) + "}<-{" + nameof(Target) + "}")]
     public struct SReversedEdge<TVertex, TEdge> : IEdge<TVertex>, IEquatable<SReversedEdge<TVertex, TEdge>>
@@ -23,7 +22,7 @@ namespace QuikGraph
         /// Initializes a new instance of the <see cref="SReversedEdge{TVertex, TEdge}"/> struct.
         /// </summary>
         /// <param name="originalEdge">Original edge.</param>
-        public SReversedEdge([JBNotNull] TEdge originalEdge)
+        public SReversedEdge( TEdge originalEdge)
         {
             if (originalEdge == null)
                 throw new ArgumentNullException(nameof(originalEdge));
@@ -34,7 +33,7 @@ namespace QuikGraph
         /// <summary>
         /// Original edge.
         /// </summary>
-        [JBNotNull]
+        
         public TEdge OriginalEdge { get; }
 
         /// <inheritdoc />

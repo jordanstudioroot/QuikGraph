@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using static QuikGraph.Utils.DisposableHelpers;
+
 
 namespace QuikGraph.Algorithms.Observers
 {
@@ -11,9 +11,7 @@ namespace QuikGraph.Algorithms.Observers
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class UndirectedVertexPredecessorRecorderObserver<TVertex, TEdge> :
         IObserver<IUndirectedTreeBuilderAlgorithm<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
@@ -31,7 +29,7 @@ namespace QuikGraph.Algorithms.Observers
         /// </summary>
         /// <param name="verticesPredecessors">Vertices predecessors.</param>
         public UndirectedVertexPredecessorRecorderObserver(
-            [JBNotNull] IDictionary<TVertex, TEdge> verticesPredecessors)
+             IDictionary<TVertex, TEdge> verticesPredecessors)
         {
             VerticesPredecessors = verticesPredecessors ?? throw new ArgumentNullException(nameof(verticesPredecessors));
         }
@@ -39,7 +37,7 @@ namespace QuikGraph.Algorithms.Observers
         /// <summary>
         /// Vertices predecessors.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, TEdge> VerticesPredecessors { get; }
 
         #region IObserver<TAlgorithm>
@@ -56,7 +54,7 @@ namespace QuikGraph.Algorithms.Observers
 
         #endregion
 
-        private void OnEdgeDiscovered([JBNotNull] object sender, [JBNotNull] UndirectedEdgeEventArgs<TVertex, TEdge> args)
+        private void OnEdgeDiscovered( object sender,  UndirectedEdgeEventArgs<TVertex, TEdge> args)
         {
             Debug.Assert(sender != null);
             Debug.Assert(args != null);
@@ -70,7 +68,7 @@ namespace QuikGraph.Algorithms.Observers
         /// <param name="vertex">Path ending vertex.</param>
         /// <param name="path">Path to the ending vertex.</param>
         /// <returns>True if a path was found, false otherwise.</returns>
-        [JBPure]
+        
         public bool TryGetPath(TVertex vertex, out IEnumerable<TEdge> path)
         {
             return VerticesPredecessors.TryGetPath(vertex, out path);

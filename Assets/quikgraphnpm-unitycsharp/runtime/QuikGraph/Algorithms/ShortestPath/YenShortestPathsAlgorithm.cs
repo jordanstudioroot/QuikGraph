@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Observers;
 using QuikGraph.Collections;
 
@@ -21,13 +21,13 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         public struct SortedPath : IEnumerable<EquatableTaggedEdge<TVertex, double>>, IEquatable<SortedPath>
         {
-            [JBNotNull, ItemNotNull]
+            
             private readonly List<EquatableTaggedEdge<TVertex, double>> _edges;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="SortedPath"/> struct.
             /// </summary>
-            public SortedPath([JBNotNull, ItemNotNull] IEnumerable<EquatableTaggedEdge<TVertex, double>> edges)
+            public SortedPath( IEnumerable<EquatableTaggedEdge<TVertex, double>> edges)
             {
                 _edges = edges.ToList();
             }
@@ -37,8 +37,8 @@ namespace QuikGraph.Algorithms.ShortestPath
             /// </summary>
             public int Count => _edges.Count;
 
-            [JBPure]
-            [JBNotNull]
+            
+            
             internal TVertex GetVertex(int i)
             {
                 Debug.Assert(i >= 0 && i < _edges.Count);
@@ -46,8 +46,8 @@ namespace QuikGraph.Algorithms.ShortestPath
                 return _edges[i].Source;
             }
 
-            [JBPure]
-            [JBNotNull]
+            
+            
             internal EquatableTaggedEdge<TVertex, double> GetEdge(int i)
             {
                 Debug.Assert(i >= 0 && i < _edges.Count);
@@ -55,8 +55,8 @@ namespace QuikGraph.Algorithms.ShortestPath
                 return _edges[i];
             }
 
-            [JBPure]
-            [JBNotNull, ItemNotNull]
+            
+            
             internal EquatableTaggedEdge<TVertex, double>[] GetEdges(int count)
             {
                 if (count > _edges.Count)
@@ -101,16 +101,16 @@ namespace QuikGraph.Algorithms.ShortestPath
         private readonly TVertex _sourceVertex;
         private readonly TVertex _targetVertex;
 
-        [JBNotNull]
+        
         private readonly Func<EquatableTaggedEdge<TVertex, double>, double> _weights;
 
-        [JBNotNull]
+        
         private readonly Func<IEnumerable<SortedPath>, IEnumerable<SortedPath>> _filter;
 
         // Limit for the amount of paths
         private readonly int _k;
 
-        [JBNotNull]
+        
         private readonly IMutableVertexAndEdgeListGraph<TVertex, EquatableTaggedEdge<TVertex, double>> _graph;
 
         /// <summary>
@@ -126,12 +126,12 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Optional function that computes the weight for a given edge.</param>
         /// <param name="filter">Optional filter of found paths.</param>
         public YenShortestPathsAlgorithm(
-            [JBNotNull] AdjacencyGraph<TVertex, EquatableTaggedEdge<TVertex, double>> graph,
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target,
+             AdjacencyGraph<TVertex, EquatableTaggedEdge<TVertex, double>> graph,
+             TVertex source,
+             TVertex target,
             int k,
-            [JBCanBeNull] Func<EquatableTaggedEdge<TVertex, double>, double> edgeWeights = null,
-            [JBCanBeNull] Func<IEnumerable<SortedPath>, IEnumerable<SortedPath>> filter = null)
+             Func<EquatableTaggedEdge<TVertex, double>, double> edgeWeights = null,
+             Func<IEnumerable<SortedPath>, IEnumerable<SortedPath>> filter = null)
         {
             if (graph is null)
                 throw new ArgumentNullException(nameof(graph));
@@ -150,18 +150,18 @@ namespace QuikGraph.Algorithms.ShortestPath
             _filter = filter ?? DefaultFilter;
         }
 
-        [JBNotNull]
-        private static IEnumerable<SortedPath> DefaultFilter([JBNotNull] IEnumerable<SortedPath> paths)
+        
+        private static IEnumerable<SortedPath> DefaultFilter( IEnumerable<SortedPath> paths)
         {
             return paths;
         }
 
-        private static double DefaultGetWeights([JBNotNull] EquatableTaggedEdge<TVertex, double> edge)
+        private static double DefaultGetWeights( EquatableTaggedEdge<TVertex, double> edge)
         {
             return edge.Tag;
         }
 
-        private double GetPathDistance([ItemNotNull] SortedPath edges)
+        private double GetPathDistance( SortedPath edges)
         {
             return edges.Sum(edge => _weights(edge));
         }
@@ -173,7 +173,7 @@ namespace QuikGraph.Algorithms.ShortestPath
                 throw new NoPathFoundException();
         }
 
-        [JBPure]
+        
         private SortedPath GetInitialShortestPath()
         {
             AssertSourceAndTargetInGraph();
@@ -187,12 +187,12 @@ namespace QuikGraph.Algorithms.ShortestPath
             return shortestPath.Value;
         }
 
-        [JBPure]
-        [JBCanBeNull]
+        
+        
         private SortedPath? GetShortestPathInGraph(
-            [JBNotNull] IVertexListGraph<TVertex, EquatableTaggedEdge<TVertex, double>> graph,
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target)
+             IVertexListGraph<TVertex, EquatableTaggedEdge<TVertex, double>> graph,
+             TVertex source,
+             TVertex target)
         {
             Debug.Assert(graph != null);
             Debug.Assert(source != null);
@@ -211,10 +211,10 @@ namespace QuikGraph.Algorithms.ShortestPath
                 : (SortedPath?)null;
         }
 
-        [JBCanBeNull]
+        
         private static SortedPath? ExtractShortestPathCandidate(
-            [JBNotNull] List<SortedPath> shortestPaths,
-            [JBNotNull] IQueue<SortedPath> shortestPathCandidates)
+             List<SortedPath> shortestPaths,
+             IQueue<SortedPath> shortestPathCandidates)
         {
             bool isNewPath = false;
             SortedPath? newPath = null;
@@ -239,8 +239,8 @@ namespace QuikGraph.Algorithms.ShortestPath
 
         private bool SearchAndAddKthShortestPath(
             SortedPath previousPath,
-            [JBNotNull] List<SortedPath> shortestPaths,
-            [JBNotNull] IQueue<SortedPath> shortestPathCandidates)
+             List<SortedPath> shortestPaths,
+             IQueue<SortedPath> shortestPathCandidates)
         {
             // Iterate over all of the nodes in the (k-1)st shortest path except for the target node
             // For each node (up to) one new candidate path is generated by temporarily modifying
@@ -316,8 +316,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// Runs the algorithm.
         /// </summary>
         /// <returns>Found paths.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public IEnumerable<SortedPath> Execute()
         {
             SortedPath initialPath = GetInitialShortestPath();
@@ -337,11 +337,11 @@ namespace QuikGraph.Algorithms.ShortestPath
             return _filter(shortestPaths);
         }
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly List<EquatableTaggedEdge<TVertex, double>> _edgesToRestore =
             new List<EquatableTaggedEdge<TVertex, double>>();
 
-        private void OnGraphEdgeRemoved([JBNotNull] EquatableTaggedEdge<TVertex, double> edge)
+        private void OnGraphEdgeRemoved( EquatableTaggedEdge<TVertex, double> edge)
         {
             _edgesToRestore.Add(edge);
         }

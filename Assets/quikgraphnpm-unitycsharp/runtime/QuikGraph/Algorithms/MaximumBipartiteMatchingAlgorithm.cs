@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.MaximumFlow;
 using QuikGraph.Algorithms.Services;
 
@@ -24,11 +24,11 @@ namespace QuikGraph.Algorithms
         /// <param name="vertexFactory">Vertex factory method.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public MaximumBipartiteMatchingAlgorithm(
-            [JBNotNull] IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> sourceToVertices,
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> verticesToSink,
-            [JBNotNull] VertexFactory<TVertex> vertexFactory,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+            IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+            IEnumerable<TVertex> sourceToVertices,
+            IEnumerable<TVertex> verticesToSink,
+            VertexFactory<TVertex> vertexFactory,
+            EdgeFactory<TVertex, TEdge> edgeFactory)
             : base(visitedGraph)
         {
             SourceToVertices = sourceToVertices ?? throw new ArgumentNullException(nameof(sourceToVertices));
@@ -40,35 +40,35 @@ namespace QuikGraph.Algorithms
         /// <summary>
         /// Vertices to which augmented edge from super source are created with augmentation.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IEnumerable<TVertex> SourceToVertices { get; }
 
         /// <summary>
         /// Vertices from which augmented edge to super sink are created with augmentation.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IEnumerable<TVertex> VerticesToSink { get; }
 
         /// <summary>
         /// Vertex factory method.
         /// </summary>
-        [JBNotNull]
+        
         public VertexFactory<TVertex> VertexFactory { get; }
 
         /// <summary>
         /// Edge factory method.
         /// </summary>
-        [JBNotNull]
+        
         public EdgeFactory<TVertex, TEdge> EdgeFactory { get; }
 
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly List<TEdge> _matchedEdges = new List<TEdge>();
 
         /// <summary>
         /// Maximal edges matching.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public TEdge[] MatchedEdges => _matchedEdges.ToArray();
 
         #region AlgorithmBase<TGraph>

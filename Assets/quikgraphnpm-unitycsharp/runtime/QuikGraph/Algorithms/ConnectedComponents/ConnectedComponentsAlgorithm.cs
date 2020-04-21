@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Search;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.ConnectedComponents
 {
@@ -11,9 +11,7 @@ namespace QuikGraph.Algorithms.ConnectedComponents
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class ConnectedComponentsAlgorithm<TVertex, TEdge>
         : AlgorithmBase<IUndirectedGraph<TVertex, TEdge>>
         , IConnectedComponentAlgorithm<TVertex, TEdge, IUndirectedGraph<TVertex, TEdge>>
@@ -23,7 +21,7 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// Initializes a new instance of the <see cref="ConnectedComponentsAlgorithm{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        public ConnectedComponentsAlgorithm([JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph)
+        public ConnectedComponentsAlgorithm( IUndirectedGraph<TVertex, TEdge> visitedGraph)
             : this(visitedGraph, new Dictionary<TVertex, int>())
         {
         }
@@ -34,8 +32,8 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="components">Graph components.</param>
         public ConnectedComponentsAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             IDictionary<TVertex, int> components)
             : this(null, visitedGraph, components)
         {
         }
@@ -47,9 +45,9 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="components">Graph components.</param>
         public ConnectedComponentsAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             IAlgorithmComponent host,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             IDictionary<TVertex, int> components)
             : base(host, visitedGraph)
         {
             Components = components ?? throw new ArgumentNullException(nameof(components));
@@ -108,12 +106,12 @@ namespace QuikGraph.Algorithms.ConnectedComponents
 
         #endregion
 
-        private void OnStartVertex([JBNotNull] TVertex vertex)
+        private void OnStartVertex( TVertex vertex)
         {
             ++ComponentCount;
         }
 
-        private void OnVertexDiscovered([JBNotNull] TVertex vertex)
+        private void OnVertexDiscovered( TVertex vertex)
         {
             Components[vertex] = ComponentCount;
         }

@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -18,13 +18,13 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="predicate">Predicate to remove edges.</param>
         /// <returns>The number of removed edges.</returns>
-        int RemoveOutEdgeIf([JBNotNull] TVertex vertex, [JBNotNull, JBInstantHandle] EdgePredicate<TVertex, TEdge> predicate);
+        int RemoveOutEdgeIf( TVertex vertex,  EdgePredicate<TVertex, TEdge> predicate);
 
         /// <summary>
         /// Trims the out-edges of the given <paramref name="vertex"/>
         /// </summary>
         /// <param name="vertex">The vertex.</param>
-        void ClearOutEdges([JBNotNull] TVertex vertex);
+        void ClearOutEdges( TVertex vertex);
 
         /// <summary>
         /// Trims excess storage allocated for edges.

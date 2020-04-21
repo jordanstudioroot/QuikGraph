@@ -1,8 +1,6 @@
-#if SUPPORTS_SERIALIZATION
 using System;
-#endif
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.Condensation
 {
@@ -12,9 +10,7 @@ namespace QuikGraph.Algorithms.Condensation
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <typeparam name="TGraph">Graph type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class CondensedEdge<TVertex, TEdge, TGraph> : Edge<TGraph>
         where TEdge : IEdge<TVertex>
         where TGraph : IMutableVertexAndEdgeSet<TVertex, TEdge>, new()
@@ -24,7 +20,7 @@ namespace QuikGraph.Algorithms.Condensation
         /// </summary>
         /// <param name="source">The source graph.</param>
         /// <param name="target">The target graph.</param>
-        public CondensedEdge([JBNotNull] TGraph source, [JBNotNull] TGraph target)
+        public CondensedEdge( TGraph source,  TGraph target)
             : base(source, target)
         {
         }
@@ -32,7 +28,7 @@ namespace QuikGraph.Algorithms.Condensation
         /// <summary>
         /// Edges between source and target graphs.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IList<TEdge> Edges { get; } = new List<TEdge>();
     }
 }

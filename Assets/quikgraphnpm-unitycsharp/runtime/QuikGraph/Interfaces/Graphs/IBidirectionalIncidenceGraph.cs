@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -18,35 +18,33 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>True if <paramref name="vertex"/> has no in-edges, false otherwise.</returns>
-        [JBPure]
-        bool IsInEdgesEmpty([JBNotNull] TVertex vertex);
+        
+        bool IsInEdgesEmpty( TVertex vertex);
 
         /// <summary>
         /// Gets the number of in-edges of <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>The number of in-edges pointing towards <paramref name="vertex"/>.</returns>
-        [JBPure]
-        int InDegree([JBNotNull] TVertex vertex);
+        
+        int InDegree( TVertex vertex);
 
         /// <summary>
         /// Gets the collection of in-edges of <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>The collection of in-edges of <paramref name="vertex"/>.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        IEnumerable<TEdge> InEdges([JBNotNull] TVertex vertex);
+        
+        
+        IEnumerable<TEdge> InEdges( TVertex vertex);
 
         /// <summary>
         /// Tries to get the in-edges of <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <param name="edges">In-edges.</param>
-        /// <returns>True if <paramref name="vertex"/> was found or/and in-edges were found, false otherwise.</returns>
-        [JBPure]
-        [JBContractAnnotation("=> true, edges:notnull;=> false, edges:null")]
-        bool TryGetInEdges([JBNotNull] TVertex vertex, [ItemNotNull] out IEnumerable<TEdge> edges);
+        /// <returns>True if <paramref name="vertex"/> was found or/and in-edges were found, false otherwise.</returns>        
+        bool TryGetInEdges( TVertex vertex,  out IEnumerable<TEdge> edges);
 
         /// <summary>
         /// Gets the in-edge at location <paramref name="index"/>.
@@ -54,9 +52,9 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="index">The index.</param>
         /// <returns>The in-edge at position <paramref name="index"/>.</returns>
-        [JBPure]
-        [JBNotNull]
-        TEdge InEdge([JBNotNull] TVertex vertex, int index);
+        
+        
+        TEdge InEdge( TVertex vertex, int index);
 
         /// <summary>
         /// Gets the degree of <paramref name="vertex"/>, i.e.
@@ -64,7 +62,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>The sum of OutDegree and InDegree of <paramref name="vertex"/>.</returns>
-        [JBPure]
-        int Degree([JBNotNull] TVertex vertex);
+        
+        int Degree( TVertex vertex);
     }
 }

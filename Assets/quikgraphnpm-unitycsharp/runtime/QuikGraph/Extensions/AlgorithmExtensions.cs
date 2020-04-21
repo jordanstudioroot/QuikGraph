@@ -2,12 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-#if SUPPORTS_TYPE_FULL_FEATURES
 using System.Reflection;
-#else
-using QuikGraph.Utils;
-#endif
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Condensation;
 using QuikGraph.Algorithms.ConnectedComponents;
 using QuikGraph.Algorithms.MaximumFlow;
@@ -20,61 +15,75 @@ using QuikGraph.Algorithms.ShortestPath;
 using QuikGraph.Algorithms.TopologicalSort;
 using QuikGraph.Collections;
 
-namespace QuikGraph.Algorithms
-{
-    /// <summary>
-    /// Extensions related to algorithms, to run them.
-    /// </summary>
-    public static class AlgorithmExtensions
-    {
-        /// <summary>
-        /// Returns the method that implement the access indexer.
-        /// </summary>
-        /// <typeparam name="TKey">Key type.</typeparam>
-        /// <typeparam name="TValue">Value type.</typeparam>
-        /// <param name="dictionary">Dictionary on which getting the key access method.</param>
-        /// <returns>A function allowing key indexed access.</returns>
-        [JBPure]
-        [JBNotNull]
-        public static Func<TKey, TValue> GetIndexer<TKey, TValue>([JBNotNull] IDictionary<TKey, TValue> dictionary)
-        {
+
+namespace QuikGraph.Algorithms {
+/// <summary>
+///     Extensions related to algorithms, to run them.
+/// </summary>
+    public static class AlgorithmExtensions {
+/// <summary>
+///     Returns the method that implement the access indexer.
+/// </summary>
+/// <typeparam name="TKey">
+///     Key type.
+/// </typeparam>
+/// <typeparam name="TValue">
+///     Value type.
+/// </typeparam>
+/// <param name="dictionary">
+///     Dictionary on which getting the key access method.
+/// </param>
+/// <returns>
+///     A function allowing key indexed access.
+/// </returns>
+        
+        
+        public static Func<TKey, TValue> GetIndexer<TKey, TValue>(
+             IDictionary<TKey, TValue> dictionary
+        ) {
             if (dictionary is null)
                 throw new ArgumentNullException(nameof(dictionary));
 
-#if SUPPORTS_TYPE_FULL_FEATURES
-            // ReSharper disable once PossibleNullReferenceException, Justification: Dictionary has the [] operator called "Item".
-            MethodInfo method = dictionary.GetType().GetProperty("Item").GetGetMethod();
-            // ReSharper disable once AssignNullToNotNullAttribute, Justification: Throws if the method is not found.
-            return (Func<TKey, TValue>)Delegate.CreateDelegate(typeof(Func<TKey, TValue>), dictionary, method, true);
-#else
-            return key => dictionary[key];
-#endif
+            MethodInfo method = 
+                dictionary.GetType().GetProperty("Item").GetGetMethod();
+
+            return 
+                (Func<TKey, TValue>)Delegate.CreateDelegate(
+                    typeof(Func<TKey, TValue>),
+                    dictionary,
+                    method,
+                    true
+                );
         }
 
-        /// <summary>
-        /// Gets the vertex identity.
-        /// </summary>
-        /// <remarks>
-        /// Returns more efficient methods for primitive types,
-        /// otherwise builds a dictionary.
-        /// </remarks>
-        /// <typeparam name="TVertex">Vertex type.</typeparam>
-        /// <param name="graph">The graph.</param>
-        /// <returns>A function that computes a vertex identity for the given <paramref name="graph"/>.</returns>
-        [JBPure]
-        [JBNotNull]
-        public static VertexIdentity<TVertex> GetVertexIdentity<TVertex>([JBNotNull] this IVertexSet<TVertex> graph)
-        {
+/// <summary>
+///     Gets the vertex identity.
+/// </summary>
+/// <remarks>
+///     Returns more efficient methods for primitive types,
+///     otherwise builds a dictionary.
+/// </remarks>
+/// <typeparam name="TVertex">
+///     Vertex type.
+/// </typeparam>
+/// <param name="graph">
+///     The graph.
+/// </param>
+/// <returns>
+///     A function that computes a vertex identity for the given
+///     <paramref name="graph"/>.
+/// </returns>
+        
+        
+        public static
+        VertexIdentity<TVertex> GetVertexIdentity<TVertex>(
+             this IVertexSet<TVertex> graph
+        ) {
             if (graph is null)
                 throw new ArgumentNullException(nameof(graph));
 
-            // Simpler identity for primitive types
-#if SUPPORTS_TYPE_FULL_FEATURES
-            switch (Type.GetTypeCode(typeof(TVertex)))
-#else
-            switch (TypeUtils.GetTypeCode(typeof(TVertex)))
-#endif
-            {
+// Simpler identity for primitive types
+            switch (Type.GetTypeCode(typeof(TVertex))) {
                 case TypeCode.String:
                 case TypeCode.Boolean:
                 case TypeCode.Byte:
@@ -92,10 +101,11 @@ namespace QuikGraph.Algorithms
                     return vertex => vertex.ToString();
             }
 
-            // Create dictionary
+// TODO: Finish reformatting code for readability.
+
+// Create dictionary
             var ids = new Dictionary<TVertex, string>(graph.VertexCount);
-            return vertex =>
-            {
+            return vertex => {
                 if (!ids.TryGetValue(vertex, out string id))
                     ids[vertex] = id = ids.Count.ToString();
                 return id;
@@ -109,9 +119,9 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">The graph.</param>
         /// <returns>A function that computes an edge identity for the given <paramref name="graph"/>.</returns>
-        [JBPure]
-        [JBNotNull]
-        public static EdgeIdentity<TVertex, TEdge> GetEdgeIdentity<TVertex, TEdge>([JBNotNull] this IEdgeSet<TVertex, TEdge> graph)
+        
+        
+        public static EdgeIdentity<TVertex, TEdge> GetEdgeIdentity<TVertex, TEdge>( this IEdgeSet<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -127,11 +137,11 @@ namespace QuikGraph.Algorithms
             };
         }
 
-        [JBPure]
-        [JBNotNull]
+        
+        
         private static TryFunc<TVertex, IEnumerable<TEdge>> RunDirectedRootedAlgorithm<TVertex, TEdge, TAlgorithm>(
-            [JBNotNull] TVertex source,
-            [JBNotNull] TAlgorithm algorithm)
+             TVertex source,
+             TAlgorithm algorithm)
             where TEdge : IEdge<TVertex>
             where TAlgorithm : RootedAlgorithmBase<TVertex, IVertexListGraph<TVertex, TEdge>>, ITreeBuilderAlgorithm<TVertex, TEdge>
         {
@@ -155,11 +165,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">The graph to visit.</param>
         /// <param name="root">Starting vertex.</param>
         /// <returns>A function that allow to get edges connected to a given vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> TreeBreadthFirstSearch<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph,
-            [JBNotNull] TVertex root)
+             this IVertexListGraph<TVertex, TEdge> graph,
+             TVertex root)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new BreadthFirstSearchAlgorithm<TVertex, TEdge>(graph);
@@ -178,11 +188,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">The graph to visit.</param>
         /// <param name="root">Starting vertex.</param>
         /// <returns>A function that allow to get edges connected to a given vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> TreeDepthFirstSearch<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph,
-            [JBNotNull] TVertex root)
+             this IVertexListGraph<TVertex, TEdge> graph,
+             TVertex root)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new DepthFirstSearchAlgorithm<TVertex, TEdge>(graph);
@@ -202,11 +212,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">The graph to visit.</param>
         /// <param name="root">Starting vertex.</param>
         /// <returns>A function that allow to get edges connected to a given vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> TreeCyclePoppingRandom<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph,
-            [JBNotNull] TVertex root)
+             this IVertexListGraph<TVertex, TEdge> graph,
+             TVertex root)
             where TEdge : IEdge<TVertex>
         {
             return TreeCyclePoppingRandom(graph, root, new NormalizedMarkovEdgeChain<TVertex, TEdge>());
@@ -223,12 +233,12 @@ namespace QuikGraph.Algorithms
         /// <param name="root">Starting vertex.</param>
         /// <param name="edgeChain">Markov edge chain.</param>
         /// <returns>A function that allow to get edges connected to a given vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> TreeCyclePoppingRandom<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph,
-            [JBNotNull] TVertex root,
-            [JBNotNull] IMarkovEdgeChain<TVertex, TEdge> edgeChain)
+             this IVertexListGraph<TVertex, TEdge> graph,
+             TVertex root,
+             IMarkovEdgeChain<TVertex, TEdge> edgeChain)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new CyclePoppingRandomTreeAlgorithm<TVertex, TEdge>(graph, edgeChain);
@@ -250,12 +260,12 @@ namespace QuikGraph.Algorithms
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="root">Starting vertex.</param>
         /// <returns>A function that allow to get paths starting from <paramref name="root"/> vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> ShortestPathsDijkstra<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights,
-            [JBNotNull] TVertex root)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeWeights,
+             TVertex root)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new DijkstraShortestPathAlgorithm<TVertex, TEdge>(graph, edgeWeights);
@@ -275,12 +285,12 @@ namespace QuikGraph.Algorithms
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="root">Starting vertex.</param>
         /// <returns>A function that allow to get paths starting from <paramref name="root"/> vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> ShortestPathsDijkstra<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights,
-            [JBNotNull] TVertex root)
+             this IUndirectedGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeWeights,
+             TVertex root)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new UndirectedDijkstraShortestPathAlgorithm<TVertex, TEdge>(graph, edgeWeights);
@@ -304,13 +314,13 @@ namespace QuikGraph.Algorithms
         /// <param name="costHeuristic">Function that computes a cost for a given vertex.</param>
         /// <param name="root">Starting vertex.</param>
         /// <returns>A function that allow to get paths starting from <paramref name="root"/> vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> ShortestPathsAStar<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights,
-            [JBNotNull, JBInstantHandle] Func<TVertex, double> costHeuristic,
-            [JBNotNull] TVertex root)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeWeights,
+             Func<TVertex, double> costHeuristic,
+             TVertex root)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new AStarShortestPathAlgorithm<TVertex, TEdge>(graph, edgeWeights, costHeuristic);
@@ -331,12 +341,12 @@ namespace QuikGraph.Algorithms
         /// <param name="root">Starting vertex.</param>
         /// <param name="hasNegativeCycle">Indicates if a negative cycle has been found or not.</param>
         /// <returns>A function that allow to get paths starting from <paramref name="root"/> vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> ShortestPathsBellmanFord<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights,
-            [JBNotNull] TVertex root,
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeWeights,
+             TVertex root,
             out bool hasNegativeCycle)
             where TEdge : IEdge<TVertex>
         {
@@ -369,12 +379,12 @@ namespace QuikGraph.Algorithms
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="root">Starting vertex.</param>
         /// <returns>A function that allow to get paths starting from <paramref name="root"/> vertex.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<TVertex, IEnumerable<TEdge>> ShortestPathsDag<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights,
-            [JBNotNull] TVertex root)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeWeights,
+             TVertex root)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -406,13 +416,13 @@ namespace QuikGraph.Algorithms
         /// <param name="target">Target vertex.</param>
         /// <param name="maxCount">Maximal number of path to search.</param>
         /// <returns>Enumeration of paths to go from <paramref name="root"/> vertex to <paramref name="target"/>.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<IEnumerable<TEdge>> RankedShortestPathHoffmanPavley<TVertex, TEdge>(
-            [JBNotNull] this IBidirectionalGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights,
-            [JBNotNull] TVertex root,
-            [JBNotNull] TVertex target,
+             this IBidirectionalGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeWeights,
+             TVertex root,
+             TVertex target,
             int maxCount = 3)
             where TEdge : IEdge<TVertex>
         {
@@ -434,10 +444,10 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Sink vertices.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> Sinks<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph)
+             this IVertexListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -452,10 +462,10 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Root vertices.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> Roots<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph)
+             this IVertexListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             var dfs = new DepthFirstSearchAlgorithm<TVertex, TEdge>(graph);
@@ -477,10 +487,10 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Root vertices.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> Roots<TVertex, TEdge>(
-            [JBNotNull] this IBidirectionalGraph<TVertex, TEdge> graph)
+             this IBidirectionalGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -495,10 +505,10 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Root vertices.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> IsolatedVertices<TVertex, TEdge>(
-            [JBNotNull] this IBidirectionalGraph<TVertex, TEdge> graph)
+             this IBidirectionalGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -516,10 +526,10 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Sorted vertices (topological sort).</returns>
         /// <exception cref="NonAcyclicGraphException">If the input graph has a cycle.</exception>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> TopologicalSort<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph)
+             this IVertexListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -538,10 +548,10 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Sorted vertices (topological sort).</returns>
         /// <exception cref="NonAcyclicGraphException">If the input graph has a cycle.</exception>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> TopologicalSort<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph)
+             this IUndirectedGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -560,10 +570,10 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Sorted vertices (topological sort).</returns>
         /// <exception cref="NonAcyclicGraphException">If the input graph has a cycle.</exception>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> SourceFirstTopologicalSort<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -582,10 +592,10 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Sorted vertices (topological sort).</returns>
         /// <exception cref="NonAcyclicGraphException">If the input graph has a cycle.</exception>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> SourceFirstTopologicalSort<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph)
+             this IUndirectedGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -605,9 +615,9 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Sorted vertices (topological sort).</returns>
         /// <exception cref="NonAcyclicGraphException">If the input graph has a cycle.</exception>
-        [JBPure]
+        
         public static IEnumerable<TVertex> SourceFirstBidirectionalTopologicalSort<TVertex, TEdge>(
-            [JBNotNull] this IBidirectionalGraph<TVertex, TEdge> graph)
+             this IBidirectionalGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             return SourceFirstBidirectionalTopologicalSort(graph, TopologicalSortDirection.Forward);
@@ -622,10 +632,10 @@ namespace QuikGraph.Algorithms
         /// <param name="direction">Topological sort direction.</param>
         /// <returns>Sorted vertices (topological sort).</returns>
         /// <exception cref="NonAcyclicGraphException">If the input graph has a cycle.</exception>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> SourceFirstBidirectionalTopologicalSort<TVertex, TEdge>(
-            [JBNotNull] this IBidirectionalGraph<TVertex, TEdge> graph,
+             this IBidirectionalGraph<TVertex, TEdge> graph,
             TopologicalSortDirection direction)
             where TEdge : IEdge<TVertex>
         {
@@ -649,10 +659,10 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <param name="components">Found components.</param>
         /// <returns>Number of component found.</returns>
-        [JBPure]
+        
         public static int ConnectedComponents<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             this IUndirectedGraph<TVertex, TEdge> graph,
+             IDictionary<TVertex, int> components)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new ConnectedComponentsAlgorithm<TVertex, TEdge>(graph, components);
@@ -670,10 +680,10 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <param name="getComponents">A function retrieve components of the <paramref name="graph"/>.</param>
         /// <returns>A <see cref="IDisposable"/> of the used algorithm.</returns>
-        [JBNotNull]
+        
         public static IDisposable IncrementalConnectedComponents<TVertex, TEdge>(
-            [JBNotNull] this IMutableVertexAndEdgeSet<TVertex, TEdge> graph,
-            [JBNotNull] out Func<KeyValuePair<int, IDictionary<TVertex, int>>> getComponents)
+             this IMutableVertexAndEdgeSet<TVertex, TEdge> graph,
+             out Func<KeyValuePair<int, IDictionary<TVertex, int>>> getComponents)
             where TEdge : IEdge<TVertex>
         {
             var incrementalComponents = new IncrementalConnectedComponentsAlgorithm<TVertex, TEdge>(graph);
@@ -690,10 +700,10 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <param name="components">Found components.</param>
         /// <returns>Number of component found.</returns>
-        [JBPure]
+        
         public static int StronglyConnectedComponents<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             this IVertexListGraph<TVertex, TEdge> graph,
+             IDictionary<TVertex, int> components)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new StronglyConnectedComponentsAlgorithm<TVertex, TEdge>(graph, components);
@@ -709,10 +719,10 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <param name="components">Found components.</param>
         /// <returns>Number of component found.</returns>
-        [JBPure]
+        
         public static int WeaklyConnectedComponents<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph,
-            [JBNotNull] IDictionary<TVertex, int> components)
+             this IVertexListGraph<TVertex, TEdge> graph,
+             IDictionary<TVertex, int> components)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new WeaklyConnectedComponentsAlgorithm<TVertex, TEdge>(graph, components);
@@ -728,10 +738,10 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TGraph">Graph type.</typeparam>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>The condensed graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static IMutableBidirectionalGraph<TGraph, CondensedEdge<TVertex, TEdge, TGraph>> CondensateStronglyConnected<TVertex, TEdge, TGraph>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
             where TGraph : IMutableVertexAndEdgeSet<TVertex, TEdge>, new()
         {
@@ -751,10 +761,10 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TGraph">Graph type.</typeparam>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>The condensed graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static IMutableBidirectionalGraph<TGraph, CondensedEdge<TVertex, TEdge, TGraph>> CondensateWeaklyConnected<TVertex, TEdge, TGraph>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
             where TGraph : IMutableVertexAndEdgeSet<TVertex, TEdge>, new()
         {
@@ -774,11 +784,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <param name="vertexPredicate">Vertex predicate used to filter the vertices to put in the condensed graph.</param>
         /// <returns>The condensed graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static IMutableBidirectionalGraph<TVertex, MergedEdge<TVertex, TEdge>> CondensateEdges<TVertex, TEdge>(
-            [JBNotNull] this IBidirectionalGraph<TVertex, TEdge> graph,
-            [JBNotNull] VertexPredicate<TVertex> vertexPredicate)
+             this IBidirectionalGraph<TVertex, TEdge> graph,
+             VertexPredicate<TVertex> vertexPredicate)
             where TEdge : IEdge<TVertex>
         {
             var condensedGraph = new BidirectionalGraph<TVertex, MergedEdge<TVertex, TEdge>>();
@@ -797,10 +807,10 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Enumerable of odd vertices.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TVertex> OddVertices<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -832,9 +842,9 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>True if the graph contains a cycle, false otherwise.</returns>
-        [JBPure]
+        
         public static bool IsDirectedAcyclicGraph<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph)
+             this IVertexListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -847,8 +857,8 @@ namespace QuikGraph.Algorithms
         {
             private bool _isDag = true;
 
-            [JBPure]
-            public bool IsDag([JBNotNull] IVertexListGraph<TVertex, TEdge> graph)
+            
+            public bool IsDag( IVertexListGraph<TVertex, TEdge> graph)
             {
                 Debug.Assert(graph != null);
 
@@ -866,7 +876,7 @@ namespace QuikGraph.Algorithms
                 }
             }
 
-            private void DfsBackEdge([JBNotNull] TEdge edge)
+            private void DfsBackEdge( TEdge edge)
             {
                 _isDag = false;
             }
@@ -881,11 +891,11 @@ namespace QuikGraph.Algorithms
         /// <param name="edgeCosts">Costs map.</param>
         /// <param name="target">Target vertex.</param>
         /// <returns>The predecessors cost.</returns>
-        [JBPure]
+        
         public static double ComputePredecessorCost<TVertex, TEdge>(
-            [JBNotNull] IDictionary<TVertex, TEdge> predecessors,
-            [JBNotNull] IDictionary<TEdge, double> edgeCosts,
-            [JBNotNull] TVertex target)
+             IDictionary<TVertex, TEdge> predecessors,
+             IDictionary<TEdge, double> edgeCosts,
+             TVertex target)
             where TEdge : IEdge<TVertex>
         {
             if (predecessors is null)
@@ -913,10 +923,10 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to visit.</param>
         /// <returns>Found disjoint sets.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static IDisjointSet<TVertex> ComputeDisjointSet<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph)
+             this IUndirectedGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -940,11 +950,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <returns>Edges part of the minimum spanning tree.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TEdge> MinimumSpanningTreePrim<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights)
+             this IUndirectedGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeWeights)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -972,11 +982,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <returns>Edges part of the minimum spanning tree.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public static IEnumerable<TEdge> MinimumSpanningTreeKruskal<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TEdge, double> edgeWeights)
+             this IUndirectedGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeWeights)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -1011,12 +1021,12 @@ namespace QuikGraph.Algorithms
         /// <param name="root">Starting vertex.</param>
         /// <param name="pairs">Vertices pairs.</param>
         /// <returns>A function that allow to get least common ancestor for a pair of vertices.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static TryFunc<SEquatableEdge<TVertex>, TVertex> OfflineLeastCommonAncestor<TVertex, TEdge>(
-            [JBNotNull] this IVertexListGraph<TVertex, TEdge> graph,
-            [JBNotNull] TVertex root,
-            [JBNotNull] IEnumerable<SEquatableEdge<TVertex>> pairs)
+             this IVertexListGraph<TVertex, TEdge> graph,
+             TVertex root,
+             IEnumerable<SEquatableEdge<TVertex>> pairs)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -1051,13 +1061,13 @@ namespace QuikGraph.Algorithms
         /// <param name="reversedEdgeAugmentorAlgorithm">Algorithm that is in of charge of augmenting the graph (creating missing reversed edges).</param>
         /// <returns>The maximum flow.</returns>
         public static double MaximumFlow<TVertex, TEdge>(
-            [JBNotNull] this IMutableVertexAndEdgeListGraph<TVertex, TEdge> graph,
-            [JBNotNull] Func<TEdge, double> edgeCapacities,
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex sink,
-            [JBNotNull] out TryFunc<TVertex, TEdge> flowPredecessors,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory,
-            [JBNotNull] ReversedEdgeAugmentorAlgorithm<TVertex, TEdge> reversedEdgeAugmentorAlgorithm)
+             this IMutableVertexAndEdgeListGraph<TVertex, TEdge> graph,
+             Func<TEdge, double> edgeCapacities,
+             TVertex source,
+             TVertex sink,
+             out TryFunc<TVertex, TEdge> flowPredecessors,
+             EdgeFactory<TVertex, TEdge> edgeFactory,
+             ReversedEdgeAugmentorAlgorithm<TVertex, TEdge> reversedEdgeAugmentorAlgorithm)
             where TEdge : IEdge<TVertex>
         {
             if (EqualityComparer<TVertex>.Default.Equals(source, sink))
@@ -1082,10 +1092,10 @@ namespace QuikGraph.Algorithms
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to compute the reduction.</param>
         /// <returns>Transitive graph reduction.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static BidirectionalGraph<TVertex, TEdge> ComputeTransitiveReduction<TVertex, TEdge>(
-            [JBNotNull] this BidirectionalGraph<TVertex, TEdge> graph)
+             this BidirectionalGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new TransitiveReductionAlgorithm<TVertex, TEdge>(graph);
@@ -1101,11 +1111,11 @@ namespace QuikGraph.Algorithms
         /// <param name="graph">Graph to compute the closure.</param>
         /// <param name="createEdge">Function that create an edge between the 2 given vertices.</param>
         /// <returns>Transitive graph closure.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static BidirectionalGraph<TVertex, TEdge> ComputeTransitiveClosure<TVertex, TEdge>(
-            [JBNotNull] this BidirectionalGraph<TVertex, TEdge> graph,
-            [JBNotNull] Func<TVertex, TVertex, TEdge> createEdge)
+             this BidirectionalGraph<TVertex, TEdge> graph,
+             Func<TVertex, TVertex, TEdge> createEdge)
             where TEdge : IEdge<TVertex>
         {
             var algorithm = new TransitiveClosureAlgorithm<TVertex, TEdge>(graph, createEdge);
@@ -1123,10 +1133,10 @@ namespace QuikGraph.Algorithms
         /// <param name="edgeCloner">Delegate to clone an edge.</param>
         /// <param name="clone">Cloned graph.</param>
         public static void Clone<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
-            [JBNotNull, JBInstantHandle] Func<TVertex, TVertex> vertexCloner,
-            [JBNotNull, JBInstantHandle] Func<TEdge, TVertex, TVertex, TEdge> edgeCloner,
-            [JBNotNull] IMutableVertexAndEdgeSet<TVertex, TEdge> clone)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph,
+             Func<TVertex, TVertex> vertexCloner,
+             Func<TEdge, TVertex, TVertex, TEdge> edgeCloner,
+             IMutableVertexAndEdgeSet<TVertex, TEdge> clone)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)

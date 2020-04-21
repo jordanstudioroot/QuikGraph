@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
 
 namespace QuikGraph.Algorithms.RankedShortestPath
@@ -24,9 +24,9 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         protected RankedShortestPathAlgorithmBase(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] TGraph visitedGraph,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             TGraph visitedGraph,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph)
         {
             DistanceRelaxer = distanceRelaxer ?? throw new ArgumentNullException(nameof(distanceRelaxer));
@@ -53,13 +53,13 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// </summary>
         public int ComputedShortestPathCount => _computedShortestPaths?.Count ?? 0;
 
-        [ItemNotNull]
+        
         private List<IEnumerable<TEdge>> _computedShortestPaths;
 
         /// <summary>
         /// Enumerable of shortest paths found.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IEnumerable<IEnumerable<TEdge>> ComputedShortestPaths
         {
             get
@@ -76,7 +76,7 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// Adds the given <paramref name="path"/> to the set of found shortest paths.
         /// </summary>
         /// <param name="path">Path to add.</param>
-        protected void AddComputedShortestPath([JBNotNull, ItemNotNull] IEnumerable<TEdge> path)
+        protected void AddComputedShortestPath( IEnumerable<TEdge> path)
         {
             Debug.Assert(path != null);
             TEdge[] pathArray = path.ToArray();
@@ -88,7 +88,7 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// <summary>
         /// Distance relaxer.
         /// </summary>
-        [JBNotNull]
+        
         public IDistanceRelaxer DistanceRelaxer { get; }
 
         #region AlgorithmBase<TGraph>

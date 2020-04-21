@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -9,9 +9,8 @@ namespace QuikGraph
     /// The default struct based <see cref="IUndirectedEdge{TVertex}"/> implementation.
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("{" + nameof(Source) + "}<->{" + nameof(Target) + "}")]
     public class EquatableUndirectedEdge<TVertex> : UndirectedEdge<TVertex>, IEquatable<EquatableUndirectedEdge<TVertex>>
     {
@@ -20,7 +19,7 @@ namespace QuikGraph
         /// </summary>
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
-        public EquatableUndirectedEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target)
+        public EquatableUndirectedEdge( TVertex source,  TVertex target)
             : base(source, target)
         {
         }

@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Collections;
+
+
 
 namespace QuikGraph
 {
@@ -17,16 +18,13 @@ namespace QuikGraph
     /// </remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
     public class BidirectionalGraph<TVertex, TEdge>
         : IEdgeListAndIncidenceGraph<TVertex, TEdge>
         , IMutableBidirectionalGraph<TVertex, TEdge>
-#if SUPPORTS_CLONEABLE
         , ICloneable
-#endif
         where TEdge : IEdge<TVertex>
     {
         /// <summary>
@@ -86,7 +84,7 @@ namespace QuikGraph
         /// <summary>
         /// Gets the type of vertices.
         /// </summary>
-        [JBNotNull]
+        
         public Type VertexType => typeof(TVertex);
 
         /// <summary>
@@ -179,7 +177,7 @@ namespace QuikGraph
             throw new VertexNotFoundException();
         }
 
-        [JBNotNull]
+        
         private readonly IVertexEdgeDictionary<TVertex, TEdge> _vertexOutEdges;
 
         /// <inheritdoc />
@@ -285,7 +283,7 @@ namespace QuikGraph
             throw new VertexNotFoundException();
         }
 
-        [JBNotNull]
+        
         private readonly IVertexEdgeDictionary<TVertex, TEdge> _vertexInEdges;
 
         /// <inheritdoc />
@@ -401,7 +399,7 @@ namespace QuikGraph
         /// Called on each added vertex.
         /// </summary>
         /// <param name="vertex">Added vertex.</param>
-        protected virtual void OnVertexAdded([JBNotNull] TVertex vertex)
+        protected virtual void OnVertexAdded( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -451,7 +449,7 @@ namespace QuikGraph
         /// Called for each removed vertex.
         /// </summary>
         /// <param name="vertex">Removed vertex.</param>
-        protected virtual void OnVertexRemoved([JBNotNull] TVertex vertex)
+        protected virtual void OnVertexRemoved( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -477,7 +475,7 @@ namespace QuikGraph
 
         #region IMutableEdgeListGraph<TVertex,TEdge>
 
-        private bool AddEdgeInternal([JBNotNull] TEdge edge)
+        private bool AddEdgeInternal( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -530,7 +528,7 @@ namespace QuikGraph
         /// Called on each added edge.
         /// </summary>
         /// <param name="edge">Added edge.</param>
-        protected virtual void OnEdgeAdded([JBNotNull] TEdge edge)
+        protected virtual void OnEdgeAdded( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -565,7 +563,7 @@ namespace QuikGraph
         /// Called on each removed edge.
         /// </summary>
         /// <param name="edge">Removed edge.</param>
-        protected virtual void OnEdgeRemoved([JBNotNull] TEdge edge)
+        protected virtual void OnEdgeRemoved( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -725,8 +723,8 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="edgeFactory">Factory method to create an edge.</param>
         public void MergeVertex(
-            [JBNotNull] TVertex vertex,
-            [JBNotNull, JBInstantHandle] EdgeFactory<TVertex, TEdge> edgeFactory)
+             TVertex vertex,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
@@ -764,8 +762,8 @@ namespace QuikGraph
         /// <param name="vertexPredicate">Predicate to match vertices.</param>
         /// <param name="edgeFactory">Factory method to create an edge.</param>
         public void MergeVerticesIf(
-            [JBNotNull, JBInstantHandle] VertexPredicate<TVertex> vertexPredicate,
-            [JBNotNull, JBInstantHandle] EdgeFactory<TVertex, TEdge> edgeFactory)
+             VertexPredicate<TVertex> vertexPredicate,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
         {
             if (vertexPredicate is null)
                 throw new ArgumentNullException(nameof(vertexPredicate));
@@ -787,7 +785,7 @@ namespace QuikGraph
         /// Copy constructor that creates sufficiently deep copy of the graph.
         /// </summary>
         /// <param name="other">Graph to copy.</param>
-        public BidirectionalGraph([JBNotNull] BidirectionalGraph<TVertex, TEdge> other)
+        public BidirectionalGraph( BidirectionalGraph<TVertex, TEdge> other)
         {
             if (other is null)
                 throw new ArgumentNullException(nameof(other));
@@ -803,20 +801,18 @@ namespace QuikGraph
         /// Clones this graph.
         /// </summary>
         /// <returns>Cloned graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public BidirectionalGraph<TVertex, TEdge> Clone()
         {
             return new BidirectionalGraph<TVertex, TEdge>(this);
         }
 
-#if SUPPORTS_CLONEABLE
         /// <inheritdoc />
         object ICloneable.Clone()
         {
             return Clone();
         }
-#endif
 
         #endregion
     }

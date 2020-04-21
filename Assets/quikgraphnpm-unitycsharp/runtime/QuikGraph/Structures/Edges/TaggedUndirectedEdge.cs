@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Constants;
+
 
 namespace QuikGraph
 {
@@ -11,9 +11,8 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TTag">Tag type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("{" + nameof(Source) + "}<->{" + nameof(Target) + "}:{" + nameof(Tag) + "}")]
     public class TaggedUndirectedEdge<TVertex, TTag> : UndirectedEdge<TVertex>, ITagged<TTag>
     {
@@ -23,7 +22,7 @@ namespace QuikGraph
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
         /// <param name="tag">Edge tag.</param>
-        public TaggedUndirectedEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target, [JBCanBeNull] TTag tag)
+        public TaggedUndirectedEdge( TVertex source,  TVertex target,  TTag tag)
             : base(source, target)
         {
             _tag = tag;
@@ -36,7 +35,7 @@ namespace QuikGraph
         /// Event invoker for <see cref="TagChanged"/> event.
         /// </summary>
         /// <param name="args">Event arguments.</param>
-        protected virtual void OnTagChanged([JBNotNull] EventArgs args)
+        protected virtual void OnTagChanged( EventArgs args)
         {
             Debug.Assert(args != null);
 

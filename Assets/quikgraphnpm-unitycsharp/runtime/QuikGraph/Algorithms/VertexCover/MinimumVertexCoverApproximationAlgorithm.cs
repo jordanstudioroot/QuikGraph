@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Collections;
-#if SUPPORTS_CRYPTO_RANDOM
 using QuikGraph.Utils;
-#endif
+
 
 namespace QuikGraph.Algorithms.VertexCover
 {
@@ -18,34 +16,26 @@ namespace QuikGraph.Algorithms.VertexCover
     public sealed class MinimumVertexCoverApproximationAlgorithm<TVertex, TEdge> : AlgorithmBase<IUndirectedGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
-        private readonly VertexList<TVertex> _coverSet = new VertexList<TVertex>();
+        
+        private readonly VertexList<TVertex> _coverSet =
+            new VertexList<TVertex>();
 
-        [JBNotNull]
+        
         private readonly Random _rng;
 
-#if SUPPORTS_CRYPTO_RANDOM
         /// <summary>
-        /// Initializes a new instance of the <see cref="MinimumVertexCoverApproximationAlgorithm{TVertex,TEdge}"/> class.
+        /// Initializes a new instance of the 
+        /// <see cref="MinimumVertexCoverApproximationAlgorithm{TVertex,TEdge}"/>
+        /// class.
         /// </summary>
-        /// <remarks>This constructor will use <see cref="CryptoRandom"/> ad random number generator.</remarks>
+        /// <remarks>This constructor will use <see cref="CryptoRandom"/>
+        /// ad random number generator.</remarks>
         /// <param name="graph">Graph to compute the cover.</param>
         public MinimumVertexCoverApproximationAlgorithm(
-            [NotNull] IUndirectedGraph<TVertex, TEdge> graph)
+             IUndirectedGraph<TVertex, TEdge> graph)
             : this(graph, new CryptoRandom())
         {
         }
-#else
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MinimumVertexCoverApproximationAlgorithm{TVertex,TEdge}"/> class.
-        /// </summary>
-        /// <param name="graph">Graph to compute the cover.</param>
-        public MinimumVertexCoverApproximationAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> graph)
-            : this(graph, new Random())
-        {
-        }
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MinimumVertexCoverApproximationAlgorithm{TVertex,TEdge}"/> class.
@@ -53,8 +43,8 @@ namespace QuikGraph.Algorithms.VertexCover
         /// <param name="graph">Graph to compute the cover.</param>
         /// <param name="rng">Random number generator.</param>
         public MinimumVertexCoverApproximationAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> graph,
-            [JBNotNull] Random rng)
+             IUndirectedGraph<TVertex, TEdge> graph,
+             Random rng)
             : base(graph)
         {
             _rng = rng ?? throw new ArgumentNullException(nameof(rng));

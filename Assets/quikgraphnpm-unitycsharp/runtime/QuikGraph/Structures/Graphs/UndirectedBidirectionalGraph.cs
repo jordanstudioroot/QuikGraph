@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-#if !SUPPORTS_TYPE_FULL_FEATURES
-using System.Reflection;
-#endif
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -15,9 +12,8 @@ namespace QuikGraph
     /// <remarks>It is mutable via the wrapped graph.</remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
     public sealed class UndirectedBidirectionalGraph<TVertex, TEdge> : IUndirectedGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
@@ -26,7 +22,7 @@ namespace QuikGraph
         /// Initializes a new instance of the <see cref="UndirectedBidirectionalGraph{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="originalGraph">Bidirectional graph.</param>
-        public UndirectedBidirectionalGraph([JBNotNull] IBidirectionalGraph<TVertex, TEdge> originalGraph)
+        public UndirectedBidirectionalGraph( IBidirectionalGraph<TVertex, TEdge> originalGraph)
         {
             OriginalGraph = originalGraph ?? throw new ArgumentNullException(nameof(originalGraph));
 
@@ -52,12 +48,12 @@ namespace QuikGraph
         }
 
         private delegate void ReorderVertices(
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target,
-            [JBNotNull] out TVertex orderedSource,
-            [JBNotNull] out TVertex orderedTarget);
+             TVertex source,
+             TVertex target,
+             out TVertex orderedSource,
+             out TVertex orderedTarget);
 
-        [JBNotNull]
+        
         private readonly ReorderVertices _reorder;
 
         /// <inheritdoc />

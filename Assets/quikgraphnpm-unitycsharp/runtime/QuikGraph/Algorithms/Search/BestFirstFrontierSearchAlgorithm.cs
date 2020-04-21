@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
 
@@ -21,10 +21,10 @@ namespace QuikGraph.Algorithms.Search
         , ITreeBuilderAlgorithm<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly Func<TEdge, double> _edgeWeights;
 
-        [JBNotNull]
+        
         private readonly IDistanceRelaxer _distanceRelaxer;
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace QuikGraph.Algorithms.Search
         /// <param name="edgeWeights">Function that for a given edge provide its weight.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public BestFirstFrontierSearchAlgorithm(
-            [JBNotNull] IBidirectionalIncidenceGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IBidirectionalIncidenceGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : this(null, visitedGraph, edgeWeights, distanceRelaxer)
         {
         }
@@ -49,10 +49,10 @@ namespace QuikGraph.Algorithms.Search
         /// <param name="edgeWeights">Function that for a given edge provide its weight.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public BestFirstFrontierSearchAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IBidirectionalIncidenceGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             IBidirectionalIncidenceGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph)
         {
             _edgeWeights = edgeWeights ?? throw new ArgumentNullException(nameof(edgeWeights));
@@ -125,10 +125,10 @@ namespace QuikGraph.Algorithms.Search
         }
 
         private void ExpandNode(
-            [JBNotNull] TVertex n,
-            [JBNotNull] IDictionary<TEdge, GraphColor> operators,
+             TVertex n,
+             IDictionary<TEdge, GraphColor> operators,
             double cost,
-            [JBNotNull] BinaryHeap<double, TVertex> open)
+             BinaryHeap<double, TVertex> open)
         {
             // Skip self-edges
             foreach (TEdge edge in VisitedGraph.OutEdges(n).Where(e => !e.IsSelfEdge()))
@@ -171,7 +171,7 @@ namespace QuikGraph.Algorithms.Search
         /// <inheritdoc />
         public event EdgeAction<TVertex, TEdge> TreeEdge;
 
-        private void OnTreeEdge([JBNotNull] TEdge edge)
+        private void OnTreeEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 using static QuikGraph.QuikGraphHelpers;
 
 namespace QuikGraph
@@ -19,10 +19,10 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="tryGetOutEdges">Getter of out-edges.</param>
         /// <returns>A corresponding <see cref="DelegateIncidenceGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateIncidenceGraph<TVertex, TEdge> ToDelegateIncidenceGraph<TVertex, TEdge>(
-            [JBNotNull] this TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges)
+             this TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges)
             where TEdge : IEdge<TVertex>
         {
             return new DelegateIncidenceGraph<TVertex, TEdge>(tryGetOutEdges);
@@ -35,10 +35,10 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="getOutEdges">Getter of out-edges.</param>
         /// <returns>A corresponding <see cref="DelegateIncidenceGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateIncidenceGraph<TVertex, TEdge> ToDelegateIncidenceGraph<TVertex, TEdge>(
-            [JBNotNull] this Func<TVertex, IEnumerable<TEdge>> getOutEdges)
+             this Func<TVertex, IEnumerable<TEdge>> getOutEdges)
             where TEdge : IEdge<TVertex>
         {
             if (getOutEdges is null)
@@ -54,10 +54,10 @@ namespace QuikGraph
         /// <typeparam name="TEdges">Type of the enumerable of out-edges.</typeparam>
         /// <param name="dictionary">Vertices and edges mapping.</param>
         /// <returns>A corresponding <see cref="DelegateVertexAndEdgeListGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateVertexAndEdgeListGraph<TVertex, TEdge> ToDelegateVertexAndEdgeListGraph<TVertex, TEdge, TEdges>(
-            [JBNotNull] this IDictionary<TVertex, TEdges> dictionary)
+             this IDictionary<TVertex, TEdges> dictionary)
             where TEdge : IEdge<TVertex>
             where TEdges : IEnumerable<TEdge>
         {
@@ -73,15 +73,12 @@ namespace QuikGraph
         /// <param name="dictionary">Vertices and edges mapping.</param>
         /// <param name="keyValueToOutEdges">Converter of vertex/edge mapping to enumerable of edges.</param>
         /// <returns>A corresponding <see cref="DelegateVertexAndEdgeListGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateVertexAndEdgeListGraph<TVertex, TEdge> ToDelegateVertexAndEdgeListGraph<TVertex, TEdge, TValue>(
-            [JBNotNull] this IDictionary<TVertex, TValue> dictionary,
-#if SUPPORTS_CONVERTER
-            [NotNull] Converter<KeyValuePair<TVertex, TValue>, IEnumerable<TEdge>> keyValueToOutEdges)
-#else
-            [JBNotNull] Func<KeyValuePair<TVertex,TValue>, IEnumerable<TEdge>> keyValueToOutEdges)
-#endif
+             this IDictionary<TVertex, TValue> dictionary,
+             Converter<KeyValuePair<TVertex, TValue>, IEnumerable<TEdge>> keyValueToOutEdges)
+
             where TEdge : IEdge<TVertex>
         {
             if (dictionary is null)
@@ -113,11 +110,11 @@ namespace QuikGraph
         /// <param name="vertices">Enumerable of vertices.</param>
         /// <param name="tryGetOutEdges">Getter of out-edges.</param>
         /// <returns>A corresponding <see cref="DelegateVertexAndEdgeListGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateVertexAndEdgeListGraph<TVertex, TEdge> ToDelegateVertexAndEdgeListGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TVertex> vertices,
-            [JBNotNull] TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges)
+             this IEnumerable<TVertex> vertices,
+             TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges)
             where TEdge : IEdge<TVertex>
         {
             return new DelegateVertexAndEdgeListGraph<TVertex, TEdge>(vertices, tryGetOutEdges);
@@ -132,11 +129,11 @@ namespace QuikGraph
         /// <param name="vertices">Enumerable of vertices.</param>
         /// <param name="getOutEdges">Getter of out-edges.</param>
         /// <returns>A corresponding <see cref="DelegateVertexAndEdgeListGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateVertexAndEdgeListGraph<TVertex, TEdge> ToDelegateVertexAndEdgeListGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TVertex> vertices,
-            [JBNotNull] Func<TVertex, IEnumerable<TEdge>> getOutEdges)
+             this IEnumerable<TVertex> vertices,
+             Func<TVertex, IEnumerable<TEdge>> getOutEdges)
             where TEdge : IEdge<TVertex>
         {
             if (getOutEdges is null)
@@ -153,11 +150,11 @@ namespace QuikGraph
         /// <param name="tryGetOutEdges">Getter of out-edges.</param>
         /// <param name="tryGetInEdges">Getter of in-edges.</param>
         /// <returns>A corresponding <see cref="DelegateBidirectionalIncidenceGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateBidirectionalIncidenceGraph<TVertex, TEdge> ToDelegateBidirectionalIncidenceGraph<TVertex, TEdge>(
-            [JBNotNull] this TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges,
-            [JBNotNull] TryFunc<TVertex, IEnumerable<TEdge>> tryGetInEdges)
+             this TryFunc<TVertex, IEnumerable<TEdge>> tryGetOutEdges,
+             TryFunc<TVertex, IEnumerable<TEdge>> tryGetInEdges)
             where TEdge : IEdge<TVertex>
         {
             return new DelegateBidirectionalIncidenceGraph<TVertex, TEdge>(tryGetOutEdges, tryGetInEdges);
@@ -172,11 +169,11 @@ namespace QuikGraph
         /// <param name="vertices">Enumerable of vertices.</param>
         /// <param name="tryGetAdjacentEdges">Getter of adjacent edges.</param>
         /// <returns>A corresponding <see cref="DelegateUndirectedGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateUndirectedGraph<TVertex, TEdge> ToDelegateUndirectedGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TVertex> vertices,
-            [JBNotNull] TryFunc<TVertex, IEnumerable<TEdge>> tryGetAdjacentEdges)
+             this IEnumerable<TVertex> vertices,
+             TryFunc<TVertex, IEnumerable<TEdge>> tryGetAdjacentEdges)
             where TEdge : IEdge<TVertex>
         {
             return new DelegateUndirectedGraph<TVertex, TEdge>(vertices, tryGetAdjacentEdges);
@@ -191,11 +188,11 @@ namespace QuikGraph
         /// <param name="vertices">Enumerable of vertices.</param>
         /// <param name="getAdjacentEdges">Getter of adjacent edges.</param>
         /// <returns>A corresponding <see cref="DelegateUndirectedGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static DelegateUndirectedGraph<TVertex, TEdge> ToDelegateUndirectedGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TVertex> vertices,
-            [JBNotNull] Func<TVertex, IEnumerable<TEdge>> getAdjacentEdges)
+             this IEnumerable<TVertex> vertices,
+             Func<TVertex, IEnumerable<TEdge>> getAdjacentEdges)
             where TEdge : IEdge<TVertex>
         {
             if (getAdjacentEdges is null)
@@ -216,10 +213,10 @@ namespace QuikGraph
         /// The first items of each column represents the number of vertices following.
         /// </param>
         /// <returns>A corresponding <see cref="AdjacencyGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static AdjacencyGraph<TVertex, SEquatableEdge<TVertex>> ToAdjacencyGraph<TVertex>(
-            [JBNotNull] this TVertex[][] edges)
+             this TVertex[][] edges)
         {
             if (edges is null)
                 throw new ArgumentNullException(nameof(edges));
@@ -250,10 +247,10 @@ namespace QuikGraph
         /// <param name="edges">Set of edges to convert.</param>
         /// <param name="allowParallelEdges">Indicates if parallel edges are allowed.</param>
         /// <returns>A corresponding <see cref="AdjacencyGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static AdjacencyGraph<TVertex, TEdge> ToAdjacencyGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TEdge> edges,
+             this IEnumerable<TEdge> edges,
             bool allowParallelEdges = true)
             where TEdge : IEdge<TVertex>
         {
@@ -268,10 +265,10 @@ namespace QuikGraph
         /// <typeparam name="TVertex">Vertex type.</typeparam>
         /// <param name="vertexPairs">Set of vertex pairs to convert.</param>
         /// <returns>A corresponding <see cref="AdjacencyGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static AdjacencyGraph<TVertex, SEquatableEdge<TVertex>> ToAdjacencyGraph<TVertex>(
-            [JBNotNull] this IEnumerable<SEquatableEdge<TVertex>> vertexPairs)
+             this IEnumerable<SEquatableEdge<TVertex>> vertexPairs)
         {
             if (vertexPairs is null)
                 throw new ArgumentNullException(nameof(vertexPairs));
@@ -291,11 +288,11 @@ namespace QuikGraph
         /// <param name="outEdgesFactory">The out edges factory.</param>
         /// <param name="allowParallelEdges">Indicates if parallel edges are allowed.</param>
         /// <returns>A corresponding <see cref="AdjacencyGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static AdjacencyGraph<TVertex, TEdge> ToAdjacencyGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TVertex> vertices,
-            [JBNotNull, JBInstantHandle] Func<TVertex, IEnumerable<TEdge>> outEdgesFactory,
+             this IEnumerable<TVertex> vertices,
+             Func<TVertex, IEnumerable<TEdge>> outEdgesFactory,
             bool allowParallelEdges = true)
             where TEdge : IEdge<TVertex>
         {
@@ -318,10 +315,10 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to convert.</param>
         /// <returns>A corresponding <see cref="ArrayAdjacencyGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static ArrayAdjacencyGraph<TVertex, TEdge> ToArrayAdjacencyGraph<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             return new ArrayAdjacencyGraph<TVertex, TEdge>(graph);
@@ -335,10 +332,10 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to convert.</param>
         /// <returns>A corresponding <see cref="IBidirectionalGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static IBidirectionalGraph<TVertex, TEdge> ToBidirectionalGraph<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -358,10 +355,10 @@ namespace QuikGraph
         /// <param name="edges">Set of edges to convert.</param>
         /// <param name="allowParallelEdges">Indicates if parallel edges are allowed.</param>
         /// <returns>A corresponding <see cref="BidirectionalGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static BidirectionalGraph<TVertex, TEdge> ToBidirectionalGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TEdge> edges,
+             this IEnumerable<TEdge> edges,
             bool allowParallelEdges = true)
             where TEdge : IEdge<TVertex>
         {
@@ -376,10 +373,10 @@ namespace QuikGraph
         /// <typeparam name="TVertex">Vertex type.</typeparam>
         /// <param name="vertexPairs">Set of vertex pairs to convert.</param>
         /// <returns>A corresponding <see cref="BidirectionalGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static BidirectionalGraph<TVertex, SEquatableEdge<TVertex>> ToBidirectionalGraph<TVertex>(
-            [JBNotNull] this IEnumerable<SEquatableEdge<TVertex>> vertexPairs)
+             this IEnumerable<SEquatableEdge<TVertex>> vertexPairs)
         {
             if (vertexPairs is null)
                 throw new ArgumentNullException(nameof(vertexPairs));
@@ -399,11 +396,11 @@ namespace QuikGraph
         /// <param name="outEdgesFactory">The out edges factory.</param>
         /// <param name="allowParallelEdges">Indicates if parallel edges are allowed.</param>
         /// <returns>A corresponding <see cref="BidirectionalGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static BidirectionalGraph<TVertex, TEdge> ToBidirectionalGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TVertex> vertices,
-            [JBNotNull, JBInstantHandle] Func<TVertex, IEnumerable<TEdge>> outEdgesFactory,
+             this IEnumerable<TVertex> vertices,
+             Func<TVertex, IEnumerable<TEdge>> outEdgesFactory,
             bool allowParallelEdges = true)
             where TEdge : IEdge<TVertex>
         {
@@ -424,9 +421,9 @@ namespace QuikGraph
         /// </summary>
         /// <param name="graph">Graph to convert.</param>
         /// <returns>A corresponding <see cref="BidirectionalGraph{TVertex,TEdge}"/>.</returns>
-        [JBNotNull]
+        
         public static BidirectionalGraph<TVertex, TEdge> ToBidirectionalGraph<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph)
+             this IUndirectedGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             if (graph is null)
@@ -447,10 +444,10 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to convert.</param>
         /// <returns>A corresponding <see cref="ArrayBidirectionalGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static ArrayBidirectionalGraph<TVertex, TEdge> ToArrayBidirectionalGraph<TVertex, TEdge>(
-            [JBNotNull] this IBidirectionalGraph<TVertex, TEdge> graph)
+             this IBidirectionalGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             return new ArrayBidirectionalGraph<TVertex, TEdge>(graph);
@@ -464,10 +461,10 @@ namespace QuikGraph
         /// <param name="edges">Set of edges to convert.</param>
         /// <param name="allowParallelEdges">Indicates if parallel edges are allowed.</param>
         /// <returns>A corresponding <see cref="UndirectedGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static UndirectedGraph<TVertex, TEdge> ToUndirectedGraph<TVertex, TEdge>(
-            [JBNotNull, ItemNotNull] this IEnumerable<TEdge> edges,
+             this IEnumerable<TEdge> edges,
             bool allowParallelEdges = true)
             where TEdge : IEdge<TVertex>
         {
@@ -482,10 +479,10 @@ namespace QuikGraph
         /// <typeparam name="TVertex">Vertex type.</typeparam>
         /// <param name="vertexPairs">Set of vertex pairs to convert.</param>
         /// <returns>A corresponding <see cref="UndirectedGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static UndirectedGraph<TVertex, SEquatableEdge<TVertex>> ToUndirectedGraph<TVertex>(
-            [JBNotNull] this IEnumerable<SEquatableEdge<TVertex>> vertexPairs)
+             this IEnumerable<SEquatableEdge<TVertex>> vertexPairs)
         {
             if (vertexPairs is null)
                 throw new ArgumentNullException(nameof(vertexPairs));
@@ -502,10 +499,10 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph to convert.</param>
         /// <returns>A corresponding <see cref="ArrayUndirectedGraph{TVertex,TEdge}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static ArrayUndirectedGraph<TVertex, TEdge> ToArrayUndirectedGraph<TVertex, TEdge>(
-            [JBNotNull] this IUndirectedGraph<TVertex, TEdge> graph)
+             this IUndirectedGraph<TVertex, TEdge> graph)
             where TEdge : IEdge<TVertex>
         {
             return new ArrayUndirectedGraph<TVertex, TEdge>(graph);
@@ -518,10 +515,10 @@ namespace QuikGraph
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <returns>A corresponding <see cref="CompressedSparseRowGraph{TVertex}"/>.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public static CompressedSparseRowGraph<TVertex> ToCompressedRowGraph<TVertex, TEdge>(
-            [JBNotNull] this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
+             this IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
             where TEdge : IEdge<TVertex>
         {
             return CompressedSparseRowGraph<TVertex>.FromGraph(visitedGraph);

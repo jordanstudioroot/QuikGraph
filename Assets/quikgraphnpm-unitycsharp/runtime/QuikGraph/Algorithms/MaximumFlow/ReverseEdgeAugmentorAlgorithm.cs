@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.MaximumFlow
 {
@@ -13,9 +13,7 @@ namespace QuikGraph.Algorithms.MaximumFlow
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class ReversedEdgeAugmentorAlgorithm<TVertex, TEdge> : IDisposable
         where TEdge : IEdge<TVertex>
     {
@@ -25,8 +23,8 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         public ReversedEdgeAugmentorAlgorithm(
-            [JBNotNull] IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+             IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
         {
             VisitedGraph = visitedGraph ?? throw new ArgumentNullException(nameof(visitedGraph));
             EdgeFactory = edgeFactory ?? throw new ArgumentNullException(nameof(edgeFactory));
@@ -35,28 +33,28 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <summary>
         /// Gets the graph to visit with this algorithm.
         /// </summary>
-        [JBNotNull]
+        
         public IMutableVertexAndEdgeListGraph<TVertex, TEdge> VisitedGraph { get; }
 
         /// <summary>
         /// Edge factory method.
         /// </summary>
-        [JBNotNull]
+        
         public EdgeFactory<TVertex, TEdge> EdgeFactory { get; }
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly List<TEdge> _augmentedEdges = new List<TEdge>();
 
         /// <summary>
         /// Edges added to the initial graph (augmented ones).
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IEnumerable<TEdge> AugmentedEdges => _augmentedEdges.AsEnumerable();
 
         /// <summary>
         /// Edges associated to their reversed edges.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TEdge, TEdge> ReversedEdges { get; } = new Dictionary<TEdge, TEdge>();
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// </summary>
         public event EdgeAction<TVertex, TEdge> ReversedEdgeAdded;
 
-        private void OnReservedEdgeAdded([JBNotNull] TEdge edge)
+        private void OnReservedEdgeAdded( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -82,7 +80,7 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="edge">Edge to find its corresponding reversed one.</param>
         /// <param name="foundReversedEdge">Found reversed edge.</param>
         /// <returns>True if the reversed edge was found, false otherwise.</returns>
-        private bool FindReversedEdge([JBNotNull] TEdge edge, out TEdge foundReversedEdge)
+        private bool FindReversedEdge( TEdge edge, out TEdge foundReversedEdge)
         {
             Debug.Assert(edge != null);
 
@@ -99,7 +97,7 @@ namespace QuikGraph.Algorithms.MaximumFlow
             return false;
         }
 
-        [JBNotNull, ItemNotNull]
+        
         private IEnumerable<TEdge> FindEdgesToReverse()
         {
             foreach (TEdge edge in VisitedGraph.Edges)
@@ -125,7 +123,7 @@ namespace QuikGraph.Algorithms.MaximumFlow
             }
         }
 
-        private void AddReversedEdges([JBNotNull, ItemNotNull] IEnumerable<TEdge> notReversedEdges)
+        private void AddReversedEdges( IEnumerable<TEdge> notReversedEdges)
         {
             foreach (TEdge edge in notReversedEdges)
             {

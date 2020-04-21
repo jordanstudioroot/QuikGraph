@@ -1,40 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 
-namespace QuikGraph.Collections
-{
+
+namespace QuikGraph.Collections {
     /// <summary>
-    /// Disjoint-set implementation with path compression and union-by-rank optimizations.
+    ///     Disjoint-set implementation with path compression and
+    ///     union-by-rank optimizations.
     /// </summary>
-    /// <typeparam name="T">Element type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+    /// <typeparam name="T">
+    ///     Element type.
+    /// </typeparam>
     [Serializable]
-#endif
-    public class ForestDisjointSet<T> : IDisjointSet<T>
-    {
+    public class ForestDisjointSet<T> : IDisjointSet<T> {
 #if DEBUG
-        [DebuggerDisplay("{" + nameof(_id) + "}:{" + nameof(Rank) + "}->{" + nameof(Parent) + "}")]
+        [DebuggerDisplay(
+            "{" + nameof(_id) + "}:{" + nameof(Rank) + "}->{" + nameof(Parent) + "}")]
 #endif
-        private class Element
-        {
+        private class Element {
 #if DEBUG
             private readonly int _id;
             // ReSharper disable once StaticMemberInGenericType
             private static int _nextId;
 #endif
 
-            [JBCanBeNull]
+            
             public Element Parent { get; set; }
 
             public int Rank { get; set; }
 
-            [JBNotNull]
+            
             public T Value { get; }
 
-            public Element([JBNotNull] T value)
-            {
+            public Element( T value) {
                 Debug.Assert(value != null);
 #if DEBUG
                 _id = _nextId++;
@@ -45,14 +43,14 @@ namespace QuikGraph.Collections
             }
         }
 
-        [JBNotNull]
+        
         private readonly Dictionary<T, Element> _elements;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ForestDisjointSet{T}"/> class.
+        ///     Initializes a new instance of the
+        ///     <see cref="ForestDisjointSet{T}"/> class.
         /// </summary>
-        public ForestDisjointSet()
-        {
+        public ForestDisjointSet() {
             _elements = new Dictionary<T, Element>();
             SetCount = 0;
         }
@@ -61,8 +59,7 @@ namespace QuikGraph.Collections
         /// Initializes a new instance of the <see cref="ForestDisjointSet{T}"/> class.
         /// </summary>
         /// <param name="capacity">Element capacity.</param>
-        public ForestDisjointSet(int capacity)
-        {
+        public ForestDisjointSet(int capacity) {
             if (capacity < 0 || capacity >= int.MaxValue)
                 throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be positive nor max value.");
 
@@ -79,8 +76,7 @@ namespace QuikGraph.Collections
         public int ElementCount => _elements.Count;
 
         /// <inheritdoc />
-        public void MakeSet(T value)
-        {
+        public void MakeSet(T value) {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
@@ -90,14 +86,12 @@ namespace QuikGraph.Collections
         }
 
         /// <inheritdoc />
-        public T FindSet(T value)
-        {
+        public T FindSet(T value) {
             return Find(_elements[value]).Value;
         }
 
         /// <inheritdoc />
-        public bool AreInSameSet(T left, T right)
-        {
+        public bool AreInSameSet(T left, T right) {
             if (right == null)
                 throw new ArgumentNullException(nameof(right));
 
@@ -105,8 +99,7 @@ namespace QuikGraph.Collections
         }
 
         /// <inheritdoc />
-        public bool Union(T left, T right)
-        {
+        public bool Union(T left, T right) {
             if (left == null)
                 throw new ArgumentNullException(nameof(left));
             if (right == null)
@@ -116,17 +109,15 @@ namespace QuikGraph.Collections
         }
 
         /// <inheritdoc />
-        public bool Contains(T value)
-        {
+        public bool Contains(T value) {
             return _elements.ContainsKey(value);
         }
 
         #endregion
 
-        [JBPure]
-        [JBNotNull]
-        private static Element FindNoCompression([JBNotNull] Element element)
-        {
+        
+        
+        private static Element FindNoCompression( Element element) {
             Debug.Assert(element != null);
 
             // Find root
@@ -143,9 +134,8 @@ namespace QuikGraph.Collections
         /// </summary>
         /// <param name="element">Element to search parent.</param>
         /// <returns>Root parent element.</returns>
-        [JBNotNull]
-        private static Element Find([JBNotNull] Element element)
-        {
+        
+        private static Element Find( Element element) {
             Debug.Assert(element != null);
 
             Element root = FindNoCompression(element);
@@ -155,23 +145,26 @@ namespace QuikGraph.Collections
             return root;
         }
 
-        private static void CompressPath([JBNotNull] Element element, [JBNotNull] Element root)
-        {
+        private static void CompressPath(
+             Element element,
+             Element root
+        ) {
             Debug.Assert(element != null);
             Debug.Assert(root != null);
 
             // Path compression
             Element current = element;
-            while (current != root && current != null)
-            {
+            while (current != root && current != null) {
                 Element temp = current;
                 current = current.Parent;
                 temp.Parent = root;
             }
         }
 
-        private bool Union([JBNotNull] Element left, [JBNotNull] Element right)
-        {
+        private bool Union(
+             Element left,
+             Element right
+        ) {
             Debug.Assert(left != null);
             Debug.Assert(right != null);
 
@@ -183,28 +176,29 @@ namespace QuikGraph.Collections
             Element rightRoot = Find(right);
 
             // Union by rank
-            if (leftRoot.Rank > rightRoot.Rank)
-            {
+            if (leftRoot.Rank > rightRoot.Rank) {
                 rightRoot.Parent = leftRoot;
             }
-            else if (leftRoot.Rank < rightRoot.Rank)
-            {
+            else if (leftRoot.Rank < rightRoot.Rank) {
                 leftRoot.Parent = rightRoot;
             }
-            else if (leftRoot != rightRoot)
-            {
+            else if (leftRoot != rightRoot) {
                 rightRoot.Parent = leftRoot;
                 leftRoot.Rank += 1;
             }
-            else
-            {
-                Debug.Assert(FindNoCompression(left) == FindNoCompression(right));
+            else {
+                Debug.Assert(
+                    FindNoCompression(left) == FindNoCompression(right)
+                );
+                
                 return false; // Do not update the SetCount
             }
 
             --SetCount;
 
-            Debug.Assert(FindNoCompression(left) == FindNoCompression(right));
+            Debug.Assert(
+                FindNoCompression(left) == FindNoCompression(right)
+            );
             return true;
         }
     }

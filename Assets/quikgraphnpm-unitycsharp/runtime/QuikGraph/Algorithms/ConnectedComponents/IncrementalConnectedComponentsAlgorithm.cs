@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph.Algorithms.ConnectedComponents
 {
@@ -26,7 +26,7 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
         public IncrementalConnectedComponentsAlgorithm(
-            [JBNotNull] IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph)
+             IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph)
             : this(null, visitedGraph)
         {
         }
@@ -37,8 +37,8 @@ namespace QuikGraph.Algorithms.ConnectedComponents
         /// <param name="host">Host to use if set, otherwise use this reference.</param>
         /// <param name="visitedGraph">Graph to visit.</param>
         public IncrementalConnectedComponentsAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph)
+             IAlgorithmComponent host,
+             IMutableVertexAndEdgeSet<TVertex, TEdge> visitedGraph)
             : base(host, visitedGraph)
         {
         }
@@ -114,22 +114,22 @@ namespace QuikGraph.Algorithms.ConnectedComponents
             return new KeyValuePair<int, IDictionary<TVertex, int>>(_sets.SetCount, _components);
         }
 
-        private void OnVertexAdded([JBNotNull] TVertex vertex)
+        private void OnVertexAdded( TVertex vertex)
         {
             _sets.MakeSet(vertex);
         }
 
-        private void OnEdgeAdded([JBNotNull] TEdge edge)
+        private void OnEdgeAdded( TEdge edge)
         {
             _sets.Union(edge.Source, edge.Target);
         }
 
-        private static void OnVertexRemoved([JBNotNull] TVertex vertex)
+        private static void OnVertexRemoved( TVertex vertex)
         {
             throw new InvalidOperationException("Vertex removal is not supported for incremental connected components.");
         }
 
-        private static void OnEdgeRemoved([JBNotNull] TEdge edge)
+        private static void OnEdgeRemoved( TEdge edge)
         {
             throw new InvalidOperationException("Edge removal is not supported for incremental connected components.");
         }

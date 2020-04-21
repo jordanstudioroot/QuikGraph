@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
 
@@ -17,13 +17,13 @@ namespace QuikGraph.Algorithms.ShortestPath
     public class FloydWarshallAllShortestPathAlgorithm<TVertex, TEdge> : AlgorithmBase<IVertexAndEdgeListGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly Func<TEdge, double> _weights;
 
-        [JBNotNull]
+        
         private readonly IDistanceRelaxer _distanceRelaxer;
 
-        [JBNotNull]
+        
         private readonly Dictionary<SEquatableEdge<TVertex>, VertexData> _data;
 
         private struct VertexData
@@ -36,7 +36,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             private readonly bool _edgeStored;
 
             // Null edge for self edge data
-            public VertexData(double distance, [JBCanBeNull] TEdge edge)
+            public VertexData(double distance,  TEdge edge)
             {
                 Distance = distance;
                 _predecessor = default(TVertex);
@@ -44,7 +44,7 @@ namespace QuikGraph.Algorithms.ShortestPath
                 _edgeStored = true;
             }
 
-            public VertexData(double distance, [JBNotNull] TVertex predecessor)
+            public VertexData(double distance,  TVertex predecessor)
             {
                 Debug.Assert(predecessor != null);
 
@@ -54,14 +54,14 @@ namespace QuikGraph.Algorithms.ShortestPath
                 _edgeStored = false;
             }
 
-            [JBPure]
+            
             public bool TryGetPredecessor(out TVertex predecessor)
             {
                 predecessor = _predecessor;
                 return !_edgeStored;
             }
 
-            [JBPure]
+            
             public bool TryGetEdge(out TEdge edge)
             {
                 edge = _edge;
@@ -82,8 +82,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         public FloydWarshallAllShortestPathAlgorithm(
-            [JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : this(visitedGraph, edgeWeights, DistanceRelaxers.ShortestDistance)
         {
         }
@@ -95,9 +95,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public FloydWarshallAllShortestPathAlgorithm(
-            [JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : this(null, visitedGraph, edgeWeights, distanceRelaxer)
         {
         }
@@ -110,10 +110,10 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public FloydWarshallAllShortestPathAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph)
         {
             _weights = edgeWeights ?? throw new ArgumentNullException(nameof(edgeWeights));
@@ -129,7 +129,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="target">Target vertex.</param>
         /// <param name="distance">Associated distance (cost).</param>
         /// <returns>True if the distance was found, false otherwise.</returns>
-        public bool TryGetDistance([JBNotNull] TVertex source, [JBNotNull] TVertex target, out double distance)
+        public bool TryGetDistance( TVertex source,  TVertex target, out double distance)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -155,8 +155,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="path">The found path, otherwise null.</param>
         /// <returns>True if a path linking both vertices was found, false otherwise.</returns>
         public bool TryGetPath(
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target,
+             TVertex source,
+             TVertex target,
             out IEnumerable<TEdge> path)
         {
             if (source == null)
@@ -174,8 +174,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         }
 
         private bool TryGetPathInternal(
-            [JBNotNull] TVertex source,
-            [JBNotNull] TVertex target,
+             TVertex source,
+             TVertex target,
             out IEnumerable<TEdge> path)
         {
 #if DEBUG && !NET20
@@ -281,7 +281,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             CheckNegativeCycles(vertices);
         }
 
-        private void FillIData([JBNotNull, ItemNotNull] TVertex[] vertices, [JBNotNull] TVertex vk)
+        private void FillIData( TVertex[] vertices,  TVertex vk)
         {
             foreach (TVertex vi in vertices)
             {
@@ -294,9 +294,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         }
 
         private void FillJData(
-            [JBNotNull, ItemNotNull] IEnumerable<TVertex> vertices,
-            [JBNotNull] TVertex vi,
-            [JBNotNull] TVertex vk,
+             IEnumerable<TVertex> vertices,
+             TVertex vi,
+             TVertex vk,
             VertexData pathIk)
         {
             foreach (TVertex vj in vertices)
@@ -322,7 +322,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             }
         }
 
-        private void CheckNegativeCycles([JBNotNull, ItemNotNull] IEnumerable<TVertex> vertices)
+        private void CheckNegativeCycles( IEnumerable<TVertex> vertices)
         {
             foreach (TVertex vi in vertices)
             {
@@ -338,7 +338,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// Dumps current data state to stream <paramref name="writer"/>.
         /// </summary>
         [Conditional("DEBUG")]
-        public void Dump([JBNotNull] TextWriter writer)
+        public void Dump( TextWriter writer)
         {
             writer.WriteLine("data:");
             foreach (KeyValuePair<SEquatableEdge<TVertex>, VertexData> kv in _data)

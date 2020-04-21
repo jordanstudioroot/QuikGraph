@@ -1,8 +1,6 @@
-#if SUPPORTS_SERIALIZATION
 using System;
-#endif
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Collections
 {
@@ -11,11 +9,8 @@ namespace QuikGraph.Collections
     /// </summary>
     /// <typeparam name="TPriority">Priority type.</typeparam>
     /// <typeparam name="TValue">Value type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
-    public sealed class FibonacciHeapCell<TPriority, TValue>
-    {
+    public sealed class FibonacciHeapCell<TPriority, TValue> {
         /// <summary>
         /// Determines if a node has had a child cut from it before.
         /// </summary>
@@ -44,34 +39,48 @@ namespace QuikGraph.Collections
         /// <summary>
         /// Parent cell.
         /// </summary>
-        [JBCanBeNull]
-        public FibonacciHeapCell<TPriority, TValue> Parent { get; internal set; }
+        
+        public FibonacciHeapCell<TPriority, TValue> Parent {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Children cells.
         /// </summary>
-        [JBCanBeNull]
-        public FibonacciHeapLinkedList<TPriority, TValue> Children { get; internal set; }
+        
+        public FibonacciHeapLinkedList<TPriority, TValue> Children {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Previous cell.
         /// </summary>
-        [JBCanBeNull]
-        public FibonacciHeapCell<TPriority, TValue> Previous { get; internal set; }
+        
+        public FibonacciHeapCell<TPriority, TValue> Previous {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Next cell.
         /// </summary>
-        [JBCanBeNull]
-        public FibonacciHeapCell<TPriority, TValue> Next { get; internal set; }
+        
+        public FibonacciHeapCell<TPriority, TValue> Next {
+            get; internal set;
+        }
 
         /// <summary>
-        /// Converts this cell to a <see cref="KeyValuePair{TPriority,TValue}"/>.
+        ///     Converts this cell to a
+        ///     <see cref="KeyValuePair{TPriority,TValue}"/>.
         /// </summary>
-        /// <returns>A corresponding <see cref="KeyValuePair{TPriority,TValue}"/>.</returns>
-        [JBPure]
-        public KeyValuePair<TPriority, TValue> ToKeyValuePair()
-        {
+        /// <returns>
+        ///     A corresponding
+        ///     <see cref="KeyValuePair{TPriority,TValue}"/>.
+        /// </returns>
+        
+        public KeyValuePair<TPriority, TValue> ToKeyValuePair() {
             return new KeyValuePair<TPriority, TValue>(Priority, Value);
         }
     }

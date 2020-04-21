@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Runtime", "QuikGraph.Runtime.csproj", "{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Serialization.Tests", "QuikGraph.Serialization.Tests.csproj", "{492C3061-011D-C024-5620-F05B594B6DD0}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Serialization", "QuikGraph.Serialization.csproj", "{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Tests", "QuikGraph.Tests.csproj", "{D3039E9D-1289-06B3-B893-8B30AF00BADF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickGraph.Data", "QuickGraph.Data.csproj", "{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikGraph.Serialization.Tests", "QuikGraph.Serialization.Tests.csproj", "{492C3061-011D-C024-5620-F05B594B6DD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +21,10 @@ Global
 		{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5CD8AC5-DC32-36C4-AD4A-1BA5D815E5D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{492C3061-011D-C024-5620-F05B594B6DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{492C3061-011D-C024-5620-F05B594B6DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{492C3061-011D-C024-5620-F05B594B6DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{492C3061-011D-C024-5620-F05B594B6DD0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EB9050D-6B60-1DD3-CD01-A716E8F80DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,10 +37,6 @@ Global
 		{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16476F6A-C80D-6B6E-C09B-5CDA2C16A7E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{492C3061-011D-C024-5620-F05B594B6DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{492C3061-011D-C024-5620-F05B594B6DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{492C3061-011D-C024-5620-F05B594B6DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{492C3061-011D-C024-5620-F05B594B6DD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

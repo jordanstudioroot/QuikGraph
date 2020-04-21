@@ -1,9 +1,8 @@
-#if SUPPORTS_SERIALIZATION
+
 using System;
-#endif
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Predicates
 {
@@ -14,9 +13,8 @@ namespace QuikGraph.Predicates
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <typeparam name="TGraph">Graph type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public class FilteredVertexListGraph<TVertex, TEdge, TGraph>
         : FilteredIncidenceGraph<TVertex, TEdge, TGraph>
         , IVertexListGraph<TVertex, TEdge>
@@ -30,9 +28,9 @@ namespace QuikGraph.Predicates
         /// <param name="vertexPredicate">Predicate to match vertex that should be taken into account.</param>
         /// <param name="edgePredicate">Predicate to match edge that should be taken into account.</param>
         public FilteredVertexListGraph(
-            [JBNotNull] TGraph baseGraph,
-            [JBNotNull] VertexPredicate<TVertex> vertexPredicate,
-            [JBNotNull] EdgePredicate<TVertex, TEdge> edgePredicate)
+             TGraph baseGraph,
+             VertexPredicate<TVertex> vertexPredicate,
+             EdgePredicate<TVertex, TEdge> edgePredicate)
             : base(baseGraph, vertexPredicate, edgePredicate)
         {
         }

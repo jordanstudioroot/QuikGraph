@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using static QuikGraph.Utils.DisposableHelpers;
+
 
 namespace QuikGraph.Algorithms.Observers
 {
@@ -12,9 +12,7 @@ namespace QuikGraph.Algorithms.Observers
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class EdgePredecessorRecorderObserver<TVertex, TEdge> : IObserver<IEdgePredecessorRecorderAlgorithm<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
@@ -31,7 +29,7 @@ namespace QuikGraph.Algorithms.Observers
         /// </summary>
         /// <param name="edgesPredecessors">Edges predecessors.</param>
         public EdgePredecessorRecorderObserver(
-            [JBNotNull] IDictionary<TEdge, TEdge> edgesPredecessors)
+             IDictionary<TEdge, TEdge> edgesPredecessors)
         {
             EdgesPredecessors = edgesPredecessors ?? throw new ArgumentNullException(nameof(edgesPredecessors));
             EndPathEdges = new List<TEdge>();
@@ -40,13 +38,13 @@ namespace QuikGraph.Algorithms.Observers
         /// <summary>
         /// Edges predecessors.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TEdge, TEdge> EdgesPredecessors { get; }
 
         /// <summary>
         /// Path ending edges.
         /// </summary>
-        [JBNotNull]
+        
         public ICollection<TEdge> EndPathEdges { get; }
 
         #region IObserver<TAlgorithm>
@@ -74,9 +72,9 @@ namespace QuikGraph.Algorithms.Observers
         /// </summary>
         /// <param name="startingEdge">Starting edge.</param>
         /// <returns>Edge path.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        public ICollection<TEdge> Path([JBNotNull] TEdge startingEdge)
+        
+        
+        public ICollection<TEdge> Path( TEdge startingEdge)
         {
             if (startingEdge == null)
                 throw new ArgumentNullException(nameof(startingEdge));
@@ -98,8 +96,8 @@ namespace QuikGraph.Algorithms.Observers
         /// Gets all paths.
         /// </summary>
         /// <returns>Enumerable of paths.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public IEnumerable<ICollection<TEdge>> AllPaths()
         {
             return EndPathEdges.Select(Path);
@@ -111,11 +109,11 @@ namespace QuikGraph.Algorithms.Observers
         /// <param name="startingEdge">Starting edge.</param>
         /// <param name="colors">Edges colors mapping.</param>
         /// <returns>Merged path.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public ICollection<TEdge> MergedPath(
-            [JBNotNull] TEdge startingEdge,
-            [JBNotNull] IDictionary<TEdge, GraphColor> colors)
+             TEdge startingEdge,
+             IDictionary<TEdge, GraphColor> colors)
         {
             if (startingEdge == null)
                 throw new ArgumentNullException(nameof(startingEdge));
@@ -154,8 +152,8 @@ namespace QuikGraph.Algorithms.Observers
         /// Gets all merged path.
         /// </summary>
         /// <returns>Enumerable of merged paths.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
+        
+        
         public IEnumerable<ICollection<TEdge>> AllMergedPaths()
         {
             var colors = new Dictionary<TEdge, GraphColor>();
@@ -169,7 +167,7 @@ namespace QuikGraph.Algorithms.Observers
             return EndPathEdges.Select(edge => MergedPath(edge, colors));
         }
 
-        private void OnEdgeDiscovered([JBNotNull] TEdge edge, [JBNotNull] TEdge targetEdge)
+        private void OnEdgeDiscovered( TEdge edge,  TEdge targetEdge)
         {
             Debug.Assert(edge != null);
             Debug.Assert(targetEdge != null);
@@ -178,7 +176,7 @@ namespace QuikGraph.Algorithms.Observers
                 EdgesPredecessors[targetEdge] = edge;
         }
 
-        private void OnEdgeFinished([JBNotNull] TEdge finishedEdge)
+        private void OnEdgeFinished( TEdge finishedEdge)
         {
             Debug.Assert(finishedEdge != null);
 

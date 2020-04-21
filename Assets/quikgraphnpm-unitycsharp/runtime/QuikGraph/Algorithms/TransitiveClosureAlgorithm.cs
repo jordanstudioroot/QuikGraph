@@ -1,5 +1,5 @@
 using System;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms
 {
@@ -18,8 +18,8 @@ namespace QuikGraph.Algorithms
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeFactory">Function that create an edge between the 2 given vertices.</param>
         public TransitiveClosureAlgorithm(
-            [JBNotNull] BidirectionalGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TVertex, TVertex, TEdge> edgeFactory)
+             BidirectionalGraph<TVertex, TEdge> visitedGraph,
+             Func<TVertex, TVertex, TEdge> edgeFactory)
             : base(visitedGraph)
         {
             TransitiveClosure = new BidirectionalGraph<TVertex, TEdge>();
@@ -31,7 +31,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         public BidirectionalGraph<TVertex, TEdge> TransitiveClosure { get; }
 
-        [JBNotNull]
+        
         private readonly Func<TVertex, TVertex, TEdge> _createEdge;
 
         #region AlgorithmBase<TGraph>

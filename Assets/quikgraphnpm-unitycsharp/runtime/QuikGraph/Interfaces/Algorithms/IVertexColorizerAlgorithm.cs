@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms
 {
@@ -13,7 +13,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>The vertex <see cref="GraphColor"/>.</returns>
-        [JBPure]
-        GraphColor GetVertexColor([JBNotNull] TVertex vertex);
+        
+        GraphColor GetVertexColor( TVertex vertex);
     }
 }

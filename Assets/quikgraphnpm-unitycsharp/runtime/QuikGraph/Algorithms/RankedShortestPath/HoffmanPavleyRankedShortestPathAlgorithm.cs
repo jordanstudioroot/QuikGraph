@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 using QuikGraph.Algorithms.Observers;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Algorithms.ShortestPath;
@@ -27,7 +27,7 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         private TVertex _target;
         private bool _hasTargetVertex;
 
-        [JBNotNull]
+        
         private readonly Func<TEdge, double> _edgeWeights;
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="edgeWeights">Function that for a given edge provide its weight.</param>
         public HoffmanPavleyRankedShortestPathAlgorithm(
-            [JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights)
+             IBidirectionalGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights)
             : this(visitedGraph, edgeWeights, DistanceRelaxers.ShortestDistance)
         {
         }
@@ -49,9 +49,9 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// <param name="edgeWeights">Function that for a given edge provide its weight.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public HoffmanPavleyRankedShortestPathAlgorithm(
-            [JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IBidirectionalGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : this(null, visitedGraph, edgeWeights, distanceRelaxer)
         {
         }
@@ -64,10 +64,10 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// <param name="edgeWeights">Function that for a given edge provide its weight.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public HoffmanPavleyRankedShortestPathAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IBidirectionalGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             IBidirectionalGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph, distanceRelaxer)
         {
             _edgeWeights = edgeWeights ?? throw new ArgumentNullException(nameof(edgeWeights));
@@ -77,7 +77,7 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// Sets the target vertex.
         /// </summary>
         /// <param name="target">Target vertex.</param>
-        public void SetTargetVertex([JBNotNull] TVertex target)
+        public void SetTargetVertex( TVertex target)
         {
             if (target == null)
                 throw new ArgumentNullException(nameof(target));
@@ -91,7 +91,7 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// </summary>
         /// <param name="target">Target vertex if set, otherwise null.</param>
         /// <returns>True if the target vertex was set, false otherwise.</returns>
-        [JBPure]
+        
         public bool TryGetTargetVertex(out TVertex target)
         {
             if (_hasTargetVertex)
@@ -109,7 +109,7 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         /// </summary>
         /// <param name="root">Root vertex.</param>
         /// <param name="target">Target vertex.</param>
-        public void Compute([JBNotNull] TVertex root, [JBNotNull] TVertex target)
+        public void Compute( TVertex root,  TVertex target)
         {
             if (root == null)
                 throw new ArgumentNullException(nameof(root));
@@ -187,10 +187,10 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         #endregion
 
         private void EnqueueFirstShortestPath(
-            [JBNotNull] IQueue<DeviationPath> queue,
-            [JBNotNull] IDictionary<TVertex, TEdge> successors,
-            [JBNotNull] IDictionary<TVertex, double> distances,
-            [JBNotNull] TVertex root)
+             IQueue<DeviationPath> queue,
+             IDictionary<TVertex, TEdge> successors,
+             IDictionary<TVertex, double> distances,
+             TVertex root)
         {
             Debug.Assert(queue != null);
             Debug.Assert(queue.Count == 0);
@@ -217,7 +217,7 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         }
 
         private void ComputeMinimumTree(
-            [JBNotNull] TVertex target,
+             TVertex target,
             out IDictionary<TVertex, TEdge> successors,
             out IDictionary<TVertex, double> distances)
         {
@@ -257,10 +257,10 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         }
 
         private void EnqueueDeviationPaths(
-            [JBNotNull] IQueue<DeviationPath> queue,
-            [JBNotNull] TVertex root,
-            [JBNotNull] IDictionary<TVertex, double> distances,
-            [JBNotNull, ItemNotNull] TEdge[] path,
+             IQueue<DeviationPath> queue,
+             TVertex root,
+             IDictionary<TVertex, double> distances,
+             TEdge[] path,
             int startEdge)
         {
             Debug.Assert(queue != null);
@@ -304,11 +304,11 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         }
 
         private void EnqueueDeviationPaths(
-            [JBNotNull] IQueue<DeviationPath> queue,
-            [JBNotNull] IDictionary<TVertex, double> distances,
-            [JBNotNull, ItemNotNull] TEdge[] path,
+             IQueue<DeviationPath> queue,
+             IDictionary<TVertex, double> distances,
+             TEdge[] path,
             int edgeIndex,
-            [JBNotNull] TVertex previousVertex,
+             TVertex previousVertex,
             double previousWeight)
         {
             Debug.Assert(queue != null);
@@ -345,9 +345,9 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         }
 
         private void AppendShortestPath(
-            [JBNotNull, ItemNotNull] ICollection<TEdge> path,
-            [JBNotNull] IDictionary<TVertex, TEdge> successors,
-            [JBNotNull] TVertex startVertex)
+             ICollection<TEdge> path,
+             IDictionary<TVertex, TEdge> successors,
+             TVertex startVertex)
         {
             Debug.Assert(path != null);
             Debug.Assert(successors != null);
@@ -366,20 +366,20 @@ namespace QuikGraph.Algorithms.RankedShortestPath
         [DebuggerDisplay("Weight = {" + nameof(Weight) + "}, Index = {" + nameof(DeviationIndex) + "}, Edge = {" + nameof(DeviationEdge) + "}")]
         private struct DeviationPath
         {
-            [JBNotNull, ItemNotNull]
+            
             public TEdge[] ParentPath { get; }
 
             public int DeviationIndex { get; }
 
-            [JBNotNull]
+            
             public TEdge DeviationEdge { get; }
 
             public double Weight { get; }
 
             public DeviationPath(
-                [JBNotNull, ItemNotNull] TEdge[] parentPath,
+                 TEdge[] parentPath,
                 int deviationIndex,
-                [JBNotNull] TEdge deviationEdge,
+                 TEdge deviationEdge,
                 double weight)
             {
                 Debug.Assert(parentPath != null);

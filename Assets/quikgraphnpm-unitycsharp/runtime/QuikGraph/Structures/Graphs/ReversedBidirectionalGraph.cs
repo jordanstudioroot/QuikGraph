@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -12,9 +12,8 @@ namespace QuikGraph
     /// <remarks>It is mutable via the original graph.</remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
     public sealed class ReversedBidirectionalGraph<TVertex, TEdge> : IBidirectionalGraph<TVertex, SReversedEdge<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
@@ -23,7 +22,7 @@ namespace QuikGraph
         /// Initializes a new instance of the <see cref="ReversedBidirectionalGraph{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="originalGraph">Original graph to reverse.</param>
-        public ReversedBidirectionalGraph([JBNotNull] IBidirectionalGraph<TVertex, TEdge> originalGraph)
+        public ReversedBidirectionalGraph( IBidirectionalGraph<TVertex, TEdge> originalGraph)
         {
             OriginalGraph = originalGraph ?? throw new ArgumentNullException(nameof(originalGraph));
         }
@@ -31,7 +30,7 @@ namespace QuikGraph
         /// <summary>
         /// Original graph.
         /// </summary>
-        [JBNotNull]
+        
         public IBidirectionalGraph<TVertex, TEdge> OriginalGraph { get; }
 
         #region IGraph<TVertex,TEdge>

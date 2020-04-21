@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph.Algorithms.TopologicalSort
 {
@@ -13,16 +13,14 @@ namespace QuikGraph.Algorithms.TopologicalSort
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class UndirectedFirstTopologicalSortAlgorithm<TVertex, TEdge> : AlgorithmBase<IUndirectedGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull]
+        
         private readonly BinaryQueue<TVertex, int> _heap;
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly IList<TVertex> _sortedVertices;
 
         /// <summary>
@@ -31,7 +29,7 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="capacity">Sorted vertices capacity.</param>
         public UndirectedFirstTopologicalSortAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
             int capacity = -1)
             : base(visitedGraph)
         {
@@ -42,13 +40,13 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// <summary>
         /// Sorted vertices.
         /// </summary>
-        [ItemNotNull]
+        
         public TVertex[] SortedVertices { get; private set; }
 
         /// <summary>
         /// Vertices degrees.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, int> Degrees { get; } = new Dictionary<TVertex, int>();
 
         /// <summary>
@@ -61,7 +59,7 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// </summary>
         public event VertexAction<TVertex> VertexAdded;
 
-        private void OnVertexAdded([JBNotNull] TVertex vertex)
+        private void OnVertexAdded( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 

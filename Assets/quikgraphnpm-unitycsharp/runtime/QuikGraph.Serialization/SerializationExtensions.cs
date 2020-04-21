@@ -1,11 +1,9 @@
 using System;
 using System.Xml;
-#if SUPPORTS_GRAPHS_SERIALIZATION
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.XPath;
-#endif
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Serialization
 {
@@ -14,7 +12,6 @@ namespace QuikGraph.Serialization
     /// </summary>
     public static class SerializationExtensions
     {
-#if SUPPORTS_GRAPHS_SERIALIZATION
         /// <summary>
         /// Serializes the <paramref name="graph"/> to the <paramref name="stream"/> using the .NET serialization binary formatter.
         /// </summary>
@@ -23,8 +20,8 @@ namespace QuikGraph.Serialization
         /// <param name="graph">The graph to serialize.</param>
         /// <param name="stream">Stream in which serializing the graph.</param>
         public static void SerializeToBinary<TVertex, TEdge>(
-            [NotNull] this IGraph<TVertex, TEdge> graph,
-            [NotNull] Stream stream)
+             this IGraph<TVertex, TEdge> graph,
+             Stream stream)
             where TEdge : IEdge<TVertex>
         {
             if (graph == null)
@@ -46,8 +43,8 @@ namespace QuikGraph.Serialization
         /// <typeparam name="TGraph">Graph type.</typeparam>
         /// <param name="stream">Stream from which deserializing the graph.</param>
         /// <returns>Deserialized graph.</returns>
-        [Pure]
-        public static TGraph DeserializeFromBinary<TVertex, TEdge, TGraph>([NotNull] this Stream stream)
+        
+        public static TGraph DeserializeFromBinary<TVertex, TEdge, TGraph>( this Stream stream)
             where TGraph : IGraph<TVertex, TEdge>
             where TEdge : IEdge<TVertex>
         {
@@ -60,17 +57,16 @@ namespace QuikGraph.Serialization
             object result = formatter.Deserialize(stream);
             return (TGraph)result;
         }
-#endif
 
-        [Pure]
+        
         private static TGraph DeserializeFromXmlInternal<TVertex, TEdge, TGraph>(
-            [JBNotNull] XmlReader reader,
-            [JBNotNull, InstantHandle] Predicate<XmlReader> graphPredicate,
-            [JBNotNull, InstantHandle] Predicate<XmlReader> vertexPredicate,
-            [JBNotNull, InstantHandle] Predicate<XmlReader> edgePredicate,
-            [JBNotNull, InstantHandle] Func<XmlReader, TGraph> graphFactory,
-            [JBNotNull, InstantHandle] Func<XmlReader, TVertex> vertexFactory,
-            [JBNotNull, InstantHandle] Func<XmlReader, TEdge> edgeFactory)
+             XmlReader reader,
+             Predicate<XmlReader> graphPredicate,
+             Predicate<XmlReader> vertexPredicate,
+             Predicate<XmlReader> edgePredicate,
+             Func<XmlReader, TGraph> graphFactory,
+             Func<XmlReader, TVertex> vertexFactory,
+             Func<XmlReader, TEdge> edgeFactory)
             where TGraph : class, IMutableVertexAndEdgeSet<TVertex, TEdge> where TEdge : IEdge<TVertex>
         {
             // Find the graph node
@@ -110,15 +106,14 @@ namespace QuikGraph.Serialization
             return graph;
         }
 
-#if SUPPORTS_GRAPHS_SERIALIZATION
         private static TGraph DeserializeFromXmlInternal<TVertex, TEdge, TGraph>(
-            [NotNull] this IXPathNavigable document,
-            [NotNull] string graphXPath,
-            [NotNull] string vertexXPath,
-            [NotNull] string edgeXPath,
-            [NotNull, InstantHandle] Func<XPathNavigator, TGraph> graphFactory,
-            [NotNull, InstantHandle] Func<XPathNavigator, TVertex> vertexFactory,
-            [NotNull, InstantHandle] Func<XPathNavigator, TEdge> edgeFactory)
+             this IXPathNavigable document,
+             string graphXPath,
+             string vertexXPath,
+             string edgeXPath,
+             Func<XPathNavigator, TGraph> graphFactory,
+             Func<XPathNavigator, TVertex> vertexFactory,
+             Func<XPathNavigator, TEdge> edgeFactory)
             where TGraph : IMutableVertexAndEdgeSet<TVertex, TEdge>
             where TEdge : IEdge<TVertex>
         {
@@ -160,15 +155,15 @@ namespace QuikGraph.Serialization
         /// If the <paramref name="document"/> does not allow to get an XML navigator
         /// or if the <paramref name="graphXPath"/> does not allow to get graph node.
         /// </exception>
-        [Pure]
+        
         public static TGraph DeserializeFromXml<TVertex, TEdge, TGraph>(
-            [NotNull] this IXPathNavigable document,
-            [NotNull] string graphXPath,
-            [NotNull] string vertexXPath,
-            [NotNull] string edgeXPath,
-            [NotNull, InstantHandle] Func<XPathNavigator, TGraph> graphFactory,
-            [NotNull, InstantHandle] Func<XPathNavigator, TVertex> vertexFactory,
-            [NotNull, InstantHandle] Func<XPathNavigator, TEdge> edgeFactory)
+             this IXPathNavigable document,
+             string graphXPath,
+             string vertexXPath,
+             string edgeXPath,
+             Func<XPathNavigator, TGraph> graphFactory,
+             Func<XPathNavigator, TVertex> vertexFactory,
+             Func<XPathNavigator, TEdge> edgeFactory)
             where TGraph : IMutableVertexAndEdgeSet<TVertex, TEdge>
             where TEdge : IEdge<TVertex>
         {
@@ -196,7 +191,6 @@ namespace QuikGraph.Serialization
                 vertexFactory,
                 edgeFactory);
         }
-#endif
 
         /// <summary>
         /// Deserializes a graph instance from a generic XML stream, using an <see cref="XmlReader"/>.
@@ -213,15 +207,15 @@ namespace QuikGraph.Serialization
         /// <param name="edgeFactory">Delegate that instantiates an edge instance, given the edge node.</param>
         /// <returns>Deserialized graph.</returns>
         /// <exception cref="InvalidOperationException">If the graph node cannot be found.</exception>
-        [Pure]
+        
         public static TGraph DeserializeFromXml<TVertex, TEdge, TGraph>(
-            [JBNotNull] this XmlReader reader,
-            [JBNotNull, InstantHandle] Predicate<XmlReader> graphPredicate,
-            [JBNotNull, InstantHandle] Predicate<XmlReader> vertexPredicate,
-            [JBNotNull, InstantHandle] Predicate<XmlReader> edgePredicate,
-            [JBNotNull, InstantHandle] Func<XmlReader, TGraph> graphFactory,
-            [JBNotNull, InstantHandle] Func<XmlReader, TVertex> vertexFactory,
-            [JBNotNull, InstantHandle] Func<XmlReader, TEdge> edgeFactory)
+             this XmlReader reader,
+             Predicate<XmlReader> graphPredicate,
+             Predicate<XmlReader> vertexPredicate,
+             Predicate<XmlReader> edgePredicate,
+             Func<XmlReader, TGraph> graphFactory,
+             Func<XmlReader, TVertex> vertexFactory,
+             Func<XmlReader, TEdge> edgeFactory)
             where TGraph : class, IMutableVertexAndEdgeSet<TVertex, TEdge>
             where TEdge : IEdge<TVertex>
         {
@@ -259,16 +253,16 @@ namespace QuikGraph.Serialization
         /// <param name="edgeFactory">Delegate that instantiates an edge instance, given the edge node.</param>
         /// <returns>Deserialized graph.</returns>
         /// <exception cref="InvalidOperationException">If the graph node cannot be found.</exception>
-        [Pure]
+        
         public static TGraph DeserializeFromXml<TVertex, TEdge, TGraph>(
-            [JBNotNull] this XmlReader reader,
-            [JBNotNull] string graphElementName,
-            [JBNotNull] string vertexElementName,
-            [JBNotNull] string edgeElementName,
-            [JBNotNull] string namespaceUri,
-            [JBNotNull, InstantHandle] Func<XmlReader, TGraph> graphFactory,
-            [JBNotNull, InstantHandle] Func<XmlReader, TVertex> vertexFactory,
-            [JBNotNull, InstantHandle] Func<XmlReader, TEdge> edgeFactory)
+             this XmlReader reader,
+             string graphElementName,
+             string vertexElementName,
+             string edgeElementName,
+             string namespaceUri,
+             Func<XmlReader, TGraph> graphFactory,
+             Func<XmlReader, TVertex> vertexFactory,
+             Func<XmlReader, TEdge> edgeFactory)
             where TGraph : class, IMutableVertexAndEdgeSet<TVertex, TEdge>
             where TEdge : IEdge<TVertex>
         {
@@ -306,14 +300,14 @@ namespace QuikGraph.Serialization
         /// <param name="edgeElementName">Name of the edge element.</param>
         /// <param name="namespaceUri">XML namespace.</param>
         public static void SerializeToXml<TVertex, TEdge, TGraph>(
-            [JBNotNull] this TGraph graph,
-            [JBNotNull] XmlWriter writer,
-            [JBNotNull, InstantHandle] VertexIdentity<TVertex> vertexIdentity,
-            [JBNotNull, InstantHandle] EdgeIdentity<TVertex, TEdge> edgeIdentity,
-            [JBNotNull] string graphElementName,
-            [JBNotNull] string vertexElementName,
-            [JBNotNull] string edgeElementName,
-            [JBNotNull] string namespaceUri)
+             this TGraph graph,
+             XmlWriter writer,
+             VertexIdentity<TVertex> vertexIdentity,
+             EdgeIdentity<TVertex, TEdge> edgeIdentity,
+             string graphElementName,
+             string vertexElementName,
+             string edgeElementName,
+             string namespaceUri)
             where TGraph : IVertexAndEdgeListGraph<TVertex, TEdge>
             where TEdge : IEdge<TVertex>
         {
@@ -349,17 +343,17 @@ namespace QuikGraph.Serialization
         /// <param name="writeVertexAttributes">Delegate to write vertex attributes (optional).</param>
         /// <param name="writeEdgeAttributes">Delegate to write edge attributes (optional).</param>
         public static void SerializeToXml<TVertex, TEdge, TGraph>(
-            [JBNotNull] this TGraph graph,
-            [JBNotNull] XmlWriter writer,
-            [JBNotNull, InstantHandle] VertexIdentity<TVertex> vertexIdentity,
-            [JBNotNull, InstantHandle] EdgeIdentity<TVertex, TEdge> edgeIdentity,
-            [JBNotNull] string graphElementName,
-            [JBNotNull] string vertexElementName,
-            [JBNotNull] string edgeElementName,
-            [JBNotNull] string namespaceUri,
-            [CanBeNull, InstantHandle] Action<XmlWriter, TGraph> writeGraphAttributes,
-            [CanBeNull, InstantHandle] Action<XmlWriter, TVertex> writeVertexAttributes,
-            [CanBeNull, InstantHandle] Action<XmlWriter, TEdge> writeEdgeAttributes)
+             this TGraph graph,
+             XmlWriter writer,
+             VertexIdentity<TVertex> vertexIdentity,
+             EdgeIdentity<TVertex, TEdge> edgeIdentity,
+             string graphElementName,
+             string vertexElementName,
+             string edgeElementName,
+             string namespaceUri,
+             Action<XmlWriter, TGraph> writeGraphAttributes,
+             Action<XmlWriter, TVertex> writeVertexAttributes,
+             Action<XmlWriter, TEdge> writeEdgeAttributes)
             where TGraph : IVertexAndEdgeListGraph<TVertex, TEdge>
             where TEdge : IEdge<TVertex>
         {

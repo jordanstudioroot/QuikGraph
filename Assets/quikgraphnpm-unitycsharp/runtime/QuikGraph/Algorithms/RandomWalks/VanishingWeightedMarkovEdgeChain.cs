@@ -1,9 +1,7 @@
-#if SUPPORTS_SERIALIZATION
 using System;
-#endif
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.RandomWalks
 {
@@ -12,9 +10,7 @@ namespace QuikGraph.Algorithms.RandomWalks
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class VanishingWeightedMarkovEdgeChain<TVertex, TEdge> : WeightedMarkovEdgeChainBase<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
@@ -22,7 +18,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// Initializes a new instance of the <see cref="VanishingWeightedMarkovEdgeChain{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="edgeWeights">Map that contains edge weights.</param>
-        public VanishingWeightedMarkovEdgeChain([JBNotNull] IDictionary<TEdge, double> edgeWeights)
+        public VanishingWeightedMarkovEdgeChain( IDictionary<TEdge, double> edgeWeights)
             : this(edgeWeights, 0.2)
         {
         }
@@ -32,7 +28,7 @@ namespace QuikGraph.Algorithms.RandomWalks
         /// </summary>
         /// <param name="edgeWeights">Map that contains edge weights.</param>
         /// <param name="factor">Vanishing factor.</param>
-        public VanishingWeightedMarkovEdgeChain([JBNotNull] IDictionary<TEdge, double> edgeWeights, double factor)
+        public VanishingWeightedMarkovEdgeChain( IDictionary<TEdge, double> edgeWeights, double factor)
             : base(edgeWeights)
         {
             Factor = factor;

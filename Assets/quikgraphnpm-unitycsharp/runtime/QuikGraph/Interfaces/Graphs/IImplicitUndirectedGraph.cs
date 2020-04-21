@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -15,7 +15,7 @@ namespace QuikGraph
         /// <summary>
         /// Comparer for edges.
         /// </summary>
-        [JBNotNull]
+        
         EdgeEqualityComparer<TVertex> EdgeEqualityComparer { get; }
 
         /// <summary>
@@ -23,25 +23,25 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>Enumerable of adjacent edges.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        IEnumerable<TEdge> AdjacentEdges([JBNotNull] TVertex vertex);
+        
+        
+        IEnumerable<TEdge> AdjacentEdges( TVertex vertex);
 
         /// <summary>
         /// Gives the adjacent degree of the given <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>Vertex adjacent degree.</returns>
-        [JBPure]
-        int AdjacentDegree([JBNotNull] TVertex vertex);
+        
+        int AdjacentDegree( TVertex vertex);
 
         /// <summary>
         /// Indicates if the given <paramref name="vertex"/> has at least one adjacent edge.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>True if the vertex has at least one adjacent edge, false otherwise.</returns>
-        [JBPure]
-        bool IsAdjacentEdgesEmpty([JBNotNull] TVertex vertex);
+        
+        bool IsAdjacentEdgesEmpty( TVertex vertex);
 
         /// <summary>
         /// Gets the <paramref name="index"/>th adjacent edge of the given <paramref name="vertex"/>.
@@ -49,9 +49,9 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="index">Index of the adjacent edge requested.</param>
         /// <returns>The adjacent edge.</returns>
-        [JBPure]
-        [JBNotNull]
-        TEdge AdjacentEdge([JBNotNull] TVertex vertex, int index);
+        
+        
+        TEdge AdjacentEdge( TVertex vertex, int index);
 
         /// <summary>
         /// Tries to get the edge that link
@@ -60,10 +60,8 @@ namespace QuikGraph
         /// <param name="source">Source vertex.</param>
         /// <param name="target">Target vertex.</param>
         /// <param name="edge">Edge found, otherwise null.</param>
-        /// <returns>True if an edge was found, false otherwise.</returns>
-        [JBPure]
-        [JBContractAnnotation("=> true, edge:notnull;=> false, edge:null")]
-        bool TryGetEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target, out TEdge edge);
+        /// <returns>True if an edge was found, false otherwise.</returns>        
+        bool TryGetEdge( TVertex source,  TVertex target, out TEdge edge);
 
         /// <summary>
         /// Checks if this graph contains an edge that link
@@ -72,7 +70,7 @@ namespace QuikGraph
         /// <param name="source">Source vertex.</param>
         /// <param name="target">Target vertex.</param>
         /// <returns>True if an edge exists, false otherwise.</returns>
-        [JBPure]
-        bool ContainsEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target);
+        
+        bool ContainsEdge( TVertex source,  TVertex target);
     }
 }

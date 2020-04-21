@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -11,21 +11,19 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
-    public sealed class ArrayUndirectedGraph<TVertex, TEdge> : IUndirectedGraph<TVertex, TEdge>
-#if SUPPORTS_CLONEABLE
-        , ICloneable
-#endif
-        where TEdge : IEdge<TVertex>
+    public sealed class ArrayUndirectedGraph<TVertex, TEdge> :
+    IUndirectedGraph<TVertex, TEdge>,
+    ICloneable
+    where TEdge : IEdge<TVertex>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayUndirectedGraph{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        public ArrayUndirectedGraph([JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph)
+        public ArrayUndirectedGraph( IUndirectedGraph<TVertex, TEdge> visitedGraph)
         {
             if (visitedGraph is null)
                 throw new ArgumentNullException(nameof(visitedGraph));
@@ -65,7 +63,7 @@ namespace QuikGraph
         /// <inheritdoc />
         public int VertexCount => _vertexEdges.Count;
 
-        [JBNotNull]
+        
         private readonly Dictionary<TVertex, TEdge[]> _vertexEdges;
 
         /// <inheritdoc />
@@ -94,7 +92,7 @@ namespace QuikGraph
         /// <inheritdoc />
         public int EdgeCount { get; }
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly IList<TEdge> _edges;
 
         /// <inheritdoc />
@@ -202,20 +200,18 @@ namespace QuikGraph
         /// Clones this graph, returns this instance because this class is immutable.
         /// </summary>
         /// <returns>This graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public ArrayUndirectedGraph<TVertex, TEdge> Clone()
         {
             return this;
         }
 
-#if SUPPORTS_CLONEABLE
         /// <inheritdoc />
         object ICloneable.Clone()
         {
             return Clone();
         }
-#endif
         #endregion
     }
 }

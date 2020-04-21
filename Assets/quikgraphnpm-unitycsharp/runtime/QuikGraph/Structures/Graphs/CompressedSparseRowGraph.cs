@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -10,18 +10,16 @@ namespace QuikGraph
     /// (http://www.cs.utk.edu/~dongarra/etemplates/node373.html)
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
-    public sealed class CompressedSparseRowGraph<TVertex> : IEdgeSet<TVertex, SEquatableEdge<TVertex>>, IVertexListGraph<TVertex, SEquatableEdge<TVertex>>
-#if SUPPORTS_CLONEABLE
-        , ICloneable
-#endif
+    public sealed class CompressedSparseRowGraph<TVertex> :
+    IEdgeSet<TVertex, SEquatableEdge<TVertex>>,
+    IVertexListGraph<TVertex, SEquatableEdge<TVertex>>,
+    ICloneable
     {
-#if SUPPORTS_SERIALIZATION
+
         [Serializable]
-#endif
         private struct Range
         {
             public readonly int Start;
@@ -40,8 +38,8 @@ namespace QuikGraph
         }
 
         private CompressedSparseRowGraph(
-            [JBNotNull] Dictionary<TVertex, Range> outEdgeStartRanges,
-            [JBNotNull, ItemNotNull] TVertex[] outEdges)
+             Dictionary<TVertex, Range> outEdgeStartRanges,
+             TVertex[] outEdges)
         {
             Debug.Assert(outEdgeStartRanges != null);
             Debug.Assert(outEdges != null);
@@ -56,9 +54,9 @@ namespace QuikGraph
         /// <param name="visitedGraph">Graph to convert.</param>
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <returns>A corresponding <see cref="CompressedSparseRowGraph{TVertex}"/>.</returns>
-        [JBNotNull]
+        
         public static CompressedSparseRowGraph<TVertex> FromGraph<TEdge>(
-            [JBNotNull] IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
+             IVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph)
             where TEdge : IEdge<TVertex>
         {
             if (visitedGraph is null)
@@ -129,10 +127,10 @@ namespace QuikGraph
         /// <inheritdoc />
         public int EdgeCount => _outEdges.Length;
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly TVertex[] _outEdges;
 
-        [JBNotNull]
+        
         private readonly Dictionary<TVertex, Range> _outEdgeStartRanges;
 
         /// <inheritdoc />
@@ -256,9 +254,9 @@ namespace QuikGraph
             return OutEdgesIterator(vertex);
         }
 
-        [JBPure]
-        [JBNotNull]
-        private IEnumerable<SEquatableEdge<TVertex>> OutEdgesIterator([JBNotNull] TVertex vertex)
+        
+        
+        private IEnumerable<SEquatableEdge<TVertex>> OutEdgesIterator( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -310,8 +308,8 @@ namespace QuikGraph
         /// Clones this graph.
         /// </summary>
         /// <returns>Cloned graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public CompressedSparseRowGraph<TVertex> Clone()
         {
             var ranges = new Dictionary<TVertex, Range>(_outEdgeStartRanges);
@@ -319,13 +317,11 @@ namespace QuikGraph
             return new CompressedSparseRowGraph<TVertex>(ranges, edges);
         }
 
-#if SUPPORTS_CLONEABLE
         /// <inheritdoc />
         object ICloneable.Clone()
         {
             return Clone();
         }
-#endif
 
         #endregion
     }

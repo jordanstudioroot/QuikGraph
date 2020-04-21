@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -10,14 +10,11 @@ namespace QuikGraph
     /// Mutable bidirectional graph data structure based on a matrix.
     /// </summary>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [DebuggerDisplay("VertexCount = {" + nameof(VertexCount) + "}, EdgeCount = {" + nameof(EdgeCount) + "}")]
     public class BidirectionalMatrixGraph<TEdge> : IBidirectionalGraph<int, TEdge>, IMutableEdgeListGraph<int, TEdge>
-#if SUPPORTS_CLONEABLE
         , ICloneable
-#endif
         where TEdge : class, IEdge<int>
     {
         /// <summary>
@@ -36,13 +33,13 @@ namespace QuikGraph
 
         #region Helpers
 
-        [JBPure]
+        
         private bool IsInGraph(int vertex)
         {
             return vertex >= 0 && vertex < VertexCount;
         }
 
-        [JBPure]
+        
         private bool AreInGraph(int source, int target)
         {
             return IsInGraph(source) && IsInGraph(target);
@@ -101,7 +98,7 @@ namespace QuikGraph
         /// <inheritdoc />
         public int EdgeCount { get; private set; }
 
-        [JBNotNull]
+        
         private readonly TEdge[,] _edges;
 
         /// <inheritdoc />
@@ -370,7 +367,7 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="predicate">Edge predicate.</param>
         /// <returns>Number of edges removed.</returns>
-        public int RemoveInEdgeIf(int vertex, [JBNotNull, JBInstantHandle] EdgePredicate<int, TEdge> predicate)
+        public int RemoveInEdgeIf(int vertex,  EdgePredicate<int, TEdge> predicate)
         {
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
@@ -437,7 +434,7 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="predicate">Predicate to remove edges.</param>
         /// <returns>The number of removed edges.</returns>
-        public int RemoveOutEdgeIf(int vertex, [JBNotNull, JBInstantHandle] EdgePredicate<int, TEdge> predicate)
+        public int RemoveOutEdgeIf(int vertex,  EdgePredicate<int, TEdge> predicate)
         {
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
@@ -527,7 +524,7 @@ namespace QuikGraph
         /// Called on each added edge.
         /// </summary>
         /// <param name="edge">Added edge.</param>
-        protected virtual void OnEdgeAdded([JBNotNull] TEdge edge)
+        protected virtual void OnEdgeAdded( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -562,7 +559,7 @@ namespace QuikGraph
         /// Called on each removed edge.
         /// </summary>
         /// <param name="edge">Removed edge.</param>
-        protected virtual void OnEdgeRemoved([JBNotNull] TEdge edge)
+        protected virtual void OnEdgeRemoved( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -585,7 +582,7 @@ namespace QuikGraph
         private BidirectionalMatrixGraph(
             int vertexCount,
             int edgeCount,
-            [JBNotNull] TEdge[,] edges)
+             TEdge[,] edges)
         {
             Debug.Assert(vertexCount > 0);
             Debug.Assert(edgeCount >= 0);
@@ -602,8 +599,8 @@ namespace QuikGraph
         /// Clones this graph.
         /// </summary>
         /// <returns>Cloned graph.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public BidirectionalMatrixGraph<TEdge> Clone()
         {
             return new BidirectionalMatrixGraph<TEdge>(
@@ -612,13 +609,11 @@ namespace QuikGraph
                 (TEdge[,])_edges.Clone());
         }
 
-#if SUPPORTS_CLONEABLE
         /// <inheritdoc />
         object ICloneable.Clone()
         {
             return Clone();
         }
-#endif
 
         #endregion
     }

@@ -1,5 +1,5 @@
 using System;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Predicates
 {
@@ -10,9 +10,8 @@ namespace QuikGraph.Predicates
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <typeparam name="TGraph">Graph type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public class FilteredImplicitVertexSet<TVertex, TEdge, TGraph>
         : FilteredGraph<TVertex, TEdge, TGraph>
         , IImplicitVertexSet<TVertex>
@@ -26,9 +25,9 @@ namespace QuikGraph.Predicates
         /// <param name="vertexPredicate">Predicate to match vertex that should be taken into account.</param>
         /// <param name="edgePredicate">Predicate to match edge that should be taken into account.</param>
         public FilteredImplicitVertexSet(
-            [JBNotNull] TGraph baseGraph,
-            [JBNotNull] VertexPredicate<TVertex> vertexPredicate,
-            [JBNotNull] EdgePredicate<TVertex, TEdge> edgePredicate)
+             TGraph baseGraph,
+             VertexPredicate<TVertex> vertexPredicate,
+             EdgePredicate<TVertex, TEdge> edgePredicate)
             : base(baseGraph, vertexPredicate, edgePredicate)
         {
         }

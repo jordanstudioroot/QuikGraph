@@ -1,15 +1,11 @@
-#if SUPPORTS_SERIALIZATION
 using System;
-#endif
 
 namespace QuikGraph.Algorithms
 {
     /// <summary>
     /// The computation state of a graph algorithm.
     /// </summary>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public enum ComputationState : byte
     {
         /// <summary>

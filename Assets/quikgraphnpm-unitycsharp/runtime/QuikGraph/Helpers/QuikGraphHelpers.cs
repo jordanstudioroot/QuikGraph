@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -16,9 +16,9 @@ namespace QuikGraph
         /// <typeparam name="TResult"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        [JBPure]
-        [JBNotNull]
-        public static TryFunc<T, TResult> ToTryFunc<T, TResult>([JBNotNull] Func<T, TResult> func)
+        
+        
+        public static TryFunc<T, TResult> ToTryFunc<T, TResult>( Func<T, TResult> func)
             where TResult : class
         {
             Debug.Assert(func != null);

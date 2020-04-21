@@ -1,5 +1,5 @@
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.Cliques
 {
@@ -17,8 +17,8 @@ namespace QuikGraph.Algorithms.Cliques
         /// <param name="host">Host to use if set, otherwise use this reference.</param>
         /// <param name="visitedGraph">Graph to visit.</param>
         protected MaximumCliqueAlgorithmBase(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph)
+             IAlgorithmComponent host,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph)
             : base(host, visitedGraph)
         {
         }
@@ -27,7 +27,7 @@ namespace QuikGraph.Algorithms.Cliques
         /// Initializes a new instance of the <see cref="MaximumCliqueAlgorithmBase{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
-        protected MaximumCliqueAlgorithmBase([JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph)
+        protected MaximumCliqueAlgorithmBase( IUndirectedGraph<TVertex, TEdge> visitedGraph)
             : base(visitedGraph)
         {
         }

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Predicates
 {
@@ -9,9 +9,8 @@ namespace QuikGraph.Predicates
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     public sealed class ReversedResidualEdgePredicate<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
@@ -21,8 +20,8 @@ namespace QuikGraph.Predicates
         /// <param name="residualCapacities">Residual capacities per edge.</param>
         /// <param name="reversedEdges">Map of edges and their reversed edges.</param>
         public ReversedResidualEdgePredicate(
-            [JBNotNull] IDictionary<TEdge, double> residualCapacities,
-            [JBNotNull] IDictionary<TEdge, TEdge> reversedEdges)
+             IDictionary<TEdge, double> residualCapacities,
+             IDictionary<TEdge, TEdge> reversedEdges)
         {
             ResidualCapacities = residualCapacities ?? throw new ArgumentNullException(nameof(residualCapacities));
             ReversedEdges = reversedEdges ?? throw new ArgumentNullException(nameof(reversedEdges));
@@ -31,13 +30,13 @@ namespace QuikGraph.Predicates
         /// <summary>
         /// Residual capacities map.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TEdge, double> ResidualCapacities { get; }
 
         /// <summary>
         /// Reversed edges map.
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TEdge, TEdge> ReversedEdges { get; }
 
         /// <summary>
@@ -46,8 +45,8 @@ namespace QuikGraph.Predicates
         /// <remarks>Check if the implemented predicate is matched.</remarks>
         /// <param name="edge">Edge to use in predicate.</param>
         /// <returns>True if the reversed edge is residual, false otherwise.</returns>
-        [JBPure]
-        public bool Test([JBNotNull] TEdge edge)
+        
+        public bool Test( TEdge edge)
         {
             if (edge == null)
                 throw new ArgumentNullException(nameof(edge));

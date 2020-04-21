@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.MaximumFlow
 {
@@ -10,9 +10,7 @@ namespace QuikGraph.Algorithms.MaximumFlow
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public abstract class MaximumFlowAlgorithm<TVertex, TEdge> 
         : AlgorithmBase<IMutableVertexAndEdgeListGraph<TVertex, TEdge>>
         , IVertexColorizerAlgorithm<TVertex>
@@ -26,10 +24,10 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="capacities">Function that given an edge return the capacity of this edge.</param>
         /// <param name="edgeFactory">Edge factory method.</param>
         protected MaximumFlowAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> capacities,
-            [JBNotNull] EdgeFactory<TVertex, TEdge> edgeFactory)
+             IAlgorithmComponent host,
+             IMutableVertexAndEdgeListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> capacities,
+             EdgeFactory<TVertex, TEdge> edgeFactory)
             : base(host, visitedGraph)
         {
             Capacities = capacities ?? throw new ArgumentNullException(nameof(capacities));
@@ -41,25 +39,25 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <summary>
         /// Flow vertices predecessors.
         /// </summary>
-        [JBNotNull]
+        
         public Dictionary<TVertex, TEdge> Predecessors { get; } = new Dictionary<TVertex, TEdge>();
 
         /// <summary>
         /// Function that given an edge return the capacity of this edge.
         /// </summary>
-        [JBNotNull]
+        
         public Func<TEdge, double> Capacities { get; }
 
         /// <summary>
         /// Residual capacities per edge.
         /// </summary>
-        [JBNotNull]
+        
         public Dictionary<TEdge, double> ResidualCapacities { get; } = new Dictionary<TEdge, double>();
 
         /// <summary>
         /// Edge factory method.
         /// </summary>
-        [JBNotNull]
+        
         public EdgeFactory<TVertex, TEdge> EdgeFactory { get; }
 
         /// <summary>
@@ -88,7 +86,7 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <summary>
         /// Stores vertices associated to their colors (treatment state).
         /// </summary>
-        [JBNotNull]
+        
         public IDictionary<TVertex, GraphColor> VerticesColors { get; } = new Dictionary<TVertex, GraphColor>();
 
         #region IVertexColorizerAlgorithm<TVertex>
@@ -111,7 +109,7 @@ namespace QuikGraph.Algorithms.MaximumFlow
         /// <param name="source">Flow source vertex.</param>
         /// <param name="sink">Flow sink vertex.</param>
         /// <returns>Maximum flow value.</returns>
-        public double Compute([JBNotNull] TVertex source, [JBNotNull] TVertex sink)
+        public double Compute( TVertex source,  TVertex sink)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));

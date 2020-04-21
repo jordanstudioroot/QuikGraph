@@ -1,9 +1,8 @@
 using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using System.Linq;
-using QGCollections = QuikGraph.Collections;
 using System.Collections.Generic;
+
 
 namespace QuikGraph.Algorithms.GraphPartition
 {
@@ -19,11 +18,11 @@ namespace QuikGraph.Algorithms.GraphPartition
         private readonly int _nbIterations;
         private readonly int _partitionSize;
 
-        private QGCollections.SortedSet<TVertex> _vertexSetA;
-        private QGCollections.SortedSet<TVertex> _vertexSetB;
+        private SortedSet<TVertex> _vertexSetA;
+        private SortedSet<TVertex> _vertexSetB;
 
-        private QGCollections.SortedSet<TVertex> _unSwappedSetA;
-        private QGCollections.SortedSet<TVertex> _unSwappedSetB;
+        private SortedSet<TVertex> _unSwappedSetA;
+        private SortedSet<TVertex> _unSwappedSetB;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KernighanLinAlgorithm{TVertex,TEdge}"/> class.
@@ -31,7 +30,7 @@ namespace QuikGraph.Algorithms.GraphPartition
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="nbIterations">Number of iterations to perform.</param>
         public KernighanLinAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
             int nbIterations)
             : base(visitedGraph)
         {
@@ -49,7 +48,7 @@ namespace QuikGraph.Algorithms.GraphPartition
             public TVertex Vertex1 { get; }
             public TVertex Vertex2 { get; }
 
-            public SwapPair([JBNotNull] TVertex vertex1, [JBNotNull] TVertex vertex2)
+            public SwapPair( TVertex vertex1,  TVertex vertex2)
             {
                 Debug.Assert(vertex1 != null);
                 Debug.Assert(vertex2 != null);
@@ -86,8 +85,9 @@ namespace QuikGraph.Algorithms.GraphPartition
             return new Partition<TVertex>(_vertexSetA, _vertexSetB, minCost);
         }
 
-        private double SingleSwap([JBNotNull, ItemNotNull] ICollection<SwapPair> swaps)
-        {
+        private double SingleSwap(
+             ICollection<SwapPair> swaps
+        ) {
             SwapPair maxPair = null;
             double maxGain = double.MinValue;
             foreach (TVertex vertexFromA in _unSwappedSetA)
@@ -117,8 +117,8 @@ namespace QuikGraph.Algorithms.GraphPartition
             return GetCutCost();
         }
 
-        [JBPure]
-        private double GetVertexCost([JBNotNull] TVertex vertex)
+        
+        private double GetVertexCost( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -140,9 +140,9 @@ namespace QuikGraph.Algorithms.GraphPartition
             return cost;
         }
 
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        private IEnumerable<TVertex> GetNeighbors([JBNotNull] TVertex vertex)
+        
+        
+        private IEnumerable<TVertex> GetNeighbors( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -160,11 +160,11 @@ namespace QuikGraph.Algorithms.GraphPartition
         }
 
         private static void SwapVertices(
-            [JBNotNull, ItemNotNull] QGCollections.ISet<TVertex> setA,
-            [JBNotNull] TVertex vertexA,
-            [JBNotNull, ItemNotNull] QGCollections.ISet<TVertex> setB,
-            [JBNotNull] TVertex vertexB)
-        {
+             ISet<TVertex> setA,
+             TVertex vertexA,
+             ISet<TVertex> setB,
+             TVertex vertexB
+        ) {
             Debug.Assert(setA != null);
             Debug.Assert(vertexA != null);
             Debug.Assert(setB != null);
@@ -183,7 +183,7 @@ namespace QuikGraph.Algorithms.GraphPartition
             setB.Add(vertexA);
         }
 
-        [JBPure]
+        
         private double GetCutCost()
         {
             double cost = 0;
@@ -201,9 +201,12 @@ namespace QuikGraph.Algorithms.GraphPartition
         /// <summary>
         /// Searches for an edge that links <paramref name="vertexFromA"/> and <paramref name="vertexFromB"/>.
         /// </summary>
-        [JBPure]
-        private bool FindEdge([JBNotNull] TVertex vertexFromA, [JBNotNull] TVertex vertexFromB, out TEdge foundEdge)
-        {
+        
+        private bool FindEdge(
+             TVertex vertexFromA,
+             TVertex vertexFromB,
+            out TEdge foundEdge
+        ) {
             foreach (TEdge edge in VisitedGraph.AdjacentEdges(vertexFromA))
             {
                 if (EqualityComparer<TVertex>.Default.Equals(edge.Target, vertexFromB)
@@ -237,13 +240,13 @@ namespace QuikGraph.Algorithms.GraphPartition
         /// <inheritdoc />
         protected override void InternalCompute()
         {
-            _vertexSetA = new QGCollections.SortedSet<TVertex>();
-            _vertexSetB = new QGCollections.SortedSet<TVertex>();
+            _vertexSetA = new SortedSet<TVertex>();
+            _vertexSetB = new SortedSet<TVertex>();
 
             GetStartPartition();
 
-            _unSwappedSetA = new QGCollections.SortedSet<TVertex>(_vertexSetA);
-            _unSwappedSetB = new QGCollections.SortedSet<TVertex>(_vertexSetB);
+            _unSwappedSetA = new SortedSet<TVertex>(_vertexSetA);
+            _unSwappedSetB = new SortedSet<TVertex>(_vertexSetB);
 
             var bestPartition = new Partition<TVertex>(_vertexSetA, _vertexSetB);
             double minCost = double.MaxValue;

@@ -1,11 +1,10 @@
-#if SUPPORTS_GRAPHS_SERIALIZATION
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using System.ComponentModel;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Serialization
 {
@@ -15,10 +14,8 @@ namespace QuikGraph.Serialization
         /// Checks if the given <paramref name="type"/> is treatable (not null, <see cref="object"/> or <see cref="ValueType"/>).
         /// </summary>
         /// <param name="type"><see cref="Type"/> to check.</param>
-        /// <returns>True if the <paramref name="type"/> can be treated, false otherwise.</returns>
-        [Pure]
-        [ContractAnnotation("type:null => false")]
-        private static bool IsTreatableType([CanBeNull] Type type)
+        /// <returns>True if the <paramref name="type"/> can be treated, false otherwise.</returns>        
+        private static bool IsTreatableType( Type type)
         {
             return type != null
                    && type != typeof(object)
@@ -30,8 +27,8 @@ namespace QuikGraph.Serialization
         /// </summary>
         /// <param name="property">A <see cref="PropertyInfo"/>.</param>
         /// <returns>True if the <paramref name="property"/> is an indexed property, false otherwise.</returns>
-        [Pure]
-        private static bool IsIndexed([NotNull] PropertyInfo property)
+        
+        private static bool IsIndexed( PropertyInfo property)
         {
             return property.GetIndexParameters().Length != 0;
         }
@@ -41,9 +38,9 @@ namespace QuikGraph.Serialization
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        [Pure]
-        [NotNull]
-        public static IEnumerable<PropertySerializationInfo> GetAttributeProperties([CanBeNull] Type type)
+        
+        
+        public static IEnumerable<PropertySerializationInfo> GetAttributeProperties( Type type)
         {
             Type currentType = type;
             while (IsTreatableType(currentType))
@@ -77,8 +74,8 @@ namespace QuikGraph.Serialization
             #endregion
         }
 
-        [Pure]
-        public static bool TryGetAttributeName([NotNull] PropertyInfo property, out string name)
+        
+        public static bool TryGetAttributeName( PropertyInfo property, out string name)
         {
             var attribute = Attribute.GetCustomAttribute(property, typeof(XmlAttributeAttribute)) as XmlAttributeAttribute;
             if (attribute is null)
@@ -93,8 +90,8 @@ namespace QuikGraph.Serialization
             return true;
         }
 
-        [Pure]
-        public static bool TryGetDefaultValue([NotNull] PropertyInfo property, out object value)
+        
+        public static bool TryGetDefaultValue( PropertyInfo property, out object value)
         {
             var attribute = Attribute.GetCustomAttribute(property, typeof(DefaultValueAttribute)) as DefaultValueAttribute;
             if (attribute is null)
@@ -108,4 +105,3 @@ namespace QuikGraph.Serialization
         }
     }
 }
-#endif

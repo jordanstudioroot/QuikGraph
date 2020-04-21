@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -8,5 +8,8 @@ namespace QuikGraph
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <param name="sender">Event sender.</param>
     /// <param name="args">Event arguments.</param>
-    public delegate void VertexEventHandler<TVertex>([JBNotNull] object sender, [JBNotNull] VertexEventArgs<TVertex> args);
+    public delegate void VertexEventHandler<TVertex>(
+         object sender,
+         VertexEventArgs<TVertex> args
+    );
 }

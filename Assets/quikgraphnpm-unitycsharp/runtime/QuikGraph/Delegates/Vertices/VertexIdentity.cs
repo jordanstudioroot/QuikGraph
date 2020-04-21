@@ -1,4 +1,5 @@
-using JetBrains.Annotations;
+
+
 
 namespace QuikGraph
 {
@@ -8,6 +9,8 @@ namespace QuikGraph
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <param name="vertex">Vertex to compute identity.</param>
     /// <returns>The <paramref name="vertex"/> identity.</returns>
-    [JBNotNull]
-    public delegate string VertexIdentity<in TVertex>([JBNotNull] TVertex vertex);
+    
+    public delegate string VertexIdentity<in TVertex>(
+         TVertex vertex
+    );
 }

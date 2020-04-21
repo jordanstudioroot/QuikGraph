@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using static QuikGraph.Utils.DisposableHelpers;
+
 
 namespace QuikGraph.Algorithms.Observers
 {
@@ -12,9 +12,7 @@ namespace QuikGraph.Algorithms.Observers
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class EdgeRecorderObserver<TVertex, TEdge> : IObserver<ITreeBuilderAlgorithm<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
@@ -30,7 +28,7 @@ namespace QuikGraph.Algorithms.Observers
         /// Initializes a new instance of the <see cref="EdgeRecorderObserver{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="edges">Set of edges.</param>
-        public EdgeRecorderObserver([JBNotNull, ItemNotNull] IEnumerable<TEdge> edges)
+        public EdgeRecorderObserver( IEnumerable<TEdge> edges)
         {
             if (edges is null)
                 throw new ArgumentNullException(nameof(edges));
@@ -38,13 +36,13 @@ namespace QuikGraph.Algorithms.Observers
             _edges = edges.ToList();
         }
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly IList<TEdge> _edges;
 
         /// <summary>
         /// Encountered edges.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IEnumerable<TEdge> Edges => _edges.AsEnumerable();
 
         #region IObserver<TAlgorithm>
@@ -61,7 +59,7 @@ namespace QuikGraph.Algorithms.Observers
 
         #endregion
 
-        private void OnEdgeDiscovered([JBNotNull] TEdge edge)
+        private void OnEdgeDiscovered( TEdge edge)
         {
             Debug.Assert(edge != null);
 

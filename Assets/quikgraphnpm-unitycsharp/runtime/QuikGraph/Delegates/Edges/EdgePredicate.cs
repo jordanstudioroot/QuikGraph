@@ -1,7 +1,7 @@
-using JetBrains.Annotations;
 
-namespace QuikGraph
-{
+
+
+namespace QuikGraph {
     /// <summary>
     /// Delegate to perform a check on the given <paramref name="edge"/>.
     /// </summary>
@@ -9,6 +9,7 @@ namespace QuikGraph
     /// <typeparam name="TEdge">Edge type.</typeparam>
     /// <param name="edge">Edge to check condition.</param>
     /// <returns>True if the <paramref name="edge"/> matches the predicate, false otherwise.</returns>
-    public delegate bool EdgePredicate<TVertex, in TEdge>([JBNotNull] TEdge edge)
-        where TEdge : IEdge<TVertex>;
+    public delegate bool EdgePredicate<TVertex, in TEdge>(
+         TEdge edge
+    ) where TEdge : IEdge<TVertex>;
 }

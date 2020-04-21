@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph
 {
@@ -18,8 +18,8 @@ namespace QuikGraph
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>Number of out terminals.</returns>
-        [JBPure]
-        int OutTerminalCount([JBNotNull] TVertex vertex);
+        
+        int OutTerminalCount( TVertex vertex);
 
         /// <summary>
         /// Checks if the requested out terminal is empty or not for the given <paramref name="vertex"/>.
@@ -27,8 +27,8 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="terminal">Out terminal index.</param>
         /// <returns>True if the out terminal is empty, false otherwise.</returns>
-        [JBPure]
-        bool IsOutEdgesEmptyAt([JBNotNull] TVertex vertex, int terminal);
+        
+        bool IsOutEdgesEmptyAt( TVertex vertex, int terminal);
 
         /// <summary>
         /// Gets the <paramref name="vertex"/> out degree for the requested terminal.
@@ -36,8 +36,8 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="terminal">Out terminal index.</param>
         /// <returns>The <paramref name="vertex"/> out degree on terminal <paramref name="terminal"/>.</returns>
-        [JBPure]
-        int OutDegreeAt([JBNotNull] TVertex vertex, int terminal);
+        
+        int OutDegreeAt( TVertex vertex, int terminal);
 
         /// <summary>
         /// Gets the <paramref name="vertex"/> out edges for the requested terminal.
@@ -45,9 +45,9 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="terminal">Out terminal index.</param>
         /// <returns>The <paramref name="vertex"/> out-edges on terminal <paramref name="terminal"/>.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        IEnumerable<TEdge> OutEdgesAt([JBNotNull] TVertex vertex, int terminal);
+        
+        
+        IEnumerable<TEdge> OutEdgesAt( TVertex vertex, int terminal);
 
         /// <summary>
         /// Tries to get the <paramref name="vertex"/> out-edges for the requested terminal.
@@ -55,18 +55,16 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="terminal">Out terminal index.</param>
         /// <param name="edges">Out-edges found, otherwise null.</param>
-        /// <returns>True if <paramref name="vertex"/> was found or/and out-edges were found, false otherwise.</returns>
-        [JBPure]
-        [JBContractAnnotation("=> true, edges:notnull;=> false, edges:null")]
-        bool TryGetOutEdgesAt([JBNotNull] TVertex vertex, int terminal, [ItemNotNull] out IEnumerable<TEdge> edges);
+        /// <returns>True if <paramref name="vertex"/> was found or/and out-edges were found, false otherwise.</returns>        
+        bool TryGetOutEdgesAt( TVertex vertex, int terminal,  out IEnumerable<TEdge> edges);
 
         /// <summary>
         /// Gets the number of in terminals on the given <paramref name="vertex"/>.
         /// </summary>
         /// <param name="vertex">The vertex.</param>
         /// <returns>Number of in terminals.</returns>
-        [JBPure]
-        int InTerminalCount([JBNotNull] TVertex vertex);
+        
+        int InTerminalCount( TVertex vertex);
 
         /// <summary>
         /// Checks if the requested in terminal is empty or not for the given <paramref name="vertex"/>.
@@ -74,8 +72,8 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="terminal">In terminal index.</param>
         /// <returns>True if the in terminal is empty, false otherwise.</returns>
-        [JBPure]
-        bool IsInEdgesEmptyAt([JBNotNull] TVertex vertex, int terminal);
+        
+        bool IsInEdgesEmptyAt( TVertex vertex, int terminal);
 
         /// <summary>
         /// Gets the <paramref name="vertex"/> in degree for the requested terminal.
@@ -83,8 +81,8 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="terminal">In terminal index.</param>
         /// <returns>The <paramref name="vertex"/> in degree on terminal <paramref name="terminal"/>.</returns>
-        [JBPure]
-        int InDegreeAt([JBNotNull] TVertex vertex, int terminal);
+        
+        int InDegreeAt( TVertex vertex, int terminal);
 
         /// <summary>
         /// Gets the <paramref name="vertex"/> in-edges for the requested terminal.
@@ -92,9 +90,9 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="terminal">In terminal index.</param>
         /// <returns>The <paramref name="vertex"/> in-edges on terminal <paramref name="terminal"/>.</returns>
-        [JBPure]
-        [JBNotNull, ItemNotNull]
-        IEnumerable<TEdge> InEdgesAt([JBNotNull] TVertex vertex, int terminal);
+        
+        
+        IEnumerable<TEdge> InEdgesAt( TVertex vertex, int terminal);
 
         /// <summary>
         /// Tries to get the <paramref name="vertex"/> in-edges for the requested terminal.
@@ -102,9 +100,7 @@ namespace QuikGraph
         /// <param name="vertex">The vertex.</param>
         /// <param name="terminal">Out terminal index.</param>
         /// <param name="edges">In-edges found, otherwise null.</param>
-        /// <returns>True if <paramref name="vertex"/> was found or/and in-edges were found, false otherwise.</returns>
-        [JBPure]
-        [JBContractAnnotation("=> true, edges:notnull;=> false, edges:null")]
-        bool TryGetInEdgesAt([JBNotNull] TVertex vertex, int terminal, [ItemNotNull] out IEnumerable<TEdge> edges);
+        /// <returns>True if <paramref name="vertex"/> was found or/and in-edges were found, false otherwise.</returns>        
+        bool TryGetInEdgesAt( TVertex vertex, int terminal,  out IEnumerable<TEdge> edges);
     }
 }

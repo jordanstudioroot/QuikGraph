@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Search;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph.Algorithms.ShortestPath
 {
@@ -13,9 +13,7 @@ namespace QuikGraph.Algorithms.ShortestPath
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class AStarShortestPathAlgorithm<TVertex, TEdge>
         : ShortestPathAlgorithmBase<TVertex, TEdge, IVertexListGraph<TVertex, TEdge>>
         , IVertexPredecessorRecorderAlgorithm<TVertex, TEdge>
@@ -33,9 +31,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="edgeWeights">Function that computes the weight for a given edge.</param>
         /// <param name="costHeuristic">Function that computes a cost for a given vertex.</param>
         public AStarShortestPathAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] Func<TVertex, double> costHeuristic)
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             Func<TVertex, double> costHeuristic)
             : this(visitedGraph, edgeWeights, costHeuristic, DistanceRelaxers.ShortestDistance)
         {
         }
@@ -48,10 +46,10 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="costHeuristic">Function that computes a cost for a given vertex.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public AStarShortestPathAlgorithm(
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] Func<TVertex, double> costHeuristic,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             Func<TVertex, double> costHeuristic,
+             IDistanceRelaxer distanceRelaxer)
             : this(null, visitedGraph, edgeWeights, costHeuristic, distanceRelaxer)
         {
         }
@@ -65,11 +63,11 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <param name="costHeuristic">Function that computes a cost for a given vertex.</param>
         /// <param name="distanceRelaxer">Distance relaxer.</param>
         public AStarShortestPathAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IVertexListGraph<TVertex, TEdge> visitedGraph,
-            [JBNotNull] Func<TEdge, double> edgeWeights,
-            [JBNotNull] Func<TVertex, double> costHeuristic,
-            [JBNotNull] IDistanceRelaxer distanceRelaxer)
+             IAlgorithmComponent host,
+             IVertexListGraph<TVertex, TEdge> visitedGraph,
+             Func<TEdge, double> edgeWeights,
+             Func<TVertex, double> costHeuristic,
+             IDistanceRelaxer distanceRelaxer)
             : base(host, visitedGraph, edgeWeights, distanceRelaxer)
         {
             CostHeuristic = costHeuristic ?? throw new ArgumentNullException(nameof(costHeuristic));
@@ -78,7 +76,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <summary>
         /// Function that computes a cost for a given vertex.
         /// </summary>
-        [JBNotNull]
+        
         public Func<TVertex, double> CostHeuristic { get; }
 
         #region Events
@@ -110,14 +108,14 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// </summary>
         public event EdgeAction<TVertex, TEdge> EdgeNotRelaxed;
 
-        private void OnEdgeNotRelaxed([JBNotNull] TEdge edge)
+        private void OnEdgeNotRelaxed( TEdge edge)
         {
             Debug.Assert(edge != null);
 
             EdgeNotRelaxed?.Invoke(edge);
         }
 
-        private void OnExamineEdge([JBNotNull] TEdge edge)
+        private void OnExamineEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -125,7 +123,7 @@ namespace QuikGraph.Algorithms.ShortestPath
                 throw new NegativeWeightException();
         }
 
-        private void OnAStarTreeEdge([JBNotNull] TEdge edge)
+        private void OnAStarTreeEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -136,7 +134,7 @@ namespace QuikGraph.Algorithms.ShortestPath
                 OnEdgeNotRelaxed(edge);
         }
 
-        private void OnGrayTarget([JBNotNull] TEdge edge)
+        private void OnGrayTarget( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -156,7 +154,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             }
         }
 
-        private void OnBlackTarget([JBNotNull] TEdge edge)
+        private void OnBlackTarget( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -221,7 +219,7 @@ namespace QuikGraph.Algorithms.ShortestPath
 
         #endregion
 
-        private void ComputeFromRoot([JBNotNull] TVertex rootVertex)
+        private void ComputeFromRoot( TVertex rootVertex)
         {
             Debug.Assert(rootVertex != null);
             Debug.Assert(VisitedGraph.ContainsVertex(rootVertex));
@@ -232,7 +230,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             ComputeNoInit(rootVertex);
         }
 
-        private void ComputeNoInit([JBNotNull] TVertex root)
+        private void ComputeNoInit( TVertex root)
         {
             BreadthFirstSearchAlgorithm<TVertex, TEdge> bfs = null;
 

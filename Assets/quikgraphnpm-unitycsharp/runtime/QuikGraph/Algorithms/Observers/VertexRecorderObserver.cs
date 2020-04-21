@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using static QuikGraph.Utils.DisposableHelpers;
+
 
 namespace QuikGraph.Algorithms.Observers
 {
@@ -11,9 +11,7 @@ namespace QuikGraph.Algorithms.Observers
     /// Recorder of encountered vertices.
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class VertexRecorderObserver<TVertex> : IObserver<IVertexTimeStamperAlgorithm<TVertex>>
     {
         /// <summary>
@@ -28,7 +26,7 @@ namespace QuikGraph.Algorithms.Observers
         /// Initializes a new instance of the <see cref="VertexRecorderObserver{TVertex}"/> class.
         /// </summary>
         /// <param name="vertices">Set of vertices.</param>
-        public VertexRecorderObserver([JBNotNull, ItemNotNull] IEnumerable<TVertex> vertices)
+        public VertexRecorderObserver( IEnumerable<TVertex> vertices)
         {
             if (vertices is null)
                 throw new ArgumentNullException(nameof(vertices));
@@ -36,13 +34,13 @@ namespace QuikGraph.Algorithms.Observers
             _vertices = vertices.ToList();
         }
 
-        [JBNotNull, ItemNotNull]
+        
         private readonly IList<TVertex> _vertices;
 
         /// <summary>
         /// Encountered vertices.
         /// </summary>
-        [JBNotNull, ItemNotNull]
+        
         public IEnumerable<TVertex> Vertices => _vertices.AsEnumerable();
 
         #region IObserver<TAlgorithm>
@@ -59,7 +57,7 @@ namespace QuikGraph.Algorithms.Observers
 
         #endregion
 
-        private void OnVertexDiscovered([JBNotNull] TVertex vertex)
+        private void OnVertexDiscovered( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 

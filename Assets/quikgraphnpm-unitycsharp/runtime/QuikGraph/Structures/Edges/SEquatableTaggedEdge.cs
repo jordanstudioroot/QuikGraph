@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Constants;
 using System.Collections.Generic;
+
 
 namespace QuikGraph
 {
@@ -12,9 +12,8 @@ namespace QuikGraph
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TTag">Tag type.</typeparam>
-#if SUPPORTS_SERIALIZATION
+
     [Serializable]
-#endif
     [StructLayout(LayoutKind.Auto)]
     [DebuggerDisplay("{" + nameof(Source) + "}->{" + nameof(Target) + "}:{" + nameof(Tag) + "}")]
     public struct SEquatableTaggedEdge<TVertex, TTag> : IEdge<TVertex>, ITagged<TTag>, IEquatable<SEquatableTaggedEdge<TVertex, TTag>>
@@ -25,7 +24,7 @@ namespace QuikGraph
         /// <param name="source">The source vertex.</param>
         /// <param name="target">The target vertex.</param>
         /// <param name="tag">Edge tag.</param>
-        public SEquatableTaggedEdge([JBNotNull] TVertex source, [JBNotNull] TVertex target, [JBCanBeNull] TTag tag)
+        public SEquatableTaggedEdge( TVertex source,  TVertex target,  TTag tag)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -51,7 +50,7 @@ namespace QuikGraph
         /// Event invoker for <see cref="TagChanged"/> event.
         /// </summary>
         /// <param name="args">Event arguments.</param>
-        private void OnTagChanged([JBNotNull] EventArgs args)
+        private void OnTagChanged( EventArgs args)
         {
             Debug.Assert(args != null);
 

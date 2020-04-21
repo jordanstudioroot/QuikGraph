@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.Assignment
 {
@@ -9,9 +9,7 @@ namespace QuikGraph.Algorithms.Assignment
     /// finding, in a weighted bipartite graph, a matching in which the sum of weights of the
     /// edges is as large as possible.
     /// </summary>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class HungarianAlgorithm
     {
         /// <summary>
@@ -51,7 +49,7 @@ namespace QuikGraph.Algorithms.Assignment
             End
         }
 
-        [JBNotNull]
+        
         private readonly int[,] _costs;
 
         private int _width;
@@ -75,7 +73,7 @@ namespace QuikGraph.Algorithms.Assignment
         /// Initializes a new instance of the <see cref="HungarianAlgorithm"/> class.
         /// </summary>
         /// <param name="costs">Costs matrix.</param>
-        public HungarianAlgorithm([JBNotNull] int[,] costs)
+        public HungarianAlgorithm( int[,] costs)
         {
             _costs = costs ?? throw new ArgumentNullException(nameof(costs));
             _step = Steps.Init;
@@ -85,7 +83,7 @@ namespace QuikGraph.Algorithms.Assignment
         /// Returns assignments (without visualization).
         /// </summary>
         /// <returns>Array of assignments.</returns>
-        [JBNotNull]
+        
         public int[] Compute()
         {
             while (DoStep() != Steps.End)
@@ -100,8 +98,8 @@ namespace QuikGraph.Algorithms.Assignment
         /// Returns iterations that can be used to visualize the algorithm.
         /// </summary>
         /// <returns>An enumerable of algorithm iterations.</returns>
-        [JBPure]
-        [JBNotNull]
+        
+        
         public IEnumerable<HungarianIteration> GetIterations()
         {
             Steps step = Steps.Init;
@@ -230,8 +228,8 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static Steps RunStep1(
-            [JBNotNull] byte[,] masks,
-            [JBNotNull] bool[] colsCovered,
+             byte[,] masks,
+             bool[] colsCovered,
             int width,
             int height)
         {
@@ -255,10 +253,10 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static Steps RunStep2(
-            [JBNotNull] int[,] costs,
-            [JBNotNull] byte[,] masks,
-            [JBNotNull] bool[] rowsCovered,
-            [JBNotNull] bool[] colsCovered,
+             int[,] costs,
+             byte[,] masks,
+             bool[] rowsCovered,
+             bool[] colsCovered,
             int width,
             int height,
             ref Location pathStart)
@@ -287,12 +285,12 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static Steps RunStep3(
-            [JBNotNull] byte[,] masks,
-            [JBNotNull] bool[] rowsCovered,
-            [JBNotNull] bool[] colsCovered,
+             byte[,] masks,
+             bool[] rowsCovered,
+             bool[] colsCovered,
             int width,
             int height,
-            [JBNotNull] Location[] path,
+             Location[] path,
             Location pathStart)
         {
             int pathIndex = 0;
@@ -317,9 +315,9 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static Steps RunStep4(
-            [JBNotNull] int[,] costs,
-            [JBNotNull] bool[] rowsCovered,
-            [JBNotNull] bool[] colsCovered,
+             int[,] costs,
+             bool[] rowsCovered,
+             bool[] colsCovered,
             int width,
             int height)
         {
@@ -339,8 +337,8 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static void ConvertPath(
-            [JBNotNull] byte[,] masks,
-            [JBNotNull] Location[] path,
+             byte[,] masks,
+             Location[] path,
             int pathLength)
         {
             for (int i = 0; i < pathLength; ++i)
@@ -358,9 +356,9 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static Location FindZero(
-            [JBNotNull] int[,] costs,
-            [JBNotNull] bool[] rowsCovered,
-            [JBNotNull] bool[] colsCovered,
+             int[,] costs,
+             bool[] rowsCovered,
+             bool[] colsCovered,
             int width,
             int height)
         {
@@ -377,9 +375,9 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static int FindMinimum(
-            [JBNotNull] int[,] costs,
-            [JBNotNull] bool[] rowsCovered,
-            [JBNotNull] bool[] colsCovered,
+             int[,] costs,
+             bool[] rowsCovered,
+             bool[] colsCovered,
             int width,
             int height)
         {
@@ -397,7 +395,7 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static int FindStarInRow(
-            [JBNotNull] byte[,] masks,
+             byte[,] masks,
             int width,
             int row)
         {
@@ -411,7 +409,7 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static int FindStarInColumn(
-            [JBNotNull] byte[,] masks,
+             byte[,] masks,
             int height,
             int column)
         {
@@ -425,7 +423,7 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static int FindPrimeInRow(
-            [JBNotNull] byte[,] masks,
+             byte[,] masks,
             int width,
             int row)
         {
@@ -439,8 +437,8 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static void ClearCovers(
-            [JBNotNull] bool[] rowsCovered,
-            [JBNotNull] bool[] colsCovered,
+             bool[] rowsCovered,
+             bool[] colsCovered,
             int width,
             int height)
         {
@@ -451,7 +449,7 @@ namespace QuikGraph.Algorithms.Assignment
         }
 
         private static void ClearPrimes(
-            [JBNotNull] byte[,] masks,
+             byte[,] masks,
             int width,
             int height)
         {

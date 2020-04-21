@@ -1,9 +1,8 @@
-#if SUPPORTS_GRAPHS_SERIALIZATION
 using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Serialization
 {
@@ -12,8 +11,11 @@ namespace QuikGraph.Serialization
     /// </summary>
     internal static class ILHelpers
     {
-        public static void EmitValue([NotNull] ILGenerator generator, [NotNull] PropertyInfo property, [NotNull] object value)
-        {
+        public static void EmitValue(
+             ILGenerator generator,
+             PropertyInfo property,
+             object value
+        ) {
             Debug.Assert(generator != null);
             Debug.Assert(property != null);
 
@@ -42,7 +44,7 @@ namespace QuikGraph.Serialization
             }
         }
 
-        public static void EmitCall([NotNull] ILGenerator generator, [NotNull] MethodInfo method)
+        public static void EmitCall( ILGenerator generator,  MethodInfo method)
         {
             generator.EmitCall(
                 method.IsVirtual
@@ -53,4 +55,3 @@ namespace QuikGraph.Serialization
         }
     }
 }
-#endif

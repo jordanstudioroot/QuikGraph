@@ -1,10 +1,9 @@
-#if SUPPORTS_CLONEABLE
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Collections;
+
 
 namespace QuikGraph.Algorithms.Exploration
 {
@@ -14,25 +13,23 @@ namespace QuikGraph.Algorithms.Exploration
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class TransitionFactoryImplicitGraph<TVertex, TEdge> : IImplicitGraph<TVertex, TEdge>
         where TVertex : ICloneable
         where TEdge : IEdge<TVertex>
     {
-        [NotNull]
+        
         private readonly VertexEdgeDictionary<TVertex, TEdge> _verticesEdgesCache =
             new VertexEdgeDictionary<TVertex, TEdge>();
 
-        [NotNull]
+        
         private readonly Dictionary<TVertex, HashSet<ITransitionFactory<TVertex, TEdge>>> _verticesNotProcessedCache =
             new Dictionary<TVertex, HashSet<ITransitionFactory<TVertex, TEdge>>>();
 
         /// <summary>
         /// Transitions factories.
         /// </summary>
-        [NotNull, ItemNotNull]
+        
         private readonly List<ITransitionFactory<TVertex, TEdge>> _transitionFactories =
             new List<ITransitionFactory<TVertex, TEdge>>();
 
@@ -55,7 +52,7 @@ namespace QuikGraph.Algorithms.Exploration
         /// Adds a new <see cref="ITransitionFactory{TVertex,TEdge}"/> to this graph.
         /// </summary>
         /// <param name="transitionFactory">Transition factory to add.</param>
-        public void AddTransitionFactory([NotNull] ITransitionFactory<TVertex, TEdge> transitionFactory)
+        public void AddTransitionFactory( ITransitionFactory<TVertex, TEdge> transitionFactory)
         {
             if (transitionFactory is null)
                 throw new ArgumentNullException(nameof(transitionFactory));
@@ -69,7 +66,7 @@ namespace QuikGraph.Algorithms.Exploration
         /// </summary>
         /// <param name="transitionFactories">Transition factories to add.</param>
         public void AddTransitionFactories(
-            [NotNull, ItemNotNull] IEnumerable<ITransitionFactory<TVertex, TEdge>> transitionFactories)
+             IEnumerable<ITransitionFactory<TVertex, TEdge>> transitionFactories)
         {
             if (transitionFactories is null)
                 throw new ArgumentNullException(nameof(transitionFactories));
@@ -82,7 +79,7 @@ namespace QuikGraph.Algorithms.Exploration
         /// Removes the given <paramref name="transitionFactory"/> from this graph.
         /// </summary>
         /// <param name="transitionFactory">Transition factory to remove.</param>
-        public bool RemoveTransitionFactory([CanBeNull] ITransitionFactory<TVertex, TEdge> transitionFactory)
+        public bool RemoveTransitionFactory( ITransitionFactory<TVertex, TEdge> transitionFactory)
         {
             if (_transitionFactories.Remove(transitionFactory))
             {
@@ -121,19 +118,19 @@ namespace QuikGraph.Algorithms.Exploration
         /// Checks if this graph contains the given <paramref name="transitionFactory"/>.
         /// </summary>
         /// <param name="transitionFactory">Transition factory to check.</param>
-        [Pure]
-        public bool ContainsTransitionFactory([CanBeNull] ITransitionFactory<TVertex, TEdge> transitionFactory)
+        
+        public bool ContainsTransitionFactory( ITransitionFactory<TVertex, TEdge> transitionFactory)
         {
             return _transitionFactories.Contains(transitionFactory);
         }
 
-        [NotNull]
+        
         private VertexPredicate<TVertex> _vertexPredicate = vertex => true;
 
         /// <summary>
         /// Predicate that a vertex must match to be the successor (target) of an edge.
         /// </summary>
-        [NotNull]
+        
         public VertexPredicate<TVertex> SuccessorVertexPredicate
         {
             get => _vertexPredicate;
@@ -144,13 +141,13 @@ namespace QuikGraph.Algorithms.Exploration
             }
         }
 
-        [NotNull]
+        
         private EdgePredicate<TVertex, TEdge> _edgePredicate = edge => true;
 
         /// <summary>
         /// Predicate that an edge must match to be the successor of a source vertex.
         /// </summary>
-        [NotNull]
+        
         public EdgePredicate<TVertex, TEdge> SuccessorEdgePredicate
         {
             get => _edgePredicate;
@@ -204,8 +201,8 @@ namespace QuikGraph.Algorithms.Exploration
         }
 
         private void AddToNotProcessedCacheIfNecessary(
-            [NotNull] TVertex vertex,
-            [NotNull] ITransitionFactory<TVertex, TEdge> transitionFactory)
+             TVertex vertex,
+             ITransitionFactory<TVertex, TEdge> transitionFactory)
         {
             Debug.Assert(vertex != null);
             Debug.Assert(transitionFactory != null);
@@ -227,9 +224,9 @@ namespace QuikGraph.Algorithms.Exploration
             }
         }
 
-        [Pure]
-        [CanBeNull, ItemNotNull]
-        private IEdgeList<TVertex, TEdge> ExploreFactoriesForVertex([NotNull] TVertex vertex)
+        
+        
+        private IEdgeList<TVertex, TEdge> ExploreFactoriesForVertex( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -308,4 +305,3 @@ namespace QuikGraph.Algorithms.Exploration
         #endregion
     }
 }
-#endif

@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+
 
 namespace QuikGraph.Algorithms.Assignment
 {
@@ -10,25 +10,25 @@ namespace QuikGraph.Algorithms.Assignment
         /// <summary>
         /// Costs matrix.
         /// </summary>
-        [JBNotNull]
+        
         public int[,] Matrix { get; }
 
         /// <summary>
         /// Matrix mask.
         /// </summary>
-        [JBNotNull]
+        
         public byte[,] Mask { get; }
 
         /// <summary>
         /// Array of treated rows.
         /// </summary>
-        [JBNotNull]
+        
         public bool[] RowsCovered { get; }
 
         /// <summary>
         /// Array of treated columns.
         /// </summary>
-        [JBNotNull]
+        
         public bool[] ColumnsCovered { get; }
 
         /// <summary>
@@ -40,10 +40,10 @@ namespace QuikGraph.Algorithms.Assignment
         /// Initializes a new instance of the <see cref="HungarianIteration"/> struct.
         /// </summary>
         internal HungarianIteration(
-            [JBNotNull] int[,] costs,
-            [JBNotNull] byte[,] mask,
-            [JBNotNull] bool[] rowsCovered,
-            [JBNotNull] bool[] columnsCovered, 
+             int[,] costs,
+             byte[,] mask,
+             bool[] rowsCovered,
+             bool[] columnsCovered, 
             HungarianAlgorithm.Steps step)
         {
             Matrix = costs;

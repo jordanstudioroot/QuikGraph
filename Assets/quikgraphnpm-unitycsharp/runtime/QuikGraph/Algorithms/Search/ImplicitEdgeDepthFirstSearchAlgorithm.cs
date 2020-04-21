@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
+
 
 namespace QuikGraph.Algorithms.Search
 {
@@ -14,9 +14,7 @@ namespace QuikGraph.Algorithms.Search
     /// </remarks>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class ImplicitEdgeDepthFirstSearchAlgorithm<TVertex, TEdge>
         : RootedAlgorithmBase<TVertex, IIncidenceGraph<TVertex, TEdge>>
         , IEdgeColorizerAlgorithm<TVertex, TEdge>
@@ -28,7 +26,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         /// <param name="visitedGraph">Graph to visit.</param>
         public ImplicitEdgeDepthFirstSearchAlgorithm(
-            [JBNotNull] IIncidenceGraph<TVertex, TEdge> visitedGraph)
+             IIncidenceGraph<TVertex, TEdge> visitedGraph)
             : this(null, visitedGraph)
         {
         }
@@ -39,8 +37,8 @@ namespace QuikGraph.Algorithms.Search
         /// <param name="host">Host to use if set, otherwise use this reference.</param>
         /// <param name="visitedGraph">Graph to visit.</param>
         public ImplicitEdgeDepthFirstSearchAlgorithm(
-            [JBCanBeNull] IAlgorithmComponent host,
-            [JBNotNull] IIncidenceGraph<TVertex, TEdge> visitedGraph)
+             IAlgorithmComponent host,
+             IIncidenceGraph<TVertex, TEdge> visitedGraph)
             : base(host, visitedGraph)
         {
         }
@@ -74,7 +72,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event VertexAction<TVertex> StartVertex;
 
-        private void OnStartVertex([JBNotNull] TVertex vertex)
+        private void OnStartVertex( TVertex vertex)
         {
             Debug.Assert(vertex != null);
 
@@ -86,7 +84,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> StartEdge;
 
-        private void OnStartEdge([JBNotNull] TEdge edge)
+        private void OnStartEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -98,7 +96,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeEdgeAction<TVertex, TEdge> DiscoverTreeEdge;
 
-        private void OnDiscoverTreeEdge([JBNotNull] TEdge edge, [JBNotNull] TEdge targetEdge)
+        private void OnDiscoverTreeEdge( TEdge edge,  TEdge targetEdge)
         {
             Debug.Assert(edge != null);
             Debug.Assert(targetEdge != null);
@@ -113,7 +111,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> TreeEdge;
 
-        private void OnTreeEdge([JBNotNull] TEdge edge)
+        private void OnTreeEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -125,7 +123,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> BackEdge;
 
-        private void OnBackEdge([JBNotNull] TEdge edge)
+        private void OnBackEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -138,7 +136,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> ForwardOrCrossEdge;
 
-        private void OnForwardOrCrossEdge([JBNotNull] TEdge edge)
+        private void OnForwardOrCrossEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -152,7 +150,7 @@ namespace QuikGraph.Algorithms.Search
         /// </summary>
         public event EdgeAction<TVertex, TEdge> FinishEdge;
 
-        private void OnFinishEdge([JBNotNull] TEdge edge)
+        private void OnFinishEdge( TEdge edge)
         {
             Debug.Assert(edge != null);
 
@@ -203,7 +201,7 @@ namespace QuikGraph.Algorithms.Search
 
         #endregion
 
-        private void Visit([JBNotNull] TEdge startingEdge, int depth)
+        private void Visit( TEdge startingEdge, int depth)
         {
             Debug.Assert(startingEdge != null);
             Debug.Assert(depth >= 0);

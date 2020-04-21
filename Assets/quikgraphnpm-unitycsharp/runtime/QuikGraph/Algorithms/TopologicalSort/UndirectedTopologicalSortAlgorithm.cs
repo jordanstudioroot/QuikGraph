@@ -1,10 +1,8 @@
-#if SUPPORTS_SERIALIZATION
 using System;
-#endif
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using QuikGraph.Algorithms.Search;
+
 
 namespace QuikGraph.Algorithms.TopologicalSort
 {
@@ -13,13 +11,11 @@ namespace QuikGraph.Algorithms.TopologicalSort
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TEdge">Edge type.</typeparam>
-#if SUPPORTS_SERIALIZATION
     [Serializable]
-#endif
     public sealed class UndirectedTopologicalSortAlgorithm<TVertex, TEdge> : AlgorithmBase<IUndirectedGraph<TVertex, TEdge>>
         where TEdge : IEdge<TVertex>
     {
-        [JBNotNull, ItemNotNull]
+        
         private readonly IList<TVertex> _sortedVertices;
 
         /// <summary>
@@ -28,7 +24,7 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// <param name="visitedGraph">Graph to visit.</param>
         /// <param name="capacity">Sorted vertices capacity.</param>
         public UndirectedTopologicalSortAlgorithm(
-            [JBNotNull] IUndirectedGraph<TVertex, TEdge> visitedGraph,
+             IUndirectedGraph<TVertex, TEdge> visitedGraph,
             int capacity = -1)
             : base(visitedGraph)
         {
@@ -38,7 +34,7 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// <summary>
         /// Sorted vertices.
         /// </summary>
-        [ItemNotNull]
+        
         public TVertex[] SortedVertices { get; private set; }
 
         /// <summary>
@@ -46,13 +42,13 @@ namespace QuikGraph.Algorithms.TopologicalSort
         /// </summary>
         public bool AllowCyclicGraph { get; set; }
 
-        private void BackEdge([JBNotNull] object sender, [JBNotNull] UndirectedEdgeEventArgs<TVertex, TEdge> args)
+        private void BackEdge( object sender,  UndirectedEdgeEventArgs<TVertex, TEdge> args)
         {
             if (!AllowCyclicGraph)
                 throw new NonAcyclicGraphException();
         }
 
-        private void OnVertexFinished([JBNotNull] TVertex vertex)
+        private void OnVertexFinished( TVertex vertex)
         {
             _sortedVertices.Add(vertex);
         }
