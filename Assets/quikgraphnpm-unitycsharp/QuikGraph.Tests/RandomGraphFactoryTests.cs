@@ -58,25 +58,56 @@ namespace QuikGraph.Tests.Algorithms
         {
             var graph = new AdjacencyGraph<int, Edge<int>>();
             var graph2 = new AdjacencyGraph<TestVertex, Edge<TestVertex>>();
-            var random = new QuikGraph.Utils.CryptoRandom();
+            var random = new Random();
 
-            // ReSharper disable ReturnValueOfPureMethodIsNotUsed
-            // ReSharper disable AssignNullToNotNullAttribute
-            Assert.Throws<ArgumentNullException>(() => RandomGraphFactory.GetVertex<int>(null, random));
-            Assert.Throws<ArgumentNullException>(() => RandomGraphFactory.GetVertex(graph2, null));
-            Assert.Throws<ArgumentNullException>(() => RandomGraphFactory.GetVertex<int>(null, null));
+            Assert.Throws<ArgumentNullException>(
+                () => RandomGraphFactory.GetVertex<int>(null, random)
+            );
+            
+            Assert.Throws<ArgumentNullException>(
+                () => RandomGraphFactory.GetVertex(graph2, null)
+            );
 
-            Assert.Throws<ArgumentNullException>(() => RandomGraphFactory.GetVertex<int>(null, 1, random));
-            Assert.Throws<ArgumentNullException>(() => RandomGraphFactory.GetVertex(Enumerable.Empty<int>(), 1, null));
-            Assert.Throws<ArgumentNullException>(() => RandomGraphFactory.GetVertex<int>(null, 1, null));
+            Assert.Throws<ArgumentNullException>(
+                () => RandomGraphFactory.GetVertex<int>(null, null)
+            );
+
+            Assert.Throws<ArgumentNullException>(
+                () => RandomGraphFactory.GetVertex<int>(null, 1, random)
+            );
+            
+            Assert.Throws<ArgumentNullException>(
+                () => RandomGraphFactory.GetVertex(Enumerable.Empty<int>(), 1, null)
+            );
+            
+            Assert.Throws<ArgumentNullException>(
+                () => RandomGraphFactory.GetVertex<int>(null, 1, null)
+            );
+            
             // ReSharper restore AssignNullToNotNullAttribute
-            Assert.Throws<ArgumentOutOfRangeException>(() => RandomGraphFactory.GetVertex(graph, random));
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => RandomGraphFactory.GetVertex(graph, random)
+            );
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => RandomGraphFactory.GetVertex(Enumerable.Empty<int>(), -1, random));
-            Assert.Throws<ArgumentOutOfRangeException>(() => RandomGraphFactory.GetVertex(Enumerable.Empty<int>(), 0, random));
-            Assert.Throws<InvalidOperationException>(() => RandomGraphFactory.GetVertex(Enumerable.Empty<int>(), 1, random));
-            Assert.Throws<InvalidOperationException>(() => RandomGraphFactory.GetVertex(new[] { 1, 2 }, 10, new QuikGraph.Utils.CryptoRandom(123456)));
-            // ReSharper restore ReturnValueOfPureMethodIsNotUsed
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => RandomGraphFactory.GetVertex(Enumerable.Empty<int>(), -1, random)
+            );
+            
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => RandomGraphFactory.GetVertex(Enumerable.Empty<int>(), 0, random)
+            );
+            
+            Assert.Throws<InvalidOperationException>(
+                () => RandomGraphFactory.GetVertex(Enumerable.Empty<int>(), 1, random)
+            );
+            
+            Assert.Throws<InvalidOperationException>(
+                () => RandomGraphFactory.GetVertex(
+                    new[] { 1, 2 },
+                    10,
+                    new Random(123456)
+                )
+            );
         }
 
         [Test]
@@ -154,7 +185,7 @@ namespace QuikGraph.Tests.Algorithms
                 () => RandomGraphFactory.GetEdge<int, Edge<int>>(
                     new[] { new Edge<int>(1, 2), new Edge<int>(1, 3) },
                     10,
-                    new QuikGraph.Utils.CryptoRandom(123456)));
+                    new Random(123456)));
             // ReSharper restore ReturnValueOfPureMethodIsNotUsed
         }
 
