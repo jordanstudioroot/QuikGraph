@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-
 namespace QuikGraph.Serialization
 {
     /// <summary>
@@ -31,7 +30,7 @@ namespace QuikGraph.Serialization
         /// Initializes a new instance of the <see cref="XmlSerializableGraph{TVertex,TEdge,TGraph}"/> class.
         /// </summary>
         /// <param name="graph">Graph to serialize.</param>
-        public XmlSerializableGraph( TGraph graph)
+        public XmlSerializableGraph(TGraph graph)
         {
             if (graph == null)
                 throw new ArgumentNullException(nameof(graph));
@@ -83,7 +82,7 @@ namespace QuikGraph.Serialization
             
             private readonly TGraph _graph;
 
-            internal XmlVertexList( TGraph graph)
+            public XmlVertexList(TGraph graph)
             {
                 if (graph == null)
                     throw new ArgumentNullException(nameof(graph));
@@ -130,7 +129,7 @@ namespace QuikGraph.Serialization
             
             private readonly TGraph _graph;
 
-            internal XmlEdgeList( TGraph graph)
+            public XmlEdgeList( TGraph graph)
             {
                 if (graph == null)
                     throw new ArgumentNullException(nameof(graph));

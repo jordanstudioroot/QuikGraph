@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 using QuikGraph.Algorithms;
 using QuikGraph.Algorithms.Services;
 using QuikGraph.Serialization.DirectedGraphML;
